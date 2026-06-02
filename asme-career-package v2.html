@@ -1,0 +1,1514 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ASME at Ohio State — Professional Development Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --scarlet:#bb0000;--scarlet-dim:#fce8e8;
+      --navy:#0c1f3a;--navy-mid:#1a3a5c;--navy-light:#2d5a84;
+      --ink:#111827;--body:#374151;--muted:#6b7280;--subtle:#9ca3af;
+      --line:#e5e9f0;--line-soft:#f3f6fa;
+      --card:#fff;--bg:#f8fafd;--bg2:#f1f5fb;
+      --shadow-sm:0 1px 4px rgba(12,31,58,.07),0 4px 14px rgba(12,31,58,.06);
+      --shadow-md:0 4px 20px rgba(12,31,58,.1),0 1px 4px rgba(12,31,58,.06);
+      --r:12px;--r-sm:8px;
+      --display:'Instrument Serif',Georgia,serif;
+      --sans:'DM Sans',system-ui,sans-serif;
+      --mono:'JetBrains Mono','Courier New',monospace;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--body);font-family:var(--sans);font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased}
+
+    /* PROGRESS */
+    #prog{position:fixed;top:0;left:0;z-index:300;height:3px;width:0;background:linear-gradient(90deg,var(--scarlet),#ff6b6b);pointer-events:none;transition:width .1s linear}
+
+    /* HERO */
+    .hero{position:relative;overflow:hidden;background:var(--navy);color:#fff}
+    .hero-bg{position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(ellipse 65% 80% at 110% -5%,rgba(187,0,0,.24) 0%,transparent 58%),
+                 radial-gradient(ellipse 50% 60% at -10% 108%,rgba(26,58,92,.55) 0%,transparent 58%)}
+    .hero-grid{position:absolute;inset:0;pointer-events:none;
+      background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+      background-size:52px 52px;mask-image:linear-gradient(180deg,rgba(0,0,0,.45) 0%,transparent 85%)}
+    .hero-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:26px 32px 52px}
+
+    /* topbar */
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:52px;
+      padding:13px 18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+      border-radius:var(--r);backdrop-filter:blur(16px)}
+    .logo-wrap{background:#fff;border-radius:7px;padding:7px 13px;display:flex;align-items:center}
+    .logo-wrap img{height:34px;width:auto;display:block}
+    .topbar-meta .label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.42)}
+    .topbar-meta .title{font-size:14px;font-weight:600;color:rgba(255,255,255,.88);margin-top:1px}
+    .topbar-btns{display:flex;gap:9px;flex-wrap:wrap}
+    .btn-o{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.22);border-radius:999px;
+      background:rgba(255,255,255,.07);color:rgba(255,255,255,.88);font-family:var(--sans);font-size:13px;font-weight:600;
+      padding:8px 15px;cursor:pointer;text-decoration:none;transition:background .2s,border-color .2s}
+    .btn-o:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.36)}
+    .btn-s{display:inline-flex;align-items:center;gap:6px;border:none;border-radius:999px;background:#fff;color:var(--navy);
+      font-family:var(--sans);font-size:13px;font-weight:700;padding:8px 18px;cursor:pointer;text-decoration:none;
+      box-shadow:0 4px 14px rgba(0,0,0,.18);transition:transform .18s,box-shadow .18s}
+    .btn-s:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(0,0,0,.24)}
+
+    /* hero body */
+    .hero-body{display:grid;grid-template-columns:1fr 340px;gap:44px;align-items:start}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.14em;
+      text-transform:uppercase;color:#ff8c8c;margin-bottom:16px}
+    .eyebrow::before{content:'';display:block;width:22px;height:2px;background:var(--scarlet);border-radius:1px}
+    .hero h1{font-family:var(--display);font-size:clamp(34px,4.6vw,60px);font-weight:400;line-height:1.08;
+      color:#fff;letter-spacing:-.01em;margin-bottom:18px}
+    .hero h1 em{font-style:italic;color:#ffd0d0}
+    .hero-desc{font-size:16px;color:rgba(255,255,255,.62);line-height:1.68;max-width:560px;margin-bottom:26px}
+    .hero-links{display:flex;flex-wrap:wrap;gap:9px}
+    .hero-panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:var(--r);
+      padding:22px;backdrop-filter:blur(12px)}
+    .hero-panel h3{font-family:var(--display);font-size:19px;font-weight:400;color:#fff;margin-bottom:14px;
+      padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .hero-panel ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .hero-panel li{display:grid;grid-template-columns:18px 1fr;gap:10px;font-size:13.5px;color:rgba(255,255,255,.7);line-height:1.45}
+    .hero-panel li::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--scarlet);
+      box-shadow:0 0 0 3px rgba(187,0,0,.22);margin-top:5px}
+
+    /* stats bar */
+    .hero-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;margin-top:46px;
+      background:rgba(255,255,255,.08);border-radius:var(--r-sm);overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+    .hs{background:rgba(255,255,255,.03);padding:16px 18px;text-align:center}
+    .hs strong{display:block;font-family:var(--display);font-size:32px;font-weight:400;color:#fff;line-height:1}
+    .hs span{display:block;margin-top:4px;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.38)}
+
+    /* STICKY NAV */
+    .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);
+      backdrop-filter:blur(16px);box-shadow:0 2px 16px rgba(12,31,58,.07)}
+    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:1px;padding:0 32px;
+      overflow-x:auto;scrollbar-width:none}
+    .nav-inner::-webkit-scrollbar{display:none}
+    .nav-inner a{flex:0 0 auto;display:inline-block;padding:12px 11px;font-size:12px;font-weight:600;
+      color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;
+      transition:color .18s,border-color .18s}
+    .nav-inner a:hover{color:var(--navy);border-bottom-color:var(--line)}
+    .nav-inner a.active{color:var(--scarlet);border-bottom-color:var(--scarlet)}
+
+    /* MAIN */
+    main{max-width:1200px;margin:0 auto;padding:60px 32px 100px}
+    section{margin-top:84px;scroll-margin-top:70px}
+    section:first-child{margin-top:0}
+
+    /* section header */
+    .sh{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;
+      margin-bottom:26px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+    .sh-left{flex:1}
+    .sh-tag{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--scarlet);margin-bottom:5px;display:block}
+    .sh h2{font-family:var(--display);font-size:clamp(24px,2.8vw,38px);font-weight:400;color:var(--navy);line-height:1.1}
+    .sh-desc{max-width:460px;font-size:14.5px;color:var(--muted);line-height:1.55}
+
+    /* GRIDS */
+    .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .acc-grid{align-items:start}
+
+    /* BASE CARD */
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px;
+      box-shadow:var(--shadow-sm);transition:transform .2s,box-shadow .2s,border-color .2s}
+    .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:#cfdaeb}
+    .ct{font-family:var(--display);font-size:20px;font-weight:400;color:var(--navy);line-height:1.2;margin-bottom:10px}
+    .cb{font-size:13.5px;color:var(--body);line-height:1.65}
+    .cb ul,.cb ol{padding-left:17px;margin-top:9px}
+    .cb li{margin-top:6px}
+    .c-red{border-top:3px solid var(--scarlet)}
+    .c-navy{border-top:3px solid var(--navy)}
+
+    /* chips */
+    .chip{display:inline-flex;align-items:center;border-radius:999px;padding:3px 9px;
+      font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px}
+    .ch-r{background:#fce8e8;color:#991b1b}
+    .ch-b{background:#e8f1fc;color:var(--navy-mid)}
+    .ch-g{background:#f0f3f7;color:var(--muted)}
+    .ch-gr{background:#e6f7ee;color:#166534}
+
+    /* QS cards */
+    .qs{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px 22px 22px;
+      box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+    .qs:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+    .qs::after{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+    .qs.r::after{background:var(--scarlet)}
+    .qs.b::after{background:var(--navy)}
+    .qs-n{font-family:var(--display);font-size:68px;font-weight:400;line-height:1;color:var(--line);
+      position:absolute;right:16px;top:8px;pointer-events:none;user-select:none}
+
+    /* path / track cards */
+    .track{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:var(--shadow-sm)}
+    .track ol{padding-left:19px;margin-top:12px}
+    .track li{font-size:13.5px;color:var(--body);margin-top:7px;line-height:1.5}
+
+    /* chapter block */
+    .chap{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden}
+    .crow{display:grid;grid-template-columns:180px 1fr;gap:26px;padding:26px;border-top:1px solid var(--line);transition:background .18s}
+    .crow:first-child{border-top:none}
+    .crow:hover{background:#fafcff}
+    .ctag{display:inline-block;background:var(--scarlet);color:#fff;font-size:10px;font-weight:700;
+      letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:4px;margin-bottom:7px}
+    .crow-body h3{font-family:var(--display);font-size:20px;font-weight:400;color:var(--navy);line-height:1.2;margin-bottom:9px}
+    .crow-body p,.crow-body li{font-size:13.5px;color:var(--body);line-height:1.65}
+    .crow-body ul,.crow-body ol{padding-left:17px;margin-top:9px}
+    .crow-body li{margin-top:6px}
+
+    /* mini 2-col inside chapter */
+    .mg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}
+    .mini{background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:13px}
+    .mini strong{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);margin-bottom:4px}
+    .mini p{font-size:12.5px;color:var(--body)}
+
+    /* compare table */
+    .tbl-wrap{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm)}
+    .tbl{width:100%;border-collapse:collapse;background:var(--card)}
+    .tbl th{background:var(--navy);color:#fff;font-size:12.5px;font-weight:700;padding:13px 16px;text-align:left;letter-spacing:.03em}
+    .tbl th:first-child{width:150px}
+    .tbl td{padding:12px 16px;font-size:13px;color:var(--body);border-top:1px solid var(--line);vertical-align:top;line-height:1.55}
+    .tbl tr:hover td{background:#fafcff}
+    .tbl td:first-child{font-weight:600;color:var(--navy);background:var(--bg2)}
+
+    /* rubric table */
+    .rubric-wrap{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm);margin-top:14px}
+    .rubric{width:100%;border-collapse:collapse;background:var(--card)}
+    .rubric th{background:var(--navy);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:13px 16px;text-align:left}
+    .rubric td{padding:13px 16px;font-size:13px;color:var(--body);border-top:1px solid var(--line);vertical-align:top;line-height:1.5}
+    .rubric tr:hover td{background:#f8fbff}
+    .rubric td:first-child{color:var(--muted);font-style:italic}
+    .rubric td:nth-child(2){color:var(--ink);font-weight:500}
+
+    /* brand card */
+    .brand-card{background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:var(--r);padding:28px;color:#fff}
+    .brand-card h3{font-family:var(--display);font-size:22px;font-weight:400;margin-bottom:6px}
+    .brand-card .sub{font-size:13px;color:rgba(255,255,255,.55);margin-bottom:18px}
+    .brand-qs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .brand-q{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:var(--r-sm);padding:14px}
+    .brand-q p{font-size:13px;color:rgba(255,255,255,.8);line-height:1.55}
+    .brand-q strong{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#ff8c8c;margin-bottom:5px}
+
+    /* scorecard */
+    .scorecard{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:13px}
+    .sc-item{background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:13px 11px}
+    .sc-label{display:block;font-size:10.5px;font-weight:700;color:var(--scarlet);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+    .sc-desc{font-size:12px;color:var(--body);line-height:1.45}
+
+    /* formula box */
+    .fbox{background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:var(--r);padding:20px 22px;margin-bottom:16px}
+    .fbox p{font-size:14.5px;color:rgba(255,255,255,.9);line-height:1.6}
+    .fbox strong{color:#ff8c8c}
+
+    /* accordion */
+    .acc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm);height:100%;display:flex}
+    .acc+.acc{margin-top:9px}
+    .acc details{display:flex;flex-direction:column;width:100%}
+    details summary{cursor:pointer;list-style:none;padding:16px 20px;font-size:14.5px;font-weight:600;color:var(--navy);
+      display:flex;align-items:center;justify-content:space-between;gap:14px;transition:background .15s}
+    details summary::-webkit-details-marker{display:none}
+    details summary:hover{background:var(--line-soft)}
+    details summary::after{content:'';width:28px;height:28px;border-radius:9px;flex:0 0 28px;border:1px solid #ffd2d2;
+      background-color:#fff3f3;background-position:center;background-repeat:no-repeat;background-size:15px;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23bb0000' d='M11 5h2v14h-2z'/%3E%3Cpath fill='%23bb0000' d='M5 11h14v2H5z'/%3E%3C/svg%3E");
+      box-shadow:0 5px 14px rgba(187,0,0,.12)}
+    details[open] summary{border-bottom:1px solid var(--line)}
+    details[open] summary::after{background-color:#fff;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23bb0000' d='M5 11h14v2H5z'/%3E%3C/svg%3E")}
+    .acc-body{padding:16px 20px;font-size:13.5px;color:var(--body);line-height:1.68;flex:1}
+    .acc-body strong{color:var(--navy)}
+    .acc-body ul{padding-left:16px;margin-top:9px}
+    .acc-body li{margin-top:6px}
+
+    /* timeline */
+    .tl{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:6px 22px;box-shadow:var(--shadow-sm)}
+    .tl-step{display:grid;grid-template-columns:92px 1fr;gap:18px;padding:20px 0;border-top:1px solid var(--line);align-items:start}
+    .tl-step:first-child{border-top:none}
+    .tl-when{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);padding-top:4px}
+    .tl-content h3{font-family:var(--display);font-size:19px;font-weight:400;color:var(--navy);margin-bottom:5px;line-height:1.2}
+    .tl-content p{font-size:13.5px;color:var(--body);line-height:1.6}
+
+    /* q-cards */
+    .qcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow-sm)}
+    .qcard .ct{font-size:19px;margin-bottom:12px}
+    .qcard ul{padding-left:0;list-style:none}
+    .qcard li{font-size:13.5px;color:var(--body);padding:8px 0;border-top:1px solid var(--line);line-height:1.5}
+    .qcard li:first-child{border-top:none;padding-top:0}
+    .qcard li::before{content:'→ ';color:var(--scarlet);font-weight:700}
+
+    /* resource cards */
+    .res-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:13px}
+    .res{display:flex;flex-direction:column;justify-content:space-between;background:var(--card);border:1px solid var(--line);
+      border-radius:var(--r);padding:20px;min-height:150px;text-decoration:none;box-shadow:var(--shadow-sm);
+      transition:transform .2s,box-shadow .2s,border-color .2s;position:relative;overflow:hidden}
+    .res:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:#c5d6eb}
+    .res::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+      background:linear-gradient(90deg,var(--navy),var(--scarlet));transform:scaleX(0);transform-origin:left;transition:transform .28s}
+    .res:hover::before{transform:scaleX(1)}
+    .res-n{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--scarlet)}
+    .res-t{font-family:var(--display);font-size:18px;font-weight:400;color:var(--navy);line-height:1.2;margin:8px 0 6px}
+    .res-d{font-size:12.5px;color:var(--muted);line-height:1.48}
+    .res-a{font-size:17px;color:var(--navy-light);margin-top:10px;display:block;transition:transform .18s}
+    .res:hover .res-a{transform:translateX(4px)}
+
+    /* structure steps */
+    .struct{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden}
+    .struct-hd{background:var(--navy);padding:15px 20px}
+    .struct-hd h3{font-family:var(--display);font-size:19px;font-weight:400;color:#fff}
+    .struct-hd p{font-size:12.5px;color:rgba(255,255,255,.55);margin-top:3px}
+    .struct-body{padding:0 20px 20px}
+    .sstep{display:grid;grid-template-columns:32px 1fr;gap:11px;padding:14px 0;border-top:1px solid var(--line);align-items:start}
+    .sstep:first-child{border-top:none;padding-top:18px}
+    .snum{width:30px;height:30px;border-radius:50%;background:var(--scarlet);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+    .stext h4{font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:3px}
+    .stext p{font-size:13px;color:var(--body);line-height:1.55}
+
+    /* dress code */
+    .dress-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .dress{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm);display:flex;flex-direction:column}
+    .dress-hd{min-height:100px;padding:15px 18px;display:flex;align-items:center;gap:14px}
+    .dress-hd.casual{background:linear-gradient(135deg,#e8f1fc,#d0e4f7)}
+    .dress-hd.pro{background:linear-gradient(135deg,#1a3a5c,#2d5a84);color:#fff}
+    .dress-hd.formal{background:linear-gradient(135deg,#0c1f3a,#1a3a5c);color:#fff}
+    .flat-icon{display:inline-grid;place-items:center;flex:0 0 auto;width:44px;height:44px;border-radius:13px;background:#fff;
+      box-shadow:0 8px 20px rgba(15,52,96,.12)}
+    .flat-icon svg{width:28px;height:28px;display:block}
+    .dress-hd.pro .flat-icon,.dress-hd.formal .flat-icon{background:rgba(255,255,255,.12);box-shadow:none}
+    .dress-icon{font-size:26px}
+    .dress-name{font-family:var(--display);font-size:19px;font-weight:400;line-height:1.15}
+    .dress-name small{display:block;font-family:var(--sans);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.6}
+    .dress-bd{padding:14px 18px}
+    .dress-bd ul{padding-left:0;list-style:none}
+    .dress-bd li{font-size:13px;color:var(--body);padding:6px 0;border-top:1px solid var(--line);line-height:1.5}
+    .dress-bd li:first-child{border-top:none;padding-top:0}
+    .dress-bd li::before{content:'✓ ';color:var(--scarlet);font-weight:700}
+
+    /* elevator pitch builder */
+    .pbuilder{background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:var(--r);padding:26px;color:#fff}
+    .pbuilder h3{font-family:var(--display);font-size:21px;font-weight:400;margin-bottom:18px}
+    .pfields{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+    .pf label{display:block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:5px}
+    .pf input{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:7px;
+      color:#fff;font-family:var(--sans);font-size:13.5px;padding:9px 13px;outline:none;transition:border-color .2s}
+    .pf input::placeholder{color:rgba(255,255,255,.3)}
+    .pf input:focus{border-color:rgba(255,255,255,.48);background:rgba(255,255,255,.14)}
+    .pout{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:var(--r-sm);
+      padding:14px 16px;font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.85);min-height:78px}
+    .pout .fill{color:#ffd0d0;font-weight:600}
+    .pbtn{margin-top:11px;background:#fff;border:none;border-radius:999px;color:var(--navy);
+      font-family:var(--sans);font-size:13px;font-weight:700;padding:8px 18px;cursor:pointer;transition:transform .18s}
+    .pbtn:hover{transform:translateY(-1px)}
+
+    /* alt (no-internship) cards */
+    .alt{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;
+      box-shadow:var(--shadow-sm);transition:transform .2s,box-shadow .2s}
+    .alt:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+    .alt-icon{margin-bottom:12px}
+    .alt h3{font-family:var(--display);font-size:18px;font-weight:400;color:var(--navy);margin-bottom:7px}
+    .alt p{font-size:13px;color:var(--body);line-height:1.6}
+
+    /* templates */
+    .tmpl{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm)}
+    .tmpl-hd{background:var(--navy);padding:13px 17px;display:flex;align-items:center;justify-content:space-between}
+    .tmpl-hd h3{font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff}
+    .copy-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:6px;
+      color:rgba(255,255,255,.8);font-family:var(--sans);font-size:11px;font-weight:600;padding:4px 9px;cursor:pointer;transition:background .15s}
+    .copy-btn:hover{background:rgba(255,255,255,.22)}
+    .copy-btn.copied{background:rgba(0,200,100,.25);color:#6fff9e}
+    .tmpl-body{padding:16px 18px;font-family:var(--mono);font-size:12px;color:var(--ink);line-height:1.72;white-space:pre-wrap}
+
+    /* checklists */
+    .clwrap{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:6px 20px;box-shadow:var(--shadow-sm)}
+    .cli{display:grid;grid-template-columns:22px 1fr;gap:11px;align-items:start;padding:12px 0;border-top:1px solid var(--line);
+      color:var(--body);font-size:13.5px;line-height:1.5;cursor:pointer}
+    .cli:first-child{border-top:none}
+    .cli input[type=checkbox]{width:17px;height:17px;margin-top:1px;accent-color:var(--scarlet);cursor:pointer;flex-shrink:0}
+    .cli.done{color:var(--subtle);text-decoration:line-through}
+    .cl-head{font-size:12px;font-weight:700;color:var(--scarlet);letter-spacing:.08em;text-transform:uppercase;padding:13px 0 7px;border-top:1px solid var(--line)}
+    .cl-head:first-child{border-top:none;padding-top:4px}
+
+    /* callout */
+    .callout{background:linear-gradient(135deg,#fafcff,#fff);border:1px solid var(--line);border-left:4px solid var(--scarlet);
+      border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow-sm)}
+    .callout p{font-size:13.5px;color:var(--body);line-height:1.65}
+    .callout p+p{margin-top:10px}
+    .callout strong{color:var(--navy)}
+
+    /* tip box */
+    .tip{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r-sm);padding:13px 15px;font-size:13px;color:var(--body);line-height:1.6}
+    .tip strong{color:var(--navy)}
+
+    /* inline highlight */
+    .hl{color:var(--scarlet);font-weight:700}
+
+    /* back to top */
+    #btt{position:fixed;right:20px;bottom:20px;z-index:60;width:42px;height:42px;display:flex;align-items:center;
+      justify-content:center;background:var(--navy);border:1px solid rgba(255,255,255,.1);border-radius:50%;
+      color:#fff;text-decoration:none;font-size:17px;box-shadow:0 8px 26px rgba(12,31,58,.28);
+      opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .2s,transform .2s,background .2s}
+    #btt.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+    #btt:hover{background:var(--scarlet)}
+
+    /* footer */
+    footer{background:var(--navy);color:rgba(255,255,255,.48);text-align:center;padding:28px 20px;font-size:12.5px}
+    footer strong{color:rgba(255,255,255,.82)}
+
+    /* reveal */
+    .rv{opacity:0;transform:translateY(16px);transition:opacity .48s ease,transform .48s ease}
+    .rv.vis{opacity:1;transform:translateY(0)}
+
+    /* RESPONSIVE */
+    @media(max-width:960px){
+      .hero-inner{padding:18px 20px 34px}
+      .hero-body{grid-template-columns:1fr;gap:26px}
+      .hero-stats{grid-template-columns:repeat(3,1fr)}
+      .g3,.g4,.res-grid,.dress-grid{grid-template-columns:1fr 1fr}
+      .g2{grid-template-columns:1fr}
+      .scorecard{grid-template-columns:repeat(2,1fr)}
+      .crow{grid-template-columns:1fr;gap:10px}
+      .tl-step{grid-template-columns:1fr;gap:4px}
+      .pfields{grid-template-columns:1fr 1fr}
+      main{padding:36px 20px 64px}
+      .topbar{flex-wrap:wrap}
+      .nav-inner{padding:0 18px}
+    }
+    @media(max-width:600px){
+      .hero h1{font-size:30px}
+      .hero-stats{grid-template-columns:repeat(2,1fr)}
+      .g3,.g4,.res-grid,.dress-grid{grid-template-columns:1fr}
+      .scorecard{grid-template-columns:1fr 1fr}
+      .pfields{grid-template-columns:1fr}
+      .mg{grid-template-columns:1fr}
+      .brand-qs{grid-template-columns:1fr}
+    }
+    @media print{
+      #prog,.nav,#btt,.topbar-btns,.hero-links,.pbuilder{display:none!important}
+      .rv{opacity:1!important;transform:none!important}
+      body{background:#fff}
+      .hero{background:var(--navy)!important;print-color-adjust:exact}
+      section{break-inside:avoid;margin-top:32px}
+      .card,.chap,.tmpl{box-shadow:none}
+    }
+  </style>
+</head>
+<body id="top">
+<div id="prog" aria-hidden="true"></div>
+
+<!-- ══ HERO ══ -->
+<header class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-inner">
+
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:13px">
+        <div class="logo-wrap">
+          <img src="https://org.osu.edu/asme/files/2026/05/asme_osu_logo_horizontal_black.png" alt="ASME at The Ohio State University">
+        </div>
+        <div class="topbar-meta">
+          <div class="label">Professional Development</div>
+          <div class="title">Career Guide · 2025–26</div>
+        </div>
+      </div>
+      <div class="topbar-btns">
+        <a class="btn-o" href="#templates">Templates</a>
+        <a class="btn-o" href="#checklist">Checklists</a>
+        <button class="btn-s" onclick="window.print()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print / PDF
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-body">
+      <div>
+        <div class="eyebrow">ASME at Ohio State · Professional Development</div>
+        <h1>Your full career toolkit —<br><em>from first resume to first offer.</em></h1>
+        <p class="hero-desc">Everything you need across the entire job search: building your brand, writing strong resumes, nailing behavioral and technical interviews, navigating career fairs, evaluating offers, and what to do when things don't go as planned.</p>
+        <div class="hero-links">
+          <a class="btn-o" href="#brand">Your Brand →</a>
+          <a class="btn-o" href="#resume">Resume →</a>
+          <a class="btn-o" href="#interviews">Interviews →</a>
+          <a class="btn-o" href="#offer">Offers →</a>
+        </div>
+      </div>
+      <aside class="hero-panel">
+        <h3>Open this before:</h3>
+        <ul>
+          <li>Career fairs, employer nights &amp; info sessions</li>
+          <li>Internship, co-op, research &amp; full-time interviews</li>
+          <li>Resume reviews with ASME officers or career services</li>
+          <li>LinkedIn profile updates &amp; recruiter outreach</li>
+          <li>Evaluating or negotiating an offer</li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hs"><strong>18</strong><span>Sections</span></div>
+      <div class="hs"><strong>10</strong><span>Chapters</span></div>
+      <div class="hs"><strong>6</strong><span>Templates</span></div>
+      <div class="hs"><strong>3</strong><span>Checklists</span></div>
+      <div class="hs"><strong>1</strong><span>Print-Ready</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ══ NAV ══ -->
+<nav class="nav" aria-label="Sections">
+  <div class="nav-inner">
+    <a href="#start">Quick Start</a>
+    <a href="#paths">Student Paths</a>
+    <a href="#opps">Intern vs Co-op</a>
+    <a href="#brand">Your Brand</a>
+    <a href="#resume">Resume</a>
+    <a href="#linkedin">LinkedIn</a>
+    <a href="#elevator">Elevator Pitch</a>
+    <a href="#coverletter">Cover Letter</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#dress">Dress Code</a>
+    <a href="#interviews">Interviews</a>
+    <a href="#technical">Technical Prep</a>
+    <a href="#careerfair">Career Fair</a>
+    <a href="#infosessions">Info Sessions</a>
+    <a href="#networking">Networking</a>
+    <a href="#internship">Internship Success</a>
+    <a href="#offer">Evaluating Offers</a>
+    <a href="#nointernship">No Internship?</a>
+    <a href="#gradschool">Grad School</a>
+    <a href="#templates">Templates</a>
+    <a href="#checklist">Checklists</a>
+  </div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<main>
+
+<!-- ── 01 QUICK START ── -->
+<section id="start">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">01 — Quick Start</span><h2>Highest-Impact Moves First</h2></div>
+    <p class="sh-desc">For when the event is soon and you need to prioritize. These three moves alone will set you apart.</p>
+  </div>
+  <div class="g3">
+    <div class="qs r rv">
+      <div class="qs-n">01</div>
+      <div class="chip ch-r">Resume</div>
+      <p class="ct" style="position:relative">Make the proof obvious.</p>
+      <p class="cb" style="position:relative">One page. Bullets that name the tool, the decision, and the outcome. A recruiter should identify your strongest project in 15 seconds flat.</p>
+    </div>
+    <div class="qs b rv">
+      <div class="qs-n">02</div>
+      <div class="chip ch-b">Interviews</div>
+      <p class="ct" style="position:relative">Build seven stories.</p>
+      <p class="cb" style="position:relative">Prepare STAR stories for: teamwork, conflict, failure, technical problem-solving, leadership, initiative, and fast learning. Practice them out loud — not in your head.</p>
+    </div>
+    <div class="qs r rv">
+      <div class="qs-n">03</div>
+      <div class="chip ch-r">Networking</div>
+      <p class="ct" style="position:relative">Ask smarter questions.</p>
+      <p class="cb" style="position:relative">Replace "Are you hiring?" with "Which teams take interns, and what experiences make candidates stand out before they even apply?"</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 02 STUDENT PATHS ── -->
+<section id="paths">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">02 — Student Paths</span><h2>Find Your Starting Point</h2></div>
+    <p class="sh-desc">Different deadlines, different needs. Jump to the path that matches your timeline right now.</p>
+  </div>
+  <div class="g3">
+    <div class="track rv"><div class="chip ch-r">30 Minutes</div><p class="ct">Career fair tomorrow</p><ol>
+      <li>Read Quick Start above.</li><li>Update your 3 strongest resume bullets.</li>
+      <li>Pick 8 companies and write one question each.</li><li>Practice your elevator pitch twice out loud.</li>
+    </ol></div>
+    <div class="track rv"><div class="chip ch-b">One Week</div><p class="ct">Interview coming up</p><ol>
+      <li>Prepare and rehearse 7 STAR stories.</li><li>Review technical prep for the specific role.</li>
+      <li>Walk through one project with a peer or record yourself.</li><li>Write 4 thoughtful questions to ask the interviewer.</li>
+    </ol></div>
+    <div class="track rv"><div class="chip ch-g">This Month</div><p class="ct">Full career reset</p><ol>
+      <li>Rebuild your resume around proof, not tasks.</li><li>Update LinkedIn and add project evidence.</li>
+      <li>Schedule two alumni or upperclassmen coffee chats.</li><li>Build a tracking spreadsheet for applications and follow-ups.</li>
+    </ol></div>
+  </div>
+</section>
+
+<!-- ── 03 INTERNSHIP vs CO-OP ── -->
+<section id="opps">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">03 — Types of Experience</span><h2>Internship vs. Co-op vs. Externship</h2></div>
+    <p class="sh-desc">Understanding the difference helps you target the right opportunity for your goals and schedule.</p>
+  </div>
+  <div class="tbl-wrap rv">
+    <table class="tbl">
+      <thead><tr><th>Experience</th><th>🎓 Internship</th><th>🔄 Co-op</th><th>👁 Externship</th></tr></thead>
+      <tbody>
+        <tr><td>Duration</td><td>A few months — usually summer or one semester</td><td>Long-term; alternates full semesters of work with full semesters of school</td><td>A few days to a few weeks — very short</td></tr>
+        <tr><td>Pay</td><td>Usually paid</td><td>Almost always paid — often higher than internships</td><td>Usually unpaid</td></tr>
+        <tr><td>Work type</td><td>Real engineering work on a team or project</td><td>Deep, structured — treated more like a junior engineer</td><td>Shadowing and observation — limited hands-on</td></tr>
+        <tr><td>Best for</td><td>Real-world experience and resume evidence without long-term commitment</td><td>Students wanting deep industry immersion and a strong path to a return offer</td><td>Exploring a career path early before committing to an internship</td></tr>
+        <tr><td>Full-time path</td><td>Sometimes leads to a return offer — not guaranteed</td><td>Strong conversion path — many co-ops become full-time hires</td><td>Good for early connections; rarely leads directly to a hire</td></tr>
+        <tr><td>Graduation impact</td><td>Minimal — usually summer only</td><td>May delay graduation; requires schedule flexibility</td><td>Minimal — can fit around a semester</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout rv" style="margin-top:13px">
+    <p><strong>Which is right for you?</strong> Externship = explore quickly. Internship = build evidence without delaying graduation. Co-op = deepest experience and strongest return-offer path, if you can handle the schedule trade-off. Your career journey is unique — choose what aligns with your goals, not just what sounds most impressive.</p>
+  </div>
+</section>
+
+<!-- ── 04 YOUR BRAND ── -->
+<section id="brand">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">04 — Your Brand</span><h2>Building Your Professional Brand</h2></div>
+    <p class="sh-desc">Your brand is the thread that connects your resume, elevator pitch, LinkedIn, and interview answers. Get clear on it first — everything else becomes easier.</p>
+  </div>
+  <div class="g2 rv">
+    <div class="brand-card">
+      <h3>What is your brand?</h3>
+      <p class="sub">It's what you want people to think of when they think of you professionally.</p>
+      <div class="brand-qs">
+        <div class="brand-q"><strong>What sets you apart?</strong><p>The combination of your skills, experiences, and personality that makes you a different kind of candidate.</p></div>
+        <div class="brand-q"><strong>How do you want to be perceived?</strong><p>Resourceful? Detail-oriented? Systems thinker? Strong communicator? Pick 3 words and build toward them.</p></div>
+        <div class="brand-q"><strong>What do you offer?</strong><p>What can you do for a team that another intern can't? Be specific — broad claims don't make brands.</p></div>
+        <div class="brand-q"><strong>What are your goals?</strong><p>Manufacturing, design, aerospace, robotics, controls, energy — know your direction and let it shape everything you say.</p></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:13px">
+      <div class="card c-red">
+        <p class="ct">Why your brand matters</p>
+        <div class="cb">
+          <p>Think of companies you recognize instantly — their brand is cohesive across every touchpoint. Your brand should work the same way: your resume, LinkedIn, elevator pitch, and interview answers should all feel like they come from the same person with the same direction.</p>
+          <p style="margin-top:10px">The worst thing you can do in an interview is give a generic answer that any college engineer could provide. Strong candidates weave 3 defining characteristics through everything they say.</p>
+        </div>
+      </div>
+      <div class="tip">
+        <strong>Practical exercise:</strong> Write down three words that describe the engineer you want to be known as. Now ask yourself: does your resume reflect those words? Does your LinkedIn? If you walked into a career fair tomorrow and a recruiter asked "tell me about yourself" — do those words come through? If not, that's where to start.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 05 RESUME ── -->
+<section id="resume">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">05 — Resume Builder</span><h2>Resume by Year</h2></div>
+    <p class="sh-desc">Your resume evolves as your evidence grows. The goal: make your strongest proof impossible to miss.</p>
+  </div>
+
+  <div class="chap rv">
+    <div class="crow">
+      <div><div class="ctag">First Year</div></div>
+      <div class="crow-body">
+        <h3>Show potential and momentum.</h3>
+        <p>Your first resume can include strong high school experience — frame it as engineering evidence, not nostalgia.</p>
+        <div class="mg">
+          <div class="mini"><strong>Lead with</strong><p>Education, graduation year, GPA if strong, ASME, relevant coursework, early project teams.</p></div>
+          <div class="mini"><strong>Include</strong><p>Robotics, CAD, machining, coding, shop work, part-time jobs you can connect to engineering skills.</p></div>
+          <div class="mini"><strong>Avoid</strong><p>Long high school lists, vague awards, and skills you can't explain in a 2-minute interview.</p></div>
+          <div class="mini"><strong>Goal</strong><p>Show curiosity, reliability, and willingness to learn fast. Potential beats a thin résumé.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="crow">
+      <div><div class="ctag">Sophomore</div></div>
+      <div class="crow-body">
+        <h3>Show direction and early specialization.</h3>
+        <ul>
+          <li>Move college projects above high school when they're stronger — this usually happens mid-sophomore year.</li>
+          <li>Add class projects that had design constraints, calculations, prototypes, or test data.</li>
+          <li>Translate non-engineering jobs into reliability, training, safety, or operations skills.</li>
+          <li>Start tailoring toward a track: design, manufacturing, aerospace, robotics, controls.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="crow">
+      <div><div class="ctag">Junior</div></div>
+      <div class="crow-body">
+        <h3>Show readiness for real engineering work.</h3>
+        <p>The top half of the page should answer: "Can this person contribute this summer?" Lead with internships, research, competitions, and technical leadership.</p>
+        <ul>
+          <li>Use metrics where possible: weight reduced, cycle time improved, prototypes built, data sets analyzed, budget managed.</li>
+          <li>Replace filler with role-relevant technical experience — every line should earn its place.</li>
+          <li>Be concrete: name constraints, tools, your specific decisions, what you tested, and what happened.</li>
+          <li>Build multiple tailored versions for different role types if you're applying broadly.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="crow">
+      <div><div class="ctag">Senior</div></div>
+      <div class="crow-body">
+        <h3>Show ownership, judgment, and outcomes.</h3>
+        <ul>
+          <li>Lead with full-time-relevant experience: internships, capstone, research, and technical leadership roles.</li>
+          <li>Show engineering judgment: tradeoffs you considered, risks you identified, validation you ran, documentation you produced.</li>
+          <li>Add publications, patents, conference presentations, or professional certifications if applicable.</li>
+          <li>Prepare a matching portfolio or project page for design-heavy or research roles.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout rv" style="margin-top:13px">
+    <p><strong>Resume format non-negotiables:</strong> One page. Common, readable font — no smaller than 11pt. Bold position titles. Clear sections separated with lines. No walls of text. No photos of yourself. No MS Word templates (build from scratch or use a clean Overleaf/LaTeX template). Save and submit as PDF named <code>Firstname_Lastname_Resume_2025.pdf</code>. Run it through your school's ATS checker — some companies screen resumes with software before a human ever sees them.</p>
+  </div>
+
+  <!-- Bullet formula -->
+  <div id="bullets" style="margin-top:32px">
+    <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);margin-bottom:16px">Writing Strong Bullets</p>
+    <div class="g2 rv">
+      <div class="card c-red">
+        <div class="fbox">
+          <p><strong>Action verb</strong> + technical method/tool + scope + <strong>quantified outcome.</strong></p>
+        </div>
+        <div class="cb">
+          <ul>
+            <li>Designed a 3D-printed bracket in SolidWorks to mount a sensor package, reducing assembly time by 30%.</li>
+            <li>Analyzed heat transfer data in MATLAB across 40 trials to identify insulation changes that improved thermal retention.</li>
+            <li>Led a 5-person subteam through prototype testing, documenting failure modes and presenting recommendations to project leads.</li>
+            <li>Modeled gearbox housing using tolerance constraints for 6 machined interfaces; validated fit with a physical check fixture.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <p class="ct">Scorecard</p>
+        <div class="scorecard">
+          <div class="sc-item"><span class="sc-label">Clarity</span><span class="sc-desc">Can a recruiter understand the role, tool, and result in one read?</span></div>
+          <div class="sc-item"><span class="sc-label">Evidence</span><span class="sc-desc">Does each section prove a skill or technical foundation?</span></div>
+          <div class="sc-item"><span class="sc-label">Relevance</span><span class="sc-desc">Is the top half tailored to the target role?</span></div>
+          <div class="sc-item"><span class="sc-label">Specificity</span><span class="sc-desc">Are tools, numbers, constraints, and deliverables named?</span></div>
+          <div class="sc-item"><span class="sc-label">Polish</span><span class="sc-desc">No typos, inconsistencies, or unexplained acronyms?</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="rubric-wrap rv">
+      <table class="rubric">
+        <thead><tr><th>❌ Instead of</th><th>✓ Try this</th><th>Why it works</th></tr></thead>
+        <tbody>
+          <tr><td>Worked on CAD model</td><td>Modeled gearbox housing in SolidWorks using tolerance constraints for 6 machined interfaces.</td><td>Names the object, tool, and engineering constraint.</td></tr>
+          <tr><td>Helped with testing</td><td>Collected and plotted vibration data from 12 test runs to compare motor mount designs.</td><td>Shows scope, data handling, and design comparison work.</td></tr>
+          <tr><td>Responsible for communication</td><td>Coordinated weekly updates across mechanical and controls subteams to keep prototype build on schedule.</td><td>Connects communication to execution and a real outcome.</td></tr>
+          <tr><td>Learned MATLAB</td><td>Built MATLAB scripts to clean sensor data and generate performance plots used in design review.</td><td>Turns a skill into applied, demonstrable work.</td></tr>
+          <tr><td>I worked on a team that made parts</td><td>Designed structural components for landing gear assembly, reducing weight by 15% vs. previous design.</td><td>No pronouns. Starts with results. Quantifies impact.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── 06 LINKEDIN ── -->
+<section id="linkedin">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">06 — LinkedIn</span><h2>LinkedIn Done Right</h2></div>
+    <p class="sh-desc">LinkedIn is social media for your career — it's your resume with more room, and a pipeline to maintain your network. People actually look at it.</p>
+  </div>
+  <div class="g2 rv">
+    <div class="card c-navy">
+      <p class="ct">What to include</p>
+      <div class="cb"><ul>
+        <li>Professional headshot — clear, well-lit, you're the focus.</li>
+        <li>Headline beyond "Student" — e.g., <em>ME Student @ OSU | Manufacturing &amp; Design | ASME VP | FAA Part 107</em></li>
+        <li>2–3 sentence summary covering your interests, experiences, and what you're looking for — not a bulleted list.</li>
+        <li>All resume experience plus anything that didn't fit — research, projects, certifications, awards.</li>
+        <li>2–4 project entries with images, tools used, and short descriptions.</li>
+        <li>Skills section — add specific technical tools, not just "leadership" and "teamwork."</li>
+      </ul></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card rv">
+        <p class="ct">Do's &amp; Don'ts</p>
+        <div class="g2" style="gap:10px;margin-top:4px">
+          <div>
+            <p style="font-size:11px;font-weight:700;color:#166534;letter-spacing:.07em;text-transform:uppercase;margin-bottom:7px">✓ Do</p>
+            <div class="cb"><ul>
+              <li>Post about internships, project milestones, and wins — be excited and professional.</li>
+              <li>Connect with people you actually meet — career fairs, speakers, alumni, classmates.</li>
+              <li>DM companies and recruiters whose work interests you — a short, specific message beats no message.</li>
+              <li>Keep it current — update after every significant experience.</li>
+            </ul></div>
+          </div>
+          <div>
+            <p style="font-size:11px;font-weight:700;color:#991b1b;letter-spacing:.07em;text-transform:uppercase;margin-bottom:7px">✗ Don't</p>
+            <div class="cb"><ul>
+              <li>Fabricate or misrepresent anything — interviewers will ask about it.</li>
+              <li>Post extremely often or in very long messages — brief and specific wins.</li>
+              <li>Spam people with identical copy-paste outreach — it's obvious and off-putting.</li>
+              <li>Accept every single connection request — 500+ meaningless connections won't help you.</li>
+            </ul></div>
+          </div>
+        </div>
+      </div>
+      <div class="tip rv"><strong>Pro tip:</strong> Don't post about a job until you're certain you're taking it. Accepting then reneging after a public post is a bad look that can follow you. Post-internship updates talking about what you worked on are some of the most valuable content you can share.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 07 ELEVATOR PITCH ── -->
+<section id="elevator">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">07 — Elevator Pitch</span><h2>Your 30-Second Introduction</h2></div>
+    <p class="sh-desc">Within the time you enter an elevator to when you leave — under 30 seconds — you should be able to introduce yourself compellingly. Practice until it feels natural, not rehearsed.</p>
+  </div>
+  <div class="g2 rv">
+    <div class="card">
+      <p class="ct">The formula</p>
+      <div class="cb"><ul>
+        <li><strong>Name &amp; year —</strong> "Hi, I'm [Name], a [year] mechanical engineering student at Ohio State."</li>
+        <li><strong>One key experience —</strong> "This past summer I interned at [company], where I [specific thing you did]."</li>
+        <li><strong>Involvement —</strong> "I'm also involved in [ASME / Buckeye Vertical / project team], where I [role]."</li>
+        <li><strong>Target —</strong> "I'm looking for [internship / co-op / full-time] roles in [area]."</li>
+        <li><strong>Hook —</strong> "I saw your team does [specific thing] — I'd love to hear more about what you're working on."</li>
+      </ul>
+      <div style="margin-top:13px;padding:12px 14px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm)">
+        <p style="font-size:11px;font-weight:700;color:var(--scarlet);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px">Rules</p>
+        <p style="font-size:13px;color:var(--body)">30–60 seconds max. Don't just talk at them — ask a question, start a conversation. Roll with it if they take it somewhere interesting. Practice &amp; experiment. You never know who you'll meet — always be ready.</p>
+      </div>
+      </div>
+    </div>
+    <div class="pbuilder rv">
+      <h3>Build Your Pitch</h3>
+      <div class="pfields">
+        <div class="pf"><label>Your name</label><input type="text" id="p-name" placeholder="e.g. Alex Chen" oninput="buildPitch()"></div>
+        <div class="pf"><label>Year / standing</label><input type="text" id="p-year" placeholder="e.g. junior" oninput="buildPitch()"></div>
+        <div class="pf"><label>Key experience</label><input type="text" id="p-exp" placeholder="e.g. interned at Dow Chemical" oninput="buildPitch()"></div>
+        <div class="pf"><label>What you did there</label><input type="text" id="p-did" placeholder="e.g. designed PM plans for agitators" oninput="buildPitch()"></div>
+        <div class="pf"><label>Involvement / club</label><input type="text" id="p-inv" placeholder="e.g. VP of ASME at OSU" oninput="buildPitch()"></div>
+        <div class="pf"><label>Target role or area</label><input type="text" id="p-tgt" placeholder="e.g. manufacturing engineering" oninput="buildPitch()"></div>
+      </div>
+      <div class="pout" id="pitch-out">Fill in the fields above to generate your pitch.</div>
+      <button class="pbtn" onclick="copyPitch()">Copy Pitch Text</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── 08 COVER LETTER ── -->
+<section id="coverletter">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">08 — Cover Letter</span><h2>Cover Letters</h2></div>
+    <p class="sh-desc">Only write one for roles you genuinely want. A thoughtful, specific letter can separate you — a generic one hurts you.</p>
+  </div>
+  <div class="g2 rv">
+    <div class="struct">
+      <div class="struct-hd"><h3>Cover Letter Structure</h3><p>One page. Formal letter format. Specific — never generic.</p></div>
+      <div class="struct-body">
+        <div class="sstep"><div class="snum">1</div><div class="stext"><h4>Opening paragraph</h4><p>State the role, show genuine interest in <em>this specific company</em>, and preview your strongest relevant experience. Don't start with "I am writing to apply for…" — it's the most common opener and signals zero effort.</p></div></div>
+        <div class="sstep"><div class="snum">2</div><div class="stext"><h4>Body paragraph(s)</h4><p>Explain why <em>this company specifically</em>, connect your qualifications to their job description, and tell the story behind your resume bullets instead of just listing them again.</p></div></div>
+        <div class="sstep"><div class="snum">3</div><div class="stext"><h4>Closing paragraph</h4><p>Thank them, provide contact info, and express genuine enthusiasm for the opportunity to discuss further. Close with "Sincerely," — not "Best regards" if you want to sound less generic.</p></div></div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card c-navy rv">
+        <p class="ct">When to write one</p>
+        <div class="cb"><ul>
+          <li>Roles you genuinely want — a thoughtful letter signals real interest.</li>
+          <li>Small or mid-size companies where hiring decisions are more personal.</li>
+          <li>When the application explicitly asks for one.</li>
+          <li>When you have something important to contextualize: non-traditional background, gap, career shift.</li>
+        </ul></div>
+      </div>
+      <div class="card rv">
+        <p class="ct">What to avoid</p>
+        <div class="cb"><ul>
+          <li>Don't copy your resume — explain the story behind it.</li>
+          <li>Don't start every sentence with "I."</li>
+          <li>Don't use phrases like "I am a hard worker" or "I'm a team player."</li>
+          <li>Don't send the same letter to every company — recruiters can tell.</li>
+          <li>Don't exceed one page.</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 09 PORTFOLIO ── -->
+<section id="portfolio">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">09 — Project Portfolio</span><h2>Building a Project Portfolio</h2></div>
+    <p class="sh-desc">Increasingly expected for design, manufacturing, and research roles. A portfolio is proof that a resume can only describe.</p>
+  </div>
+  <div class="g2 rv">
+    <div class="card c-red">
+      <p class="ct">What to include</p>
+      <div class="cb"><ul>
+        <li><strong>Images first —</strong> CAD models, prototype photos, test setups, code outputs, FEA plots — visuals that can't go on a resume are the whole point.</li>
+        <li><strong>Project descriptions —</strong> What was the problem? What did you do? What were the results? Concise but specific.</li>
+        <li><strong>Your role —</strong> Be clear about what you personally did, especially in team projects. Don't take credit for things you didn't do — interviewers can tell.</li>
+        <li><strong>Order by relevance</strong> to the role you're applying for, not by date.</li>
+        <li><strong>Tailor per company —</strong> Move aerospace projects first for aerospace roles, manufacturing first for manufacturing.</li>
+      </ul></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card rv">
+        <p class="ct">Entry formula: What / How / Results</p>
+        <div style="display:flex;flex-direction:column;gap:0">
+          <div style="padding:12px 0;border-bottom:1px solid var(--line)"><p style="font-size:12px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">What?</p><p style="font-size:13px;color:var(--muted)">One sentence on the project context and the problem you were solving.</p></div>
+          <div style="padding:12px 0;border-bottom:1px solid var(--line)"><p style="font-size:12px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">How?</p><p style="font-size:13px;color:var(--muted)">2–3 sentences: your approach, tools used, key design or engineering decisions made.</p></div>
+          <div style="padding:12px 0"><p style="font-size:12px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px">Results</p><p style="font-size:13px;color:var(--muted)">Quantify where possible: weight saved, test passed, competition placement, efficiency gained.</p></div>
+        </div>
+      </div>
+      <div class="tip rv"><strong>Format:</strong> PDF is safest for email. A personal site or GitHub Pages makes sharing instant. Canva works for polished one-pagers if you don't want to code. Keep it under 10 projects — quality over quantity.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 10 DRESS CODE ── -->
+<section id="dress">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">10 — Dress Code</span><h2>Decoding Dress Codes</h2></div>
+    <p class="sh-desc">When in doubt, dress one level up. It's always easier to remove a blazer than to wish you'd worn one.</p>
+  </div>
+  <div class="dress-grid rv">
+    <div class="dress">
+      <div class="dress-hd casual"><span class="flat-icon dress-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#f4f8fc" d="M15 9h34l8 16v30a4 4 0 0 1-4 4H11a4 4 0 0 1-4-4V25z"/><path fill="#d7e8f7" d="m15 9 17 15L49 9l8 16v30a4 4 0 0 1-4 4H11a4 4 0 0 1-4-4V25z"/><path fill="#fff" d="M22 9h20l-10 15z"/><path fill="#bb0000" d="m29 25-5 25 8 7 8-7-5-25z"/><path fill="#0f3460" d="M22 9 12 25l13-2 7 1zm20 0 10 16-13-2-7 1z"/></svg></span><div class="dress-name">Business Casual<small>Info sessions, networking events</small></div></div>
+      <div class="dress-bd"><ul>
+        <li>Slacks or chinos — khaki, navy, gray, black</li>
+        <li>Collared shirt or blouse, tucked or clean-cut</li>
+        <li>Optional blazer or cardigan</li>
+        <li>Clean, closed-toe shoes — loafers, flats, low heels</li>
+        <li>No athletic wear, hoodies, or overly casual jeans</li>
+      </ul></div>
+    </div>
+    <div class="dress">
+      <div class="dress-hd pro"><span class="flat-icon dress-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#0f3460" d="M14 12h36l7 18v26a4 4 0 0 1-4 4H11a4 4 0 0 1-4-4V30z"/><path fill="#1a6cb8" d="M20 12h24l5 48H15z"/><path fill="#fff" d="M23 12h18l-9 15z"/><path fill="#bb0000" d="m29 27-4 22 7 7 7-7-4-22z"/><path fill="#e8f4fd" d="m20 12-7 18 13-3 6 0zm24 0 7 18-13-3-6 0z"/></svg></span><div class="dress-name" style="color:#fff">Business Professional<small style="color:rgba(255,255,255,.6)">Career fairs, phone &amp; first-round interviews</small></div></div>
+      <div class="dress-bd"><ul>
+        <li>Blazer or suit jacket — matched or coordinated</li>
+        <li>Dress shirt or blouse with collar; ties optional for men</li>
+        <li>Dress slacks or pencil skirt</li>
+        <li>Polished dress shoes or professional heels</li>
+        <li>Minimal jewelry; professional accessories only</li>
+      </ul></div>
+    </div>
+    <div class="dress">
+      <div class="dress-hd formal"><span class="flat-icon dress-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#dce9f6" d="M8 24h48v6H8z"/><path fill="#fff" d="M32 6 7 22h50z"/><path fill="#bb0000" d="M29 15h6v7h-6z"/><path fill="#e8f4fd" d="M13 30h8v22h-8zm15 0h8v22h-8zm15 0h8v22h-8z"/><path fill="#0f3460" d="M8 52h48v6H8z"/><path fill="#1a6cb8" d="M11 58h42v4H11z"/></svg></span><div class="dress-name" style="color:#fff">Business Formal<small style="color:rgba(255,255,255,.6)">Final-round interviews, technical presentations</small></div></div>
+      <div class="dress-bd"><ul>
+        <li>Full matching suit — dark navy, charcoal, or black</li>
+        <li>Dress shirt + tie (men) or tailored blouse/suit (women)</li>
+        <li>Conservative, polished shoes — no exceptions</li>
+        <li>Minimal accessories — nothing distracting</li>
+        <li>Grooming matters: clean and professional throughout</li>
+      </ul></div>
+    </div>
+  </div>
+  <div class="callout rv" style="margin-top:13px">
+    <p><strong>Virtual interviews:</strong> Still dress up from the waist up as if you're in person. Check your background — clean wall or bookshelf beats a messy room. Good lighting matters more than you think: face a window or buy a $15 ring light. Log in 5 minutes early. Keep water nearby — taking a sip before answering gives you time to think and formulate your response.</p>
+  </div>
+</section>
+
+<!-- ── 11 INTERVIEWS ── -->
+<section id="interviews">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">11 — Interview Repository</span><h2>Behavioral &amp; Technical Interviews</h2></div>
+    <p class="sh-desc">The goal: prepare enough structure that you can be relaxed and specific. Specific beats polished every time.</p>
+  </div>
+
+  <div class="g2 acc-grid rv">
+    <div class="acc">
+      <details open>
+        <summary>Behavioral interviews — STAR method</summary>
+        <div class="acc-body">
+          <p>Use <strong>STAR: Situation → Task → Action → Result.</strong></p>
+          <ul>
+            <li><strong>Situation:</strong> Why the problem existed. Keep this brief — 2–3 sentences.</li>
+            <li><strong>Task:</strong> Your scope. Did you identify the problem or were you assigned it?</li>
+            <li><strong>Action:</strong> What you did and why. This is the longest part — your reasoning matters as much as your actions.</li>
+            <li><strong>Result:</strong> The outcome. Quantify where possible. If it was a failure, what did you learn and what did you change?</li>
+          </ul>
+          <div class="tip" style="margin-top:12px"><strong>Timing:</strong> Each response should be under 2 minutes. Speak slower than you think you should. Be excited — enthusiasm is a differentiator, especially for internship candidates where everyone has limited experience.</div>
+        </div>
+      </details>
+    </div>
+    <div class="acc">
+      <details open>
+        <summary>Technical interviews — reason out loud</summary>
+        <div class="acc-body">
+          <p>State your assumptions out loud. Draw the system if allowed. Name tradeoffs you see. Admit what you'd need to verify. <strong>Interviewers care about your reasoning process</strong> far more than whether you recall the formula instantly.</p>
+          <p style="margin-top:8px">If a company is going to give you a technical interview, they will usually tell you in advance. If they don't mention it — it's likely behavioral.</p>
+          <p style="margin-top:10px"><strong>Strong answer structure:</strong></p>
+          <ul>
+            <li>Restate the problem and clarify constraints.</li>
+            <li>Name the principles involved before jumping to equations.</li>
+            <li>Explain what information is missing and how you would estimate it.</li>
+            <li>Close with a validation step: test, inspect, simulate, or compare to expected behavior.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+    <div class="acc">
+      <details open>
+        <summary>Technical presentation interviews</summary>
+        <div class="acc-body">
+          <p>Some companies ask you to present past project work on a slideshow. Cover: the problem, your role, key technical decisions, challenges you hit, and how you resolved them. Practice explaining <em>tradeoffs</em> — not just final answers. Keep slides visual and light on text. Deliver it like a design review for a class.</p>
+          <p style="margin-top:10px"><strong>Simple slide flow:</strong></p>
+          <ul>
+            <li>Problem, constraints, and why it mattered.</li>
+            <li>Your role, tools used, and design alternatives considered.</li>
+            <li>Testing, results, failure modes, and what changed.</li>
+            <li>What you would improve with more time or better data.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+    <div class="acc">
+      <details open>
+        <summary>When your mind goes blank mid-interview</summary>
+        <div class="acc-body">
+          <p>It happens — don't panic. Take your time. It's better to sit for 30–45 seconds and give a good answer than to rush and give a bad one.</p>
+          <p style="margin-top:8px"><strong>Recovery approach:</strong></p>
+          <ul>
+            <li>Think through your orgs and experiences — internships, project teams, classes, research.</li>
+            <li>Start with the first one that comes to mind.</li>
+            <li>Think about what you did that week or your main projects.</li>
+            <li>Then brainstorm on your specific actions and results from there.</li>
+          </ul>
+          <div class="tip" style="margin-top:12px"><strong>Prevention:</strong> Use AI to practice. Prompt: "Generate behavioral interview questions for this job posting and my resume" — then paste both. Practice answering out loud, not in your head. Get a friend to grill you at least once before a real interview.</div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- Prepping STAR stories -->
+  <div style="margin-top:16px" class="rv">
+    <div class="callout">
+      <p><strong>Building your story bank:</strong> Brainstorm your best moments from every internship, project team, class, and research position. Make a notecard per story — one per experience — and note which types of questions each story could answer. One story can often work for leadership, conflict, failure, and time management questions depending on how you frame it. More recent stories are generally stronger. Don't exaggerate scope or ownership — interviewers can tell, and it's not worth the risk.</p>
+      <p><strong>Going forward:</strong> Keep a running doc during your internships where you record stories as they happen. The best stories often don't have the biggest scope — short, clear examples of your problem-solving and leadership style can be your strongest answers.</p>
+    </div>
+  </div>
+
+  <div class="g3" style="margin-top:16px">
+    <div class="qcard rv">
+      <div class="chip ch-r">Behavioral</div>
+      <p class="ct">Core prompts</p>
+      <ul>
+        <li>Tell me about yourself.</li>
+        <li>Walk me through a project you're proud of.</li>
+        <li>Tell me about a time something failed.</li>
+        <li>How do you handle team conflict?</li>
+        <li>Describe a time you had to learn something quickly.</li>
+        <li>Tell me about a time you had too many priorities at once.</li>
+        <li>Tell me about a time you received constructive feedback.</li>
+        <li>Why this company and this specific role?</li>
+      </ul>
+    </div>
+    <div class="qcard rv">
+      <div class="chip ch-b">Technical</div>
+      <p class="ct">Mechanical prompts</p>
+      <ul>
+        <li>How would you design a bracket for load and manufacturability?</li>
+        <li>Explain stress, strain, and factor of safety.</li>
+        <li>How would you validate a thermal design?</li>
+        <li>What causes vibration or fatigue failure?</li>
+        <li>How do tolerances affect assembly?</li>
+        <li>How would you choose between two materials?</li>
+        <li>Walk me through how you'd approach a simulation.</li>
+      </ul>
+    </div>
+    <div class="qcard rv">
+      <div class="chip ch-g">Ask Them</div>
+      <p class="ct">Candidate questions</p>
+      <ul>
+        <li>What would an intern help solve in the first month?</li>
+        <li>What separates strong interns from average ones?</li>
+        <li>What do you find most interesting about your own work?</li>
+        <li>How do engineers on this team collaborate with manufacturing or quality?</li>
+        <li>What would you want me to strengthen before day one?</li>
+        <li>How is feedback given during the internship?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Post-interview -->
+  <div class="callout rv" style="margin-top:14px">
+    <p><strong>After the interview:</strong> Send a follow-up thank-you email to your interviewer that day or the next morning. Connect with them on LinkedIn. If you haven't heard back in ~2 weeks, send a polite status-check email to the recruiter who set up the interview. See the email templates section for exact wording.</p>
+  </div>
+</section>
+
+<!-- ── 12 TECHNICAL PREP ── -->
+<section id="technical">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">12 — Technical Training</span><h2>Technical Prep Map</h2></div>
+    <p class="sh-desc">An ASME seminar guide for CAD, FEA, GD&amp;T, manufacturing, and design reviews — the topics that come up most in mechanical engineering interviews.</p>
+  </div>
+  <div class="chap rv">
+    <div class="crow"><div><div class="ctag">CAD Training</div></div><div class="crow-body"><h3>Build models that communicate intent.</h3><p>Know sketches, constraints, assemblies, mates, drawings, section views, exploded views, and design tables. Be ready to explain why you modeled something in a certain order — that reasoning is what interviewers are listening for, not speed.</p></div></div>
+    <div class="crow"><div><div class="ctag">FEA Training</div></div><div class="crow-body"><h3>Use simulation as a decision tool.</h3><p>Know loads, constraints, mesh sensitivity, stress concentration, factor of safety, and the difference between pretty color plots and validated analysis. Always connect simulation results back to your assumptions and explain what you would do differently with more time or resources.</p></div></div>
+    <div class="crow"><div><div class="ctag">GD&amp;T</div></div><div class="crow-body"><h3>Design parts that can actually be made and inspected.</h3><p>Learn datums, flatness, perpendicularity, position, clearance, and tolerance stack-ups. Understand why over-tolerancing increases cost. In interviews, be ready to explain how your tolerance choices affect the final assembly — not just the drawing.</p></div></div>
+    <div class="crow"><div><div class="ctag">Manufacturing</div></div><div class="crow-body"><h3>Think beyond the model.</h3><p>Be familiar with machining, 3D printing, sheet metal, injection molding, welding, casting, surface finish, fastening, and design for assembly. Employers love students who consider cost and process from the very start of a design — not after the model is done.</p></div></div>
+    <div class="crow"><div><div class="ctag">Design Review</div></div><div class="crow-body"><h3>Present tradeoffs, not just final answers.</h3><p>A strong design review covers: requirements, assumptions, concepts considered, the selected design, risks, test plan, and next steps. Practice explaining what you would change given more time, money, or a different constraint. That's what separates strong presenters from ones who only show the happy path.</p></div></div>
+  </div>
+</section>
+
+<!-- ── 13 CAREER FAIR ── -->
+<section id="careerfair">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">13 — Career Fair Playbook</span><h2>Career Fair Strategy</h2></div>
+    <p class="sh-desc">Research, prioritize, start conversations well, and follow up quickly. That's the entire playbook.</p>
+  </div>
+  <div class="g2 rv">
+    <div class="tl">
+      <div class="tl-step"><div class="tl-when">1 Week Out</div><div class="tl-content"><h3>Build your target list.</h3><p>Pick 8–12 employers. For each: role type, location, one product area, and one reason you're genuinely interested. Download Career Fair Plus to map company locations and plan your route.</p></div></div>
+      <div class="tl-step"><div class="tl-when">2 Days Out</div><div class="tl-content"><h3>Apply online before you go.</h3><p>Some companies prefer online applications before the fair. Get yours in — then you can say "I already applied" at the booth, which shows real initiative.</p></div></div>
+      <div class="tl-step"><div class="tl-when">Night Before</div><div class="tl-content"><h3>Prep your materials.</h3><p>Print 20–30 resumes (more than you think you need). Have a digital copy with a clean filename ready on your phone to upload on the spot. Write down one question per target company. Lay out your outfit.</p></div></div>
+      <div class="tl-step"><div class="tl-when">Event Day</div><div class="tl-content"><h3>Approach, pitch, ask — then connect.</h3><p>Firm handshake, introduce yourself, deliver your pitch, let them talk, ask your question. End by offering to connect on LinkedIn. After each company, write down the recruiter's name, what they said, and one personal detail to reference in your follow-up.</p></div></div>
+      <div class="tl-step"><div class="tl-when">24 Hours After</div><div class="tl-content"><h3>Follow up while they remember you.</h3><p>Send a short thank-you email referencing something specific from the conversation. Apply online if you haven't. Connect on LinkedIn.</p></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card rv">
+        <p class="ct">Be the Question Master</p>
+        <div class="g2" style="gap:10px;margin-top:4px">
+          <div>
+            <p style="font-size:11px;font-weight:700;color:#991b1b;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px">Don't ask…</p>
+            <div class="cb"><ul>
+              <li>Questions you could Google in 10 seconds</li>
+              <li>Generic questions every other student asks</li>
+              <li>Questions about pay at the booth</li>
+            </ul></div>
+          </div>
+          <div>
+            <p style="font-size:11px;font-weight:700;color:#166534;letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px">Do ask…</p>
+            <div class="cb"><ul>
+              <li>About the person you're talking to and their experience</li>
+              <li>Specific questions about the role or team</li>
+              <li>What makes strong intern candidates stand out</li>
+            </ul></div>
+          </div>
+        </div>
+      </div>
+      <div class="card rv">
+        <p class="ct">Application tracker fields</p>
+        <div class="cb"><ul>
+          <li>Company, role title, location, deadline, application link.</li>
+          <li>Recruiter name, email, LinkedIn — notes from your conversation.</li>
+          <li>Skills mentioned, projects to emphasize for that company, follow-up date.</li>
+          <li>Status: interested → applied → referred → interview → offer.</li>
+        </ul></div>
+      </div>
+      <div class="tip rv"><strong>Network before the fair:</strong> If ASME hosts a corporate banquet or company info sessions before the big fair, go. Talk to recruiters there. Showing up to IR or EXPO with an existing connection is a massive advantage — "We talked at the banquet" is a much stronger opener than "I'm a junior in ME."</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 14 INFO SESSIONS ── -->
+<section id="infosessions">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">14 — Info Sessions</span><h2>Employer Info Sessions</h2></div>
+    <p class="sh-desc">Attending signals genuine interest. It also gives you insider knowledge to use in your cover letter, interview, and follow-up emails.</p>
+  </div>
+  <div class="g3 rv">
+    <div class="card"><div class="chip ch-b">Before</div><p class="ct">How to prepare</p><div class="cb"><ul>
+      <li>Visit the company website; read about their products, recent news, and competitors.</li>
+      <li>Update your resume and bring printed copies if in person.</li>
+      <li>Prepare 3–4 specific questions — not things easily Googleable.</li>
+      <li>For virtual: test your tech 24 hours before. Clean background, stable connection.</li>
+    </ul></div></div>
+    <div class="card"><div class="chip ch-r">During</div><p class="ct">What to do</p><div class="cb"><ul>
+      <li>Arrive or log in early — don't be the person joining late.</li>
+      <li>Take notes on speaker names, team details, and anything unique that you can reference later.</li>
+      <li>Engage actively — ask your prepared question publicly when given the chance.</li>
+      <li>When prompted to introduce yourself: name, major, year, and one specific interest.</li>
+    </ul></div></div>
+    <div class="card"><div class="chip ch-gr">After</div><p class="ct">Follow up</p><div class="cb"><ul>
+      <li>Connect on LinkedIn with any recruiter you interacted with.</li>
+      <li>Send a follow-up email within 24 hours — mention something specific you learned.</li>
+      <li>Apply to open positions and reference your attendance in the cover letter.</li>
+      <li>Engage with the company's LinkedIn posts — stay on their radar between now and the hire.</li>
+    </ul></div></div>
+  </div>
+</section>
+
+<!-- ── 15 NETWORKING ── -->
+<section id="networking">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">15 — Networking Toolkit</span><h2>Networking</h2></div>
+    <p class="sh-desc">Networking is building a group of people who support you professionally — not asking strangers for jobs. It's nothing more complicated than building relationships with people you meet and work with.</p>
+  </div>
+
+  <div class="callout rv">
+    <p><strong>The mindset shift:</strong> Your network is a two-way street. Senior engineers and hiring managers often <em>want</em> to meet students — they're looking for qualified people to hire and they want to share their experience with the next generation. You're not imposing. Show up, introduce yourself, and be genuinely curious about what they do.</p>
+    <p><strong>Three steps, that's it:</strong> Form connections → Stay in touch → Don't be afraid to ask for favors (the right way).</p>
+  </div>
+
+  <div class="g3" style="margin-top:16px">
+    <div class="card rv">
+      <div class="chip ch-b">Coffee Chats</div>
+      <p class="ct">The most underused tool</p>
+      <div class="cb">
+        <p>If you recently connected with someone — in person, via LinkedIn, or through a mutual contact — asking for 30 minutes of their time is one of the best moves you can make.</p>
+        <ul>
+          <li>Your goal isn't a referral or a job — it's to learn and build a real relationship.</li>
+          <li>Go in with 5–7 questions about <em>them</em>: their decisions, their lessons, not just their resume.</li>
+          <li>Follow the flow of conversation — don't robotically run through a list.</li>
+          <li>End by asking if there's anyone else you should reach out to.</li>
+          <li>Send a thank-you note referencing something specific they said. Update them a few months later on what you did with their advice.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card rv">
+      <div class="chip ch-g">Staying in Touch</div>
+      <p class="ct">After the first conversation</p>
+      <div class="cb"><ul>
+        <li>If you met someone briefly — email or LinkedIn message to follow up after the fact. Attach your resume.</li>
+        <li>For longer-term relationships: keep them updated on career updates, project milestones, things you talked about.</li>
+        <li>If they gave you advice, update them on the outcome — this is one of the rarest and most appreciated things a student can do.</li>
+        <li>Follow up every 3–6 months — a short "here's what I've been up to" message keeps you on their radar without being annoying.</li>
+      </ul></div>
+    </div>
+    <div class="card rv">
+      <div class="chip ch-r">Asking for Favors</div>
+      <p class="ct">The right way</p>
+      <div class="cb">
+        <p>It's okay to ask favors — but understand you're asking someone to vouch for you. Be clear, specific, and polite. Only ask if you're genuinely interested. Never ask someone to refer you to a role you're not sure you want — and never accept an offer and then renege. Engineering is a small world.</p>
+        <ul>
+          <li>Be excited about what you do — enthusiasm is contagious and memorable.</li>
+          <li>Be concise — they're busy. One clear ask is better than a long buildup.</li>
+          <li>Thank them regardless of outcome.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 16 INTERNSHIP SUCCESS ── -->
+<section id="internship">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">16 — Internship Success</span><h2>Making the Most of Your Internship</h2></div>
+    <p class="sh-desc">Getting the internship is step one. The best interns create clarity, document their impact, and leave having built relationships that last past the summer.</p>
+  </div>
+  <div class="chap rv">
+    <div class="crow"><div><div class="ctag">Before Day One</div></div><div class="crow-body"><h3>Arrive with context.</h3><p>Review the company's products, tools, locations, and safety expectations. Refresh any core skills that appear in the job posting. Build an acronym dictionary from day one — every company has its own language and it's overwhelming at first. Make a list, then learn it.</p></div></div>
+    <div class="crow"><div><div class="ctag">First Week</div></div><div class="crow-body"><h3>Carry a notebook. Always.</h3><p>Write down expectations, questions, acronyms you don't know, and names of everyone you meet. Ask clarifying questions early — ask what success looks like, who the key stakeholders are, what your deliverables are, and how often your manager wants updates. Don't let ambiguity become your biggest blocker. Internships are short — get up to speed as fast as possible.</p></div></div>
+    <div class="crow"><div><div class="ctag">During the Internship</div></div><div class="crow-body"><h3>Keep an impact log. Be the person who gets things done.</h3>
+      <ul>
+        <li>Log your tasks, tools used, decisions made, results, and feedback quotes at least weekly — this becomes your final presentation and your next resume.</li>
+        <li>Be the person people know they can go to. Be resourceful, ask clarifying questions, and be excited to be there.</li>
+        <li>If you have nothing to do — seek projects. No project is below you. People notice who's looking for ways to help.</li>
+        <li>Know your customer: what does your boss actually want, and when? You could make the most polished deliverable in the world — but if it doesn't solve their real problem, it's not worth much.</li>
+        <li>Send a brief update email to your manager every 1–2 weeks if you don't see them often: "Here's what I worked on, here's where I am, here's what's next."</li>
+      </ul>
+    </div></div>
+    <div class="crow"><div><div class="ctag">Final Week</div></div><div class="crow-body"><h3>Close the loop like a professional.</h3><p>Send documentation. Thank your mentors — the ones who answered the most questions often don't get thanked enough. Request written or verbal feedback you can act on. Connect with everyone on LinkedIn. Ask what skills would strengthen your case for a return offer, and what you should keep working on. The engineering world is small — the relationships you build in 12 weeks can matter for 10 years.</p></div></div>
+  </div>
+</section>
+
+<!-- ── 17 EVALUATING OFFERS ── -->
+<section id="offer">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">17 — Evaluating Offers</span><h2>Getting &amp; Evaluating Offers</h2></div>
+    <p class="sh-desc">Receiving an offer is exciting. Take a breath, evaluate carefully, and respond professionally — whether you're accepting, negotiating, or declining.</p>
+  </div>
+  <div class="g2 rv">
+    <div class="card c-red">
+      <p class="ct">What to evaluate</p>
+      <div class="cb"><ul>
+        <li><strong>Compensation:</strong> Hourly rate, overtime policy, sign-on bonuses.</li>
+        <li><strong>Housing / relocation stipend:</strong> Is it included? Is it enough for the city's cost of living?</li>
+        <li><strong>Location:</strong> Commute, cost of living, quality of life, whether you want to live there for the summer.</li>
+        <li><strong>Work type:</strong> Will you be doing real engineering work or support tasks? Ask about past intern projects.</li>
+        <li><strong>Mentorship &amp; structure:</strong> Will you have a dedicated mentor and a defined project?</li>
+        <li><strong>Return offer potential:</strong> Does this company typically convert interns? What's the conversion rate?</li>
+        <li><strong>Brand and optionality:</strong> Does this company name open doors for future roles?</li>
+        <li><strong>Your gut:</strong> Did the people you met seem like people you'd actually learn from?</li>
+      </ul></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="card rv">
+        <p class="ct">Responding to an offer</p>
+        <div class="cb"><ul>
+          <li><strong>Ask for time —</strong> it's completely standard to ask for 1–2 weeks to consider. Most companies expect this.</li>
+          <li><strong>Negotiating —</strong> for internships, base pay is often fixed, but housing stipends, start dates, and location are sometimes flexible. Always be polite and professional — never aggressive.</li>
+          <li><strong>Accepting —</strong> confirm in writing immediately. Do not renege after accepting — it damages your reputation permanently and can follow you back to your school's recruiting relationships.</li>
+          <li><strong>Declining —</strong> do it graciously and quickly. Thank them sincerely, keep the door open, and be honest about your reasons if they ask. The engineering world is small.</li>
+        </ul></div>
+      </div>
+      <div class="tip rv"><strong>Waiting on another offer?</strong> Never accept with the intent to renege. If you're waiting on a higher-priority company, be honest about your timeline and ask for a reasonable extension. Most companies would rather wait a week than lose a candidate they want — but don't push it past two weeks without a very good reason.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 18 NO INTERNSHIP ── -->
+<section id="nointernship">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">18 — No Internship? No Problem.</span><h2>Alternative Ways to Build Experience</h2></div>
+    <p class="sh-desc">Not landing an internship in one cycle doesn't define your trajectory. Cast a wide net — and in the meantime, here are the paths that keep you competitive.</p>
+  </div>
+  <div class="g3 rv">
+    <div class="alt"><span class="flat-icon alt-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#dce9f6" d="M25 8h14v8l-3 4v12l15 21a5 5 0 0 1-4 8H17a5 5 0 0 1-4-8l15-21V20l-3-4z"/><path fill="#fff" d="M25 8h14v8H25z"/><path fill="#1a6cb8" d="M22 42h20l9 13a5 5 0 0 1-4 6H17a5 5 0 0 1-4-6z"/><circle cx="28" cy="50" r="3" fill="#fff"/><circle cx="39" cy="55" r="2" fill="#fff"/><path fill="#bb0000" d="M23 4h18v6H23z"/></svg></span><h3>Undergraduate Research</h3><p>Reach out to faculty whose work interests you. Even one semester of lab experience becomes a strong resume entry — and it's highly valued for grad school applications. Use the outreach formula in the Grad School section.</p></div>
+    <div class="alt"><span class="flat-icon alt-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#dce9f6" d="M32 4c10 8 15 18 15 30l8 8-9 3-4 11H22l-4-11-9-3 8-8C17 22 22 12 32 4z"/><path fill="#1a6cb8" d="M24 22c2-7 5-13 8-18 3 5 6 11 8 18z"/><circle cx="32" cy="30" r="8" fill="#fff"/><circle cx="32" cy="30" r="4" fill="#bb0000"/><path fill="#ffb3b3" d="M25 56h14l-7 6z"/></svg></span><h3>Design Competitions</h3><p>AUVSI SUAS, Formula SAE, Baja, SolarSplash, AIAA DBF. Treat these like internships: document what you did, what tools you used, and what the outcomes were. Competition placements are legitimate engineering evidence.</p></div>
+    <div class="alt"><span class="flat-icon alt-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#dce9f6" d="M11 42 34 19l11 11-23 23a8 8 0 0 1-11-11z"/><path fill="#0f3460" d="m37 16 5-5 11 11-5 5z"/><path fill="#1a6cb8" d="m43 10 7-7 11 11-7 7z"/><path fill="#bb0000" d="M14 39h10v10H14z" transform="rotate(45 19 44)"/></svg></span><h3>Personal Projects</h3><p>Build something. A 3D-printed mechanism, an IoT device, a custom PCB, an autonomous system. Document it with photos, write-ups, and a GitHub or portfolio link. The project doesn't have to be huge — it has to be real and explainable.</p></div>
+    <div class="alt"><span class="flat-icon alt-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="21" cy="20" r="8" fill="#dce9f6"/><circle cx="43" cy="20" r="8" fill="#dce9f6"/><path fill="#1a6cb8" d="M9 56c1-12 6-20 15-20s14 8 15 20z"/><path fill="#0f3460" d="M25 56c1-12 6-20 15-20s14 8 15 20z"/><path fill="#bb0000" d="M28 29h8v15h-8z" transform="rotate(-45 32 36)"/><path fill="#ffb3b3" d="M26 34h12v8H26z" transform="rotate(45 32 38)"/></svg></span><h3>Volunteer Engineering</h3><p>Engineering for nonprofits, Habitat for Humanity, local makerspaces, or community organizations. Real constraints, real deliverables — that's engineering experience by another name, and it shows character.</p></div>
+    <div class="alt"><span class="flat-icon alt-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#dce9f6" d="M14 8h30l6 6v42H14z"/><path fill="#fff" d="M20 17h24v5H20zm0 10h24v4H20zm0 8h16v4H20z"/><path fill="#1a6cb8" d="M44 8v12h12z"/><circle cx="43" cy="44" r="11" fill="#bb0000"/><path fill="#fff" d="m38 44 3 4 7-9 3 2-10 13-6-8z"/></svg></span><h3>Certifications</h3><p>SOLIDWORKS CSWA/CSWP, GD&amp;T certification, Python/MATLAB courses, Excel &amp; Power BI, manufacturing process certificates, FAA Part 107. Specific credentials signal initiative and fill skill gaps recruiters actually care about.</p></div>
+    <div class="alt"><span class="flat-icon alt-icon" aria-hidden="true"><svg viewBox="0 0 64 64"><path fill="#dce9f6" d="M4 32s10-16 28-16 28 16 28 16-10 16-28 16S4 32 4 32z"/><circle cx="32" cy="32" r="13" fill="#1a6cb8"/><circle cx="32" cy="32" r="6" fill="#fff"/><path fill="#bb0000" d="M46 44 58 56l-4 4-12-12z"/></svg></span><h3>Externships &amp; Shadowing</h3><p>A week shadowing an engineer at a local manufacturer or energy company counts. Reach out through LinkedIn, alumni networks, or your engineering college's career services. One week can turn into a referral.</p></div>
+  </div>
+  <div class="callout rv" style="margin-top:13px">
+    <p><strong>Reframe the narrative:</strong> If you had a gap semester, took extra credits, dealt with a family situation, or just had a rough recruiting cycle — you can still tell a compelling story. Interviewers care about what you did with the time and what you learned from it. Be honest, be forward-looking, and don't over-explain.</p>
+  </div>
+</section>
+
+<!-- ── 19 GRAD SCHOOL ── -->
+<section id="gradschool">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">19 — Research &amp; Grad School</span><h2>Research &amp; Grad School</h2></div>
+    <p class="sh-desc">Not every student is industry-bound immediately. This section helps you explore research, fellowships, and graduate applications.</p>
+  </div>
+  <div class="g2 rv">
+    <div class="card c-navy">
+      <p class="ct">Faculty outreach formula</p>
+      <div class="cb"><ul>
+        <li>Read at least one lab page or recent publication abstract before reaching out — don't cold-email without context.</li>
+        <li>Write a short email connecting your interest to their specific research, not just their department.</li>
+        <li>Attach a resume and mention relevant coursework, tools, or projects by name.</li>
+        <li>Ask if they're taking undergraduate researchers or if a 15-minute conversation is possible.</li>
+        <li>Follow up once after 1–2 weeks if you hear nothing back.</li>
+      </ul></div>
+    </div>
+    <div class="card rv">
+      <p class="ct">Grad school planning timeline</p>
+      <div class="cb"><ul>
+        <li>Identify research areas <em>before</em> choosing programs — advisor fit matters more than institution ranking for most grad students.</li>
+        <li>Build relationships with recommenders at least one full semester before you need letters. Give them a resume, a list of programs, and a draft statement — make it easy for them.</li>
+        <li>Track deadlines for fellowships (NSF GRFP opens early fall), statements of purpose, transcripts, and any required tests.</li>
+        <li>Your statement of purpose should explain research fit, relevant preparation, and your future direction — not just restate your GPA and activities.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 20 TEMPLATES ── -->
+<section id="templates">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">20 — Email Templates</span><h2>Templates That Work</h2></div>
+    <p class="sh-desc">Starting points only. Make every template specific enough that it sounds like you — not a form letter. Recruiters can tell the difference.</p>
+  </div>
+  <div class="g2">
+    <div class="tmpl rv">
+      <div class="tmpl-hd"><h3>Career Fair Intro</h3><button class="copy-btn" onclick="copyTmpl(this)">Copy</button></div>
+      <pre class="tmpl-body">Hi, my name is [Name]. I'm a [year] mechanical engineering student at Ohio State interested in [design / manufacturing / energy / controls]. I recently worked on [project or experience], where I [specific action]. I applied online for your [role] position — I'd love to hear what you look for in strong candidates.</pre>
+    </div>
+    <div class="tmpl rv">
+      <div class="tmpl-hd"><h3>Career Fair Follow-Up</h3><button class="copy-btn" onclick="copyTmpl(this)">Copy</button></div>
+      <pre class="tmpl-body">Subject: Great meeting you at [Event Name]
+
+Hi [Name],
+
+Thank you for speaking with me at [event] — I really appreciated learning about [specific thing they said or team they mentioned].
+
+I've applied for [role] and attached my resume here as well. I'm especially drawn to [specific fit — project, team, technology] and would love to continue the conversation.
+
+Best,
+[Name]</pre>
+    </div>
+    <div class="tmpl rv">
+      <div class="tmpl-hd"><h3>Alumni / Coffee Chat Outreach</h3><button class="copy-btn" onclick="copyTmpl(this)">Copy</button></div>
+      <pre class="tmpl-body">Hi [Name],
+
+My name is [Name], and I'm a mechanical engineering student at Ohio State. I came across your profile while researching [company / industry / field], and I'm really interested in learning more about your path.
+
+Would you be open to a 15–20 minute conversation sometime in the next few weeks? I'm not looking for a job — I'd just love to hear about your experience and get your perspective on [specific area].
+
+Thank you,
+[Name]</pre>
+    </div>
+    <div class="tmpl rv">
+      <div class="tmpl-hd"><h3>Post-Interview Thank You</h3><button class="copy-btn" onclick="copyTmpl(this)">Copy</button></div>
+      <pre class="tmpl-body">Subject: Thank you — [Role] Interview
+
+Hi [Name],
+
+Thank you for taking the time to interview me today for [role]. I really enjoyed our conversation, especially when we talked about [specific topic from the interview].
+
+It reinforced my enthusiasm for the team's work on [area]. Please don't hesitate to reach out if there's anything else you need from my end.
+
+Best,
+[Name]</pre>
+    </div>
+    <div class="tmpl rv">
+      <div class="tmpl-hd"><h3>Interview Status Check (2 Weeks Out)</h3><button class="copy-btn" onclick="copyTmpl(this)">Copy</button></div>
+      <pre class="tmpl-body">Subject: Following Up — [Role] at [Company]
+
+Hi [Name],
+
+I hope you're doing well. I interviewed for [role] at [company] on [date] and wanted to follow up to see if there are any updates on my status in the process.
+
+I remain very excited about this opportunity — please let me know if there's anything I can provide.
+
+Best,
+[Name]</pre>
+    </div>
+    <div class="tmpl rv">
+      <div class="tmpl-hd"><h3>Offer Extension Request</h3><button class="copy-btn" onclick="copyTmpl(this)">Copy</button></div>
+      <pre class="tmpl-body">Subject: [Role] Offer — Request for Additional Time
+
+Hi [Name],
+
+Thank you so much for extending the offer for [role] at [company] — I'm genuinely excited about the opportunity.
+
+I wanted to ask if it would be possible to have until [date, ~1 week out] to finalize my decision. I want to give this the careful consideration it deserves.
+
+Please let me know if this works, and thank you again.
+
+Best,
+[Name]</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ── 21 CHECKLISTS ── -->
+<section id="checklist">
+  <div class="sh rv">
+    <div class="sh-left"><span class="sh-tag">21 — Checklists</span><h2>Three Pre-Event Checklists</h2></div>
+    <p class="sh-desc">One for each moment that matters most. Check items off as you go — the counter updates automatically.</p>
+  </div>
+  <div class="g3 rv" id="all-checklists">
+
+    <div>
+      <div style="margin-bottom:10px">
+        <p style="font-size:12px;font-weight:700;color:var(--scarlet);letter-spacing:.08em;text-transform:uppercase">Before Submitting Your Resume</p>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:2px">Run through this before you hit send on any application.</p>
+      </div>
+      <div class="clwrap">
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>One page — not one page and a few extra lines.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Saved as PDF, named <code>Firstname_Lastname_Resume_2025.pdf</code></span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Contact info, graduation date, and major are easy to find.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Every bullet starts with a strong action verb — no first-person pronouns.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Technical skills listed are honest and interview-ready — no skills you can't explain.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>No paragraph blocks, typos, unexplained acronyms, or inconsistent formatting.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Not a MS Word template — built from scratch or a clean LaTeX/Overleaf template.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>At least one other person has reviewed it and given feedback.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>LinkedIn profile matches and is up to date with project evidence.</span></label>
+      </div>
+    </div>
+
+    <div>
+      <div style="margin-bottom:10px">
+        <p style="font-size:12px;font-weight:700;color:var(--scarlet);letter-spacing:.08em;text-transform:uppercase">Career Fair Day-Of</p>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:2px">Prep this the night before.</p>
+      </div>
+      <div class="clwrap">
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>20–30 printed resumes in a professional folder.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Digital resume on phone with clean filename — ready to upload on the spot.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Prioritized target list of 8–12 companies — know your top 5.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>One specific, non-Googleable question per target company.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Elevator pitch rehearsed — can deliver it naturally and conversationally.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Business professional or business casual attire ready.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Pen and notepad to write down recruiter names and notes.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>LinkedIn app ready — connect with recruiters on the spot.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Water and something light to eat before you go.</span></label>
+      </div>
+    </div>
+
+    <div>
+      <div style="margin-bottom:10px">
+        <p style="font-size:12px;font-weight:700;color:var(--scarlet);letter-spacing:.08em;text-transform:uppercase">Before Your Interview</p>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:2px">Use this the evening before.</p>
+      </div>
+      <div class="clwrap">
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Researched the company, team, products, and role description.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>7 STAR stories prepared, rehearsed out loud — not just in your head.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Can walk through every single line on your resume confidently.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>4 thoughtful, specific questions ready to ask the interviewer.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Looked up your interviewer's name and LinkedIn profile.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Outfit prepared; logistics confirmed — time, location, format (in-person or virtual).</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>For virtual: camera, mic, background, and internet tested.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Thank-you email drafted and ready to send within 24 hours of the interview.</span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Water nearby — taking a sip before answering buys you thinking time.</span></label>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;margin-top:22px" class="rv">
+    <div style="display:inline-block;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 36px;box-shadow:var(--shadow-sm)">
+      <p style="font-family:var(--display);font-size:48px;font-weight:400;color:var(--scarlet);line-height:1" id="cl-count">0 / 27</p>
+      <p style="font-size:12px;font-weight:600;color:var(--muted);margin-top:4px;letter-spacing:.05em;text-transform:uppercase">items checked off</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p><strong>ASME at The Ohio State University</strong> · Professional Development Career Guide · 2025–26 · Built for resume reviews, employer nights, career fair prep, and interview coaching.</p>
+</footer>
+
+<a id="btt" href="#top" aria-label="Back to top">↑</a>
+
+<script>
+  // Progress + back to top
+  const prog = document.getElementById('prog');
+  const btt  = document.getElementById('btt');
+  function onScroll() {
+    const s = document.documentElement.scrollHeight - window.innerHeight;
+    prog.style.width = (s > 0 ? Math.min(window.scrollY / s * 100, 100) : 0) + '%';
+    btt.classList.toggle('show', window.scrollY > 500);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Active nav tracking
+  const navLinks = document.querySelectorAll('.nav-inner a');
+  document.querySelectorAll('section[id]').forEach(sec => {
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          const a = document.querySelector(`.nav-inner a[href="#${e.target.id}"]`);
+          if (a) { a.classList.add('active'); a.scrollIntoView({ inline: 'nearest', block: 'nearest' }); }
+        }
+      });
+    }, { rootMargin: '-50% 0px -40% 0px' }).observe(sec);
+  });
+
+  // Scroll reveal
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); ro.unobserve(e.target); } });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.rv').forEach(el => ro.observe(el));
+
+  // Checklist
+  function toggleDone(cb) { cb.closest('.cli').classList.toggle('done', cb.checked); }
+  function updateCount() {
+    const total   = document.querySelectorAll('.cli input').length;
+    const checked = document.querySelectorAll('.cli input:checked').length;
+    document.getElementById('cl-count').textContent = checked + ' / ' + total;
+  }
+
+  // Copy templates
+  function copyTmpl(btn) {
+    const text = btn.closest('.tmpl').querySelector('.tmpl-body').textContent.trim();
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2200);
+    });
+  }
+
+  // Elevator pitch builder
+  function buildPitch() {
+    const name   = document.getElementById('p-name').value.trim();
+    const year   = document.getElementById('p-year').value.trim();
+    const exp    = document.getElementById('p-exp').value.trim();
+    const did    = document.getElementById('p-did').value.trim();
+    const inv    = document.getElementById('p-inv').value.trim();
+    const tgt    = document.getElementById('p-tgt').value.trim();
+    const out    = document.getElementById('pitch-out');
+    const ph     = v => `<span class="fill">[${v}]</span>`;
+    if (!name && !year && !exp) { out.innerHTML = 'Fill in the fields above to generate your pitch.'; return; }
+    out.innerHTML =
+      `Hi, my name is ${name ? `<strong>${name}</strong>` : ph('Your Name')}. ` +
+      `I'm a ${year || ph('year')} mechanical engineering student at Ohio State. ` +
+      (exp ? exp : ph('Key experience')) +
+      (did ? `, where I ${did}. ` : '. ') +
+      (inv ? `I'm also ${inv}. ` : '') +
+      `I'm looking for ${tgt || ph('target role/area')} opportunities — I'd love to hear what your team is working on.`;
+  }
+  function copyPitch() {
+    const text = document.getElementById('pitch-out').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.pbtn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy Pitch Text', 2200);
+    });
+  }
+</script>
+</body>
+</html>
