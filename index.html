@@ -24,8 +24,123 @@
     html{scroll-behavior:smooth}
     body{background:var(--bg);color:var(--body);font-family:var(--sans);font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased}
 
+    /* CODE INLINE */
+    code{background:#f0f4f9;color:#b91c1c;border-radius:4px;padding:2px 6px;font-family:var(--mono);font-size:.88em;border:1px solid #e2e8f0}
+
+    /* SEARCH BAR */
+    .search-wrap{position:relative;max-width:420px;margin-bottom:20px}
+    .search-wrap input{width:100%;background:var(--card);border:1px solid var(--line);border-radius:999px;
+      font-family:var(--sans);font-size:14px;color:var(--ink);padding:11px 18px 11px 42px;outline:none;
+      box-shadow:var(--shadow-sm);transition:border-color .2s,box-shadow .2s}
+    .search-wrap input:focus{border-color:var(--scarlet);box-shadow:0 0 0 3px rgba(187,0,0,.1)}
+    .search-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+    .search-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;
+      color:var(--muted);cursor:pointer;font-size:16px;line-height:1;display:none;padding:2px}
+    .search-clear:hover{color:var(--scarlet)}
+
+    /* NAV SECTION COUNT BADGE */
+    .nav-count{display:inline-block;background:var(--scarlet);color:#fff;border-radius:999px;
+      font-size:9px;font-weight:700;padding:1px 5px;margin-left:4px;vertical-align:middle;line-height:1.4}
+
+    /* SMOOTH ACCORDION */
+    .acc-inner{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease}
+    .acc-inner.open{grid-template-rows:1fr}
+    .acc-inner > div{overflow:hidden}
+
+    /* SECTION DIVIDER */
+    .section-divider{display:flex;align-items:center;gap:16px;margin:72px 0 0;opacity:.35}
+    .section-divider::before,.section-divider::after{content:'';flex:1;height:1px;background:var(--line)}
+    .section-divider span{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+
+    /* HOVER TOOLTIP */
+    [data-tip]{position:relative;cursor:help}
+    [data-tip]::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
+      background:var(--navy);color:#fff;font-size:12px;font-family:var(--sans);font-weight:500;line-height:1.45;
+      padding:7px 11px;border-radius:7px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s;z-index:50;
+      max-width:220px;white-space:normal;text-align:center}
+    [data-tip]:hover::after{opacity:1}
+
+    /* STORY FILTER TABS */
+    .story-tabs{display:flex;flex-wrap:wrap;gap:6px;padding:14px 20px;border-bottom:1px solid var(--line)}
+    .story-tab{background:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;
+      font-family:var(--sans);font-size:11.5px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .18s}
+    .story-tab:hover{border-color:var(--scarlet);color:var(--scarlet)}
+    .story-tab.active{background:var(--scarlet);border-color:var(--scarlet);color:#fff}
+
+    /* SALARY BENCHMARK BAND */
+    .bench-band{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:14px}
+    .bench-item{padding:14px 16px;text-align:center;border-right:1px solid var(--line)}
+    .bench-item:last-child{border-right:none}
+    .bench-val{font-family:var(--display);font-size:22px;font-weight:400;color:var(--navy);line-height:1}
+    .bench-lbl{font-size:11px;font-weight:600;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.05em}
+    .bench-item:first-child{background:var(--bg2)}
+    .bench-item:last-child{background:linear-gradient(135deg,rgba(187,0,0,.06),rgba(187,0,0,.02))}
+
     /* PROGRESS */
     #prog{position:fixed;top:0;left:0;z-index:300;height:3px;width:0;background:linear-gradient(90deg,var(--scarlet),#ff6b6b);pointer-events:none;transition:width .1s linear}
+
+    /* STORY BANK BUILDER */
+    .story-builder{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden}
+    .story-builder-hd{background:var(--navy-mid);padding:16px 22px;display:flex;align-items:center;justify-content:space-between}
+    .story-builder-hd{background:#0c1f3a}
+    .story-builder-hd h3{font-family:var(--display);font-size:18px;font-weight:400;color:#fff}
+    .story-builder-hd p{font-size:12px;color:rgba(255,255,255,.55);margin-top:2px}
+    .story-form{padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .story-form label{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+    .story-form input,.story-form select,.story-form textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);color:var(--ink);font-family:var(--sans);font-size:13.5px;padding:9px 12px;outline:none;transition:border-color .2s}
+    .story-form input:focus,.story-form select:focus,.story-form textarea:focus{border-color:var(--scarlet)}
+    .story-form textarea{resize:vertical;min-height:72px;grid-column:1/-1}
+    .story-form .full{grid-column:1/-1}
+    .story-list{border-top:1px solid var(--line);max-height:260px;overflow-y:auto}
+    .story-item{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:13px 20px;border-top:1px solid var(--line);transition:background .15s}
+    .story-item:first-child{border-top:none}
+    .story-item:hover{background:var(--bg2)}
+    .story-item-main .s-type{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--scarlet);margin-bottom:3px}
+    .story-item-main .s-title{font-size:14px;font-weight:600;color:var(--navy);line-height:1.3}
+    .story-item-main .s-tags{margin-top:5px;display:flex;flex-wrap:wrap;gap:5px}
+    .s-tag{background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:2px 8px;font-size:11px;color:var(--muted)}
+    .story-delete{background:none;border:1px solid var(--line);border-radius:6px;padding:5px 9px;font-size:12px;color:var(--muted);cursor:pointer;transition:background .15s,color .15s}
+    .story-delete:hover{background:var(--scarlet-dim);color:var(--scarlet);border-color:var(--scarlet)}
+    .story-empty{padding:24px 20px;text-align:center;color:var(--muted);font-size:14px;font-style:italic}
+    .story-actions{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap}
+    .btn-primary{background:var(--scarlet);border:none;border-radius:999px;color:#fff;font-family:var(--sans);font-size:13px;font-weight:700;padding:8px 18px;cursor:pointer;transition:opacity .18s}
+    .btn-primary:hover{opacity:.88}
+    .btn-secondary{background:var(--bg2);border:1px solid var(--line);border-radius:999px;color:var(--body);font-family:var(--sans);font-size:13px;font-weight:600;padding:8px 16px;cursor:pointer;transition:background .18s}
+    .btn-secondary:hover{background:var(--line)}
+
+    /* OFFER CALCULATOR */
+    .offer-calc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden}
+    .offer-calc-hd{background:#0c1f3a;padding:15px 22px}
+    .offer-calc-hd h3{font-family:var(--display);font-size:18px;font-weight:400;color:#fff}
+    .offer-calc-hd p{font-size:12px;color:rgba(255,255,255,.5);margin-top:2px}
+    .offer-cols{display:grid;grid-template-columns:1fr 1fr;gap:0}
+    .offer-col{padding:18px 20px;border-right:1px solid var(--line)}
+    .offer-col:last-child{border-right:none}
+    .offer-col-title{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--scarlet);margin-bottom:14px}
+    .offer-field{margin-bottom:11px}
+    .offer-field label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:4px}
+    .offer-field input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);color:var(--ink);font-family:var(--sans);font-size:13.5px;padding:8px 11px;outline:none;transition:border-color .2s}
+    .offer-field input:focus{border-color:var(--scarlet)}
+    .offer-results{padding:18px 20px;border-top:1px solid var(--line);background:var(--bg2);display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .offer-result-item{text-align:center}
+    .offer-result-item .val{font-family:var(--display);font-size:26px;font-weight:400;color:var(--navy);line-height:1}
+    .offer-result-item .lbl{font-size:11px;font-weight:600;color:var(--muted);margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+    .offer-result-item.better .val{color:#166534}
+    .offer-result-item.worse .val{color:#991b1b}
+
+    /* AI PRACTICE TOOL */
+    .ai-tool{background:linear-gradient(135deg,#060e18,#0c1f3a);border-radius:var(--r);padding:24px;color:#fff}
+    .ai-tool h3{font-family:var(--display);font-size:20px;font-weight:400;margin-bottom:6px}
+    .ai-tool p{font-size:13px;color:rgba(255,255,255,.55);margin-bottom:16px}
+    .ai-fields{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px}
+    .ai-field label{display:block;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:5px}
+    .ai-field textarea{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:var(--r-sm);color:#fff;font-family:var(--sans);font-size:13px;padding:9px 12px;outline:none;min-height:80px;resize:vertical;transition:border-color .2s}
+    .ai-field textarea::placeholder{color:rgba(255,255,255,.28)}
+    .ai-field textarea:focus{border-color:rgba(255,255,255,.45)}
+    .ai-prompt-out{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:var(--r-sm);padding:14px 16px;font-family:var(--mono);font-size:12px;line-height:1.72;color:rgba(255,255,255,.82);white-space:pre-wrap;min-height:80px;margin-bottom:12px}
+    .ai-copy{background:#fff;border:none;border-radius:999px;color:#0c1f3a;font-family:var(--sans);font-size:13px;font-weight:700;padding:8px 18px;cursor:pointer;transition:opacity .18s}
+    .ai-copy:hover{opacity:.88}
+    .ai-copy.copied{background:#6fff9e;color:#0c1f3a}
 
     /* HERO */
     .hero{position:relative;overflow:hidden;background:var(--navy);color:#fff}
@@ -414,6 +529,10 @@
       <div class="topbar-btns">
         <a class="btn-o" href="#templates">Templates</a>
         <a class="btn-o" href="#checklist">Checklists</a>
+        <button class="btn-o" onclick="toggleSearch()" title="Search (/)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Search
+        </button>
         <button class="btn-s" onclick="window.print()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
           Print / PDF
@@ -446,9 +565,9 @@
     </div>
 
     <div class="hero-stats">
-      <div class="hs"><strong>18</strong><span>Sections</span></div>
-      <div class="hs"><strong>10</strong><span>Chapters</span></div>
-      <div class="hs"><strong>6</strong><span>Templates</span></div>
+      <div class="hs"><strong>21</strong><span>Sections</span></div>
+      <div class="hs"><strong>6</strong><span>Email Templates</span></div>
+      <div class="hs"><strong>3</strong><span>Interactive Tools</span></div>
       <div class="hs"><strong>3</strong><span>Checklists</span></div>
       <div class="hs"><strong>1</strong><span>Print-Ready</span></div>
     </div>
@@ -482,7 +601,17 @@
   </div>
 </nav>
 
-<!-- ══ MAIN ══ -->
+<!-- GLOBAL SEARCH -->
+<div id="search-bar" style="background:var(--bg);border-bottom:1px solid var(--line);padding:10px 32px;display:none">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="search-input" placeholder="Search sections, topics, templates…" oninput="doSearch(this.value)" onkeydown="if(event.key==='Escape'){closeSearch()}">
+      <button class="search-clear" id="search-clear" onclick="closeSearch()">×</button>
+    </div>
+    <div id="search-results" style="display:none;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-md);max-height:320px;overflow-y:auto;margin-top:4px"></div>
+  </div>
+</div>
 <main>
 
 <!-- ── 01 QUICK START ── -->
@@ -652,7 +781,8 @@
   </div>
 
   <div class="callout rv" style="margin-top:13px">
-    <p><strong>Resume format non-negotiables:</strong> One page. Common, readable font — no smaller than 11pt. Bold position titles. Clear sections separated with lines. No walls of text. No photos of yourself. No MS Word templates (build from scratch or use a clean Overleaf/LaTeX template). Save and submit as PDF named <code>Firstname_Lastname_Resume_2025.pdf</code>. Run it through your school's ATS checker — some companies screen resumes with software before a human ever sees them.</p>
+    <p><strong>Resume format non-negotiables:</strong> One page. Common, readable font — no smaller than 11pt. Bold position titles. Clear sections separated with lines. No walls of text. No photos of yourself. No MS Word templates (build from scratch or use a clean Overleaf/LaTeX template). Save and submit as PDF named <code>Firstname_Lastname_Resume_2025.pdf</code>.</p>
+    <p><strong>ATS — Applicant Tracking Systems:</strong> Most large companies run resumes through software before a human sees them. ATS systems scan for keywords from the job description. Use the exact terminology from the posting (e.g. "CAD" vs "SolidWorks"), avoid tables and text boxes (they confuse parsers), and don't put critical info in headers/footers. Tailor your skills section to match each job posting's language — it takes 5 minutes and meaningfully improves your chances of getting through.</p>
   </div>
 
   <!-- Bullet formula -->
@@ -1022,7 +1152,90 @@
   <div class="callout rv" style="margin-top:14px">
     <p><strong>After the interview:</strong> Send a follow-up thank-you email to your interviewer that day or the next morning. Connect with them on LinkedIn. If you haven't heard back in ~2 weeks, send a polite status-check email to the recruiter who set up the interview. See the email templates section for exact wording.</p>
   </div>
-</section>
+
+  <!-- STORY BANK BUILDER -->
+  <div style="margin-top:28px" class="rv">
+    <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);margin-bottom:14px">Interactive Story Bank — Build &amp; Track Your STAR Stories</p>
+    <div class="story-builder">
+      <div class="story-builder-hd">
+        <div><h3>Story Bank Builder</h3><p>Add your best STAR moments. They persist until you clear them.</p></div>
+      </div>
+      <div class="story-form" id="story-form">
+        <div>
+          <label>Story type / question it answers</label>
+          <select id="s-type">
+            <option value="Teamwork">Teamwork</option>
+            <option value="Conflict">Conflict</option>
+            <option value="Failure / Mistake">Failure / Mistake</option>
+            <option value="Leadership">Leadership</option>
+            <option value="Initiative">Initiative</option>
+            <option value="Fast Learning">Fast Learning</option>
+            <option value="Technical Problem-Solving">Technical Problem-Solving</option>
+            <option value="Time Management">Time Management</option>
+            <option value="Feedback Received">Feedback Received</option>
+            <option value="Tell Me About Yourself">Tell Me About Yourself</option>
+          </select>
+        </div>
+        <div>
+          <label>One-line title (your memory hook)</label>
+          <input type="text" id="s-title" placeholder="e.g. Drone landing gear redesign under 48h deadline">
+        </div>
+        <div class="full">
+          <label>Situation &amp; Task (brief — 2–3 sentences)</label>
+          <textarea id="s-sit" placeholder="What was the context? Why did this situation exist?"></textarea>
+        </div>
+        <div class="full">
+          <label>Action — what YOU specifically did and why</label>
+          <textarea id="s-act" placeholder="Focus on your decisions, reasoning, and specific steps."></textarea>
+        </div>
+        <div class="full">
+          <label>Result — outcome + what you learned</label>
+          <textarea id="s-res" placeholder="What happened? Quantify if possible. What would you do differently?"></textarea>
+        </div>
+        <div class="full">
+          <label>Also works for these question types (optional, comma-separated)</label>
+          <input type="text" id="s-also" placeholder="e.g. Leadership, Time Management">
+        </div>
+      </div>
+      <div class="story-actions">
+        <button class="btn-primary" onclick="addStory()">+ Add Story</button>
+        <button class="btn-secondary" onclick="clearStories()">Clear All</button>
+        <button class="btn-secondary" onclick="exportStories()">Export as Text</button>
+      </div>
+      <div class="story-tabs" id="story-tabs" style="display:none">
+        <button class="story-tab active" onclick="filterStories('all',this)">All</button>
+        <button class="story-tab" onclick="filterStories('Teamwork',this)">Teamwork</button>
+        <button class="story-tab" onclick="filterStories('Conflict',this)">Conflict</button>
+        <button class="story-tab" onclick="filterStories('Failure / Mistake',this)">Failure</button>
+        <button class="story-tab" onclick="filterStories('Leadership',this)">Leadership</button>
+        <button class="story-tab" onclick="filterStories('Technical Problem-Solving',this)">Technical</button>
+      </div>
+      <div class="story-list" id="story-list">
+        <div class="story-empty" id="story-empty">No stories yet. Add your first one above — it'll save here for the session.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI PRACTICE PROMPT TOOL -->
+  <div style="margin-top:16px" class="rv">
+    <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);margin-bottom:14px">AI Practice Prompt Generator</p>
+    <div class="ai-tool">
+      <h3>Generate a Custom Practice Prompt</h3>
+      <p>Paste your resume summary and a job description. We'll generate an AI prompt you can copy into ChatGPT or Claude to get personalized interview questions.</p>
+      <div class="ai-fields">
+        <div class="ai-field">
+          <label>Your resume summary / top experiences</label>
+          <textarea id="ai-resume" placeholder="e.g. Junior ME student at OSU. Interned at Dow Chemical doing preventive maintenance planning. VP of ASME. Lead on Buckeye Vertical UAV team. Skills: SolidWorks, MATLAB, Python, FEA."></textarea>
+        </div>
+        <div class="ai-field">
+          <label>Job description or role (paste key parts)</label>
+          <textarea id="ai-jd" placeholder="e.g. Manufacturing Engineering Intern at P&G. Responsibilities: process improvement, root cause analysis, cross-functional collaboration, CAD modeling, production floor support."></textarea>
+        </div>
+      </div>
+      <div class="ai-prompt-out" id="ai-out">Your generated prompt will appear here once you fill in both fields above.</div>
+      <button class="ai-copy" id="ai-copy-btn" onclick="copyAiPrompt()">Copy Prompt to Clipboard</button>
+    </div>
+  </div>
 
 <!-- ── 12 TECHNICAL PREP ── -->
 <section id="technical">
@@ -1040,6 +1253,7 @@
 </section>
 
 <!-- ── 13 CAREER FAIR ── -->
+<div class="section-divider rv"><span>Event Day</span></div>
 <section id="careerfair">
   <div class="sh rv">
     <div class="sh-left"><span class="sh-tag">13 — Career Fair Playbook</span><h2>Career Fair Strategy</h2></div>
@@ -1192,6 +1406,7 @@
 </section>
 
 <!-- ── 17 EVALUATING OFFERS ── -->
+<div class="section-divider rv"><span>After the Interview</span></div>
 <section id="offer">
   <div class="sh rv">
     <div class="sh-left"><span class="sh-tag">17 — Evaluating Offers</span><h2>Getting &amp; Evaluating Offers</h2></div>
@@ -1224,6 +1439,47 @@
       <div class="tip rv"><strong>Waiting on another offer?</strong> Never accept with the intent to renege. If you're waiting on a higher-priority company, be honest about your timeline and ask for a reasonable extension. Most companies would rather wait a week than lose a candidate they want — but don't push it past two weeks without a very good reason.</div>
     </div>
   </div>
+
+  <!-- OFFER COMPARISON CALCULATOR -->
+  <div style="margin-top:28px" class="rv">
+    <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);margin-bottom:6px">ME Internship Pay Benchmarks <span style="font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">(national averages, 2024–25)</span></p>
+    <div class="bench-band rv">
+      <div class="bench-item"><div class="bench-val">$18–22</div><div class="bench-lbl">/hr · Entry (Frosh/Soph)</div></div>
+      <div class="bench-item"><div class="bench-val">$22–28</div><div class="bench-lbl">/hr · Mid (Junior)</div></div>
+      <div class="bench-item"><div class="bench-val">$28–36</div><div class="bench-lbl">/hr · Strong (Top firms)</div></div>
+      <div class="bench-item"><div class="bench-val">$36–50+</div><div class="bench-lbl">/hr · FAANG / Defense / Aero</div></div>
+    </div>
+    <p style="font-size:11.5px;color:var(--muted);margin:6px 0 18px">Always factor in housing stipend, cost of living, and the quality of the engineering work — the highest number is not always the best offer.</p>
+    <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);margin-bottom:14px">Compare Two Offers Side by Side</p>
+    <div class="offer-calc">
+      <div class="offer-calc-hd"><h3>Compare Two Offers Side by Side</h3><p>Enter the numbers — we'll calculate real take-home and flag the better deal.</p></div>
+      <div class="offer-cols">
+        <div class="offer-col">
+          <div class="offer-col-title">Offer A</div>
+          <div class="offer-field"><label>Company name</label><input type="text" id="oa-name" placeholder="e.g. Company A" oninput="calcOffers()"></div>
+          <div class="offer-field"><label>Hourly rate ($/hr)</label><input type="number" id="oa-rate" placeholder="e.g. 25" oninput="calcOffers()"></div>
+          <div class="offer-field"><label>Hours per week</label><input type="number" id="oa-hrs" placeholder="e.g. 40" oninput="calcOffers()"></div>
+          <div class="offer-field"><label>Duration (weeks)</label><input type="number" id="oa-wks" placeholder="e.g. 12" oninput="calcOffers()"></div>
+          <div class="offer-field"><label>Housing stipend ($, total)</label><input type="number" id="oa-hous" placeholder="e.g. 3000" oninput="calcOffers()"></div>
+          <div class="offer-field"><label>Est. monthly rent at location ($)</label><input type="number" id="oa-rent" placeholder="e.g. 1200" oninput="calcOffers()"></div>
+        </div>
+        <div class="offer-col">
+          <div class="offer-col-title">Offer B</div>
+          <div class="offer-field"><label>Company name</label><input type="text" id="ob-name" placeholder="e.g. Company B" oninput="calcOffers()"></div>
+          <div class="offer-field"><label>Hourly rate ($/hr)</label><input type="number" id="ob-rate" placeholder="e.g. 22" oninput="calcOffers()"></div>
+          <div class="offer-field"><label>Hours per week</label><input type="number" id="ob-hrs" placeholder="e.g. 40" oninput="calcOffers()"></div>
+          <div class="offer-field"><label>Duration (weeks)</label><input type="number" id="ob-wks" placeholder="e.g. 16" oninput="calcOffers()"></div>
+          <div class="offer-field"><label>Housing stipend ($, total)</label><input type="number" id="ob-hous" placeholder="e.g. 0" oninput="calcOffers()"></div>
+          <div class="offer-field"><label>Est. monthly rent at location ($)</label><input type="number" id="ob-rent" placeholder="e.g. 900" oninput="calcOffers()"></div>
+        </div>
+      </div>
+      <div class="offer-results" id="offer-results">
+        <div class="offer-result-item"><div class="val" id="or-a-gross">—</div><div class="lbl">Offer A gross pay</div></div>
+        <div class="offer-result-item"><div class="val" id="or-b-gross">—</div><div class="lbl">Offer B gross pay</div></div>
+        <div class="offer-result-item"><div class="val" id="or-winner">—</div><div class="lbl">Higher net value</div></div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- ── 18 NO INTERNSHIP ── -->
@@ -1246,6 +1502,7 @@
 </section>
 
 <!-- ── 19 GRAD SCHOOL ── -->
+<div class="section-divider rv"><span>Beyond Industry</span></div>
 <section id="gradschool">
   <div class="sh rv">
     <div class="sh-left"><span class="sh-tag">19 — Research &amp; Grad School</span><h2>Research &amp; Grad School</h2></div>
@@ -1350,6 +1607,32 @@ Please let me know if this works, and thank you again.
 Best,
 [Name]</pre>
     </div>
+    <div class="tmpl rv">
+      <div class="tmpl-hd"><h3>Weekly Internship Update to Manager</h3><button class="copy-btn" onclick="copyTmpl(this)">Copy</button></div>
+      <pre class="tmpl-body">Subject: Weekly Update — [Your Name], Week [#]
+
+Hi [Manager Name],
+
+Here's a quick update on my work this week:
+
+Completed:
+• [Task 1 — include any results or decisions made]
+• [Task 2]
+
+In progress:
+• [Task 3 — expected completion: date]
+
+Blockers / questions:
+• [Any blockers or things you need input on]
+
+Plan for next week:
+• [What you'll focus on]
+
+Let me know if you'd like to discuss anything. Happy to adjust priorities based on what's most useful to the team.
+
+Best,
+[Name]</pre>
+    </div>
   </div>
 </section>
 
@@ -1421,6 +1704,7 @@ Best,
     <div style="display:inline-block;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 36px;box-shadow:var(--shadow-sm)">
       <p style="font-family:var(--display);font-size:48px;font-weight:400;color:var(--scarlet);line-height:1" id="cl-count">0 / 27</p>
       <p style="font-size:12px;font-weight:600;color:var(--muted);margin-top:4px;letter-spacing:.05em;text-transform:uppercase">items checked off</p>
+      <button onclick="resetChecklists()" style="margin-top:14px;background:none;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-family:var(--sans);font-size:12px;font-weight:600;padding:7px 16px;cursor:pointer;transition:border-color .2s,color .2s" onmouseover="this.style.borderColor='var(--scarlet)';this.style.color='var(--scarlet)'" onmouseout="this.style.borderColor='var(--line)';this.style.color='var(--muted)'">Reset all checklists</button>
     </div>
   </div>
 </section>
@@ -1508,6 +1792,219 @@ Best,
       btn.textContent = 'Copied!';
       setTimeout(() => btn.textContent = 'Copy Pitch Text', 2200);
     });
+  }
+
+  // Remove any stale dark class
+  document.body.classList.remove('dark');
+
+  // Search
+  const searchBar = document.getElementById('search-bar');
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
+  const searchClear = document.getElementById('search-clear');
+
+  // Build search index from page text
+  const searchIndex = [];
+  document.querySelectorAll('section[id]').forEach(sec => {
+    const id    = sec.id;
+    const h2    = sec.querySelector('h2');
+    const title = h2 ? h2.textContent.trim() : id;
+    // Gather all text nodes
+    const text  = sec.textContent.trim().replace(/\s+/g,' ');
+    searchIndex.push({ id, title, text });
+    // Also index individual h3s and list items for fine-grained hits
+    sec.querySelectorAll('h3, .ct, li, p').forEach(el => {
+      const t = el.textContent.trim();
+      if (t.length > 20) searchIndex.push({ id, title, text: t, snippet: t });
+    });
+  });
+
+  function toggleSearch() {
+    const visible = searchBar.style.display !== 'none';
+    if (visible) { closeSearch(); } else {
+      searchBar.style.display = 'block';
+      searchInput.value = '';
+      searchResults.style.display = 'none';
+      searchClear.style.display = 'none';
+      searchInput.focus();
+    }
+  }
+  function closeSearch() {
+    searchBar.style.display = 'none';
+    searchResults.style.display = 'none';
+    searchInput.value = '';
+  }
+  function doSearch(q) {
+    searchClear.style.display = q ? 'block' : 'none';
+    if (!q.trim()) { searchResults.style.display = 'none'; return; }
+    const terms = q.toLowerCase().split(/\s+/);
+    const seen  = new Set();
+    const hits  = searchIndex.filter(item => {
+      const hay = item.text.toLowerCase();
+      return terms.every(t => hay.includes(t));
+    }).filter(item => {
+      if (seen.has(item.id + (item.snippet||''))) return false;
+      seen.add(item.id + (item.snippet||'')); return true;
+    }).slice(0, 10);
+    if (!hits.length) {
+      searchResults.innerHTML = '<div style="padding:16px 20px;color:var(--muted);font-size:14px">No results found.</div>';
+    } else {
+      searchResults.innerHTML = hits.map(h => {
+        const snippet = h.snippet ? h.snippet.substring(0,90) + (h.snippet.length > 90 ? '…' : '') : '';
+        return `<a href="#${h.id}" onclick="closeSearch()" style="display:block;padding:12px 18px;border-top:1px solid var(--line);text-decoration:none;transition:background .15s" onmouseover="this.style.background='var(--bg2)'" onmouseout="this.style.background=''">
+          <div style="font-size:13px;font-weight:700;color:var(--navy)">${h.title}</div>
+          ${snippet ? `<div style="font-size:12px;color:var(--muted);margin-top:2px">${snippet}</div>` : ''}
+        </a>`;
+      }).join('');
+    }
+    searchResults.style.display = 'block';
+  }
+  // Keyboard shortcut: / opens search
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+      e.preventDefault(); toggleSearch();
+    }
+    if (e.key === 'Escape') closeSearch();
+  });
+  // Close search if clicking outside
+  document.addEventListener('click', e => {
+    if (!searchBar.contains(e.target) && !e.target.closest('[onclick="toggleSearch()"]')) closeSearch();
+  });
+
+  // Story filter
+  let activeFilter = 'all';
+  function filterStories(type, btn) {
+    activeFilter = type;
+    document.querySelectorAll('.story-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    renderStories();
+  }
+
+  function resetChecklists() {
+    if (!confirm('Reset all checklist items?')) return;
+    document.querySelectorAll('.cli input[type=checkbox]').forEach(cb => { cb.checked=false; cb.closest('.cli').classList.remove('done'); });
+    updateCount();
+  }
+
+  // Story bank
+  let stories = [];
+  function addStory() {
+    const type  = document.getElementById('s-type').value;
+    const title = document.getElementById('s-title').value.trim();
+    const sit   = document.getElementById('s-sit').value.trim();
+    const act   = document.getElementById('s-act').value.trim();
+    const res   = document.getElementById('s-res').value.trim();
+    const also  = document.getElementById('s-also').value.trim();
+    if (!title || !act) { alert('Please fill in at least a title and the Action field.'); return; }
+    stories.push({ type, title, sit, act, res, also, id: Date.now() });
+    renderStories();
+    ['s-title','s-sit','s-act','s-res','s-also'].forEach(id => document.getElementById(id).value = '');
+  }
+  function deleteStory(id) { stories = stories.filter(s => s.id !== id); renderStories(); }
+  function renderStories() {
+    const list = document.getElementById('story-list');
+    const tabs = document.getElementById('story-tabs');
+    if (!list) return;
+    const filtered = activeFilter === 'all' ? stories : stories.filter(s => s.type === activeFilter || (s.also && s.also.split(',').map(t=>t.trim()).includes(activeFilter)));
+    if (tabs) tabs.style.display = stories.length ? 'flex' : 'none';
+    if (!filtered.length) {
+      list.innerHTML = `<div class="story-empty">${stories.length ? 'No stories match this filter.' : 'No stories yet. Add your first one above.'}</div>`;
+      return;
+    }
+    list.innerHTML = filtered.map(s => `
+      <div class="story-item">
+        <div class="story-item-main">
+          <div class="s-type">${s.type}</div>
+          <div class="s-title">${s.title}</div>
+          <div class="s-tags">
+            ${s.sit ? '<span class="s-tag">S ✓</span>' : '<span class="s-tag" style="opacity:.4">S –</span>'}
+            ${s.act ? '<span class="s-tag">A ✓</span>' : '<span class="s-tag" style="opacity:.4">A –</span>'}
+            ${s.res ? '<span class="s-tag">R ✓</span>' : '<span class="s-tag" style="opacity:.4">R –</span>'}
+            ${s.also ? s.also.split(',').map(t=>`<span class="s-tag">${t.trim()}</span>`).join('') : ''}
+          </div>
+        </div>
+        <button class="story-delete" onclick="deleteStory(${s.id})">Remove</button>
+      </div>`).join('');
+  }
+  function clearStories() { if (!stories.length || confirm('Clear all stories?')) { stories = []; renderStories(); } }
+  function exportStories() {
+    if (!stories.length) { alert('No stories to export yet.'); return; }
+    const txt = stories.map((s,i) =>
+      `=== Story ${i+1}: ${s.type} ===\nTitle: ${s.title}\n\nSituation / Task:\n${s.sit||'—'}\n\nAction:\n${s.act||'—'}\n\nResult:\n${s.res||'—'}${s.also ? `\n\nAlso works for: ${s.also}` : ''}`
+    ).join('\n\n---\n\n');
+    navigator.clipboard.writeText(txt).then(() => alert('All ' + stories.length + ' stories copied to clipboard!'));
+  }
+
+  // AI practice prompt
+  function buildAiPrompt() {
+    const resume = document.getElementById('ai-resume') ? document.getElementById('ai-resume').value.trim() : '';
+    const jd     = document.getElementById('ai-jd')     ? document.getElementById('ai-jd').value.trim()     : '';
+    const out    = document.getElementById('ai-out');
+    if (!out) return;
+    if (!resume && !jd) { out.textContent = 'Your generated prompt will appear here once you fill in both fields above.'; return; }
+    out.textContent =
+`You are a career coach helping an engineering student prepare for a job interview. Use the resume and job description below to generate 10 behavioral interview questions and 5 technical questions tailored specifically to this candidate and role.
+
+For each behavioral question:
+- Suggest what kind of STAR story the student should look for in their experience.
+- Note what the interviewer is evaluating.
+
+For each technical question:
+- Note what concepts or principles are being tested.
+- Suggest how the student should structure their answer.
+
+--- CANDIDATE RESUME / EXPERIENCE ---
+${resume || '[Resume not provided — add your experience above]'}
+
+--- JOB DESCRIPTION / ROLE ---
+${jd || '[Job description not provided — add the role details above]'}
+
+Format with numbered questions, labeled Behavioral or Technical, and a short coaching note after each.`;
+  }
+  const aiR = document.getElementById('ai-resume');
+  const aiJ = document.getElementById('ai-jd');
+  if (aiR) aiR.addEventListener('input', buildAiPrompt);
+  if (aiJ) aiJ.addEventListener('input', buildAiPrompt);
+
+  function copyAiPrompt() {
+    const text = document.getElementById('ai-out').textContent.trim();
+    const btn  = document.getElementById('ai-copy-btn');
+    if (!text || text.startsWith('Your generated')) { alert('Fill in the fields first to generate a prompt.'); return; }
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✓ Copied — paste into Claude or ChatGPT'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy Prompt to Clipboard'; btn.classList.remove('copied'); }, 3000);
+    });
+  }
+
+  // Offer calculator
+  function calcOffers() {
+    const v  = id => { const el = document.getElementById(id); return el ? (parseFloat(el.value)||0) : 0; };
+    const s  = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+    const aGross = v('oa-rate') * v('oa-hrs') * v('oa-wks') + v('oa-hous');
+    const bGross = v('ob-rate') * v('ob-hrs') * v('ob-wks') + v('ob-hous');
+    const aRent  = v('oa-rent') * (v('oa-wks') / 4.33);
+    const bRent  = v('ob-rent') * (v('ob-wks') / 4.33);
+    const aNet   = aGross - aRent;
+    const bNet   = bGross - bRent;
+    const fmt    = n => n > 0 ? '$' + Math.round(n).toLocaleString() : '—';
+    const aEl = document.getElementById('or-a-gross');
+    const bEl = document.getElementById('or-b-gross');
+    const wEl = document.getElementById('or-winner');
+    if (!aEl) return;
+    aEl.textContent = fmt(aGross);
+    bEl.textContent = fmt(bGross);
+    aEl.closest('.offer-result-item').querySelector('.lbl').textContent = (s('oa-name')||'Offer A') + ' gross total';
+    bEl.closest('.offer-result-item').querySelector('.lbl').textContent = (s('ob-name')||'Offer B') + ' gross total';
+    if (aNet > 0 && bNet > 0) {
+      const winner = aNet >= bNet ? (s('oa-name')||'Offer A') : (s('ob-name')||'Offer B');
+      wEl.textContent = winner;
+      wEl.closest('.offer-result-item').querySelector('.lbl').textContent = '+$' + Math.round(Math.abs(aNet-bNet)).toLocaleString() + ' net advantage';
+      wEl.closest('.offer-result-item').className = 'offer-result-item better';
+    } else {
+      wEl.textContent = '—';
+      wEl.closest('.offer-result-item').querySelector('.lbl').textContent = 'Higher net value';
+      wEl.closest('.offer-result-item').className = 'offer-result-item';
+    }
   }
 </script>
 </body>
