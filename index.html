@@ -1,11 +1,13 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ASME at Ohio State's interactive guide to resumes, interviews, career fairs, internships, networking, and evaluating engineering offers.">
   <title>ASME at Ohio State — Professional Development Guide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
   <style>
     :root{
       --scarlet:#bb0000;--scarlet-dim:#fce8e8;
@@ -23,6 +25,8 @@
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{background:var(--bg);color:var(--body);font-family:var(--sans);font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased}
+    :focus-visible{outline:3px solid rgba(187,0,0,.38);outline-offset:3px}
+    .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 
     /* CODE INLINE */
     code{background:#f0f4f9;color:#b91c1c;border-radius:4px;padding:2px 6px;font-family:var(--mono);font-size:.88em;border:1px solid #e2e8f0}
@@ -37,6 +41,11 @@
     .search-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;
       color:var(--muted);cursor:pointer;font-size:16px;line-height:1;display:none;padding:2px}
     .search-clear:hover{color:var(--scarlet)}
+    .search-result{display:block;padding:12px 18px;border-top:1px solid var(--line);text-decoration:none;transition:background .15s}
+    .search-result:hover,.search-result:focus-visible{background:var(--bg2)}
+    .search-result-title{font-size:13px;font-weight:700;color:var(--navy)}
+    .search-result-snippet{font-size:12px;color:var(--muted);margin-top:2px}
+    .search-empty{padding:16px 20px;color:var(--muted);font-size:14px}
 
     /* NAV SECTION COUNT BADGE */
     .nav-count{display:inline-block;background:var(--scarlet);color:#fff;border-radius:999px;
@@ -58,7 +67,7 @@
       background:var(--navy);color:#fff;font-size:12px;font-family:var(--sans);font-weight:500;line-height:1.45;
       padding:7px 11px;border-radius:7px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .18s;z-index:50;
       max-width:220px;white-space:normal;text-align:center}
-    [data-tip]:hover::after{opacity:1}
+    [data-tip]:hover::after,[data-tip]:focus::after{opacity:1}
 
     /* STORY FILTER TABS */
     .story-tabs{display:flex;flex-wrap:wrap;gap:6px;padding:14px 20px;border-bottom:1px solid var(--line)}
@@ -81,8 +90,7 @@
 
     /* STORY BANK BUILDER */
     .story-builder{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden}
-    .story-builder-hd{background:var(--navy-mid);padding:16px 22px;display:flex;align-items:center;justify-content:space-between}
-    .story-builder-hd{background:#0c1f3a}
+    .story-builder-hd{background:var(--navy);padding:16px 22px;display:flex;align-items:center;justify-content:space-between}
     .story-builder-hd h3{font-family:var(--display);font-size:18px;font-weight:400;color:#fff}
     .story-builder-hd p{font-size:12px;color:rgba(255,255,255,.55);margin-top:2px}
     .story-form{padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -199,14 +207,18 @@
     /* STICKY NAV */
     .nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);
       backdrop-filter:blur(16px);box-shadow:0 2px 16px rgba(12,31,58,.07)}
-    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:1px;padding:0 32px;
-      overflow-x:auto;scrollbar-width:none}
+    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:7px;padding:8px 32px}
     .nav-inner::-webkit-scrollbar{display:none}
-    .nav-inner a{flex:0 0 auto;display:inline-block;padding:12px 11px;font-size:12px;font-weight:600;
-      color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;
-      transition:color .18s,border-color .18s}
-    .nav-inner a:hover{color:var(--navy);border-bottom-color:var(--line)}
-    .nav-inner a.active{color:var(--scarlet);border-bottom-color:var(--scarlet)}
+    .nav-group{position:relative;flex:0 0 auto}
+    .nav-group summary{padding:7px 12px;border:1px solid transparent;border-radius:999px;font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap;gap:7px}
+    .nav-group summary::after{content:'⌄';width:auto;height:auto;flex:0 0 auto;border:0;background:none;box-shadow:none;color:var(--subtle);font-size:12px}
+    .nav-group summary:hover,.nav-group summary.active{background:var(--bg2);border-color:var(--line);color:var(--scarlet)}
+    .nav-group[open] summary{border-color:var(--line);background:var(--bg2);color:var(--navy)}
+    .nav-group[open] summary::after{background:none;transform:rotate(180deg)}
+    .nav-menu{position:absolute;top:calc(100% + 8px);left:0;z-index:120;min-width:225px;padding:7px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);box-shadow:var(--shadow-md)}
+    .nav-group:last-child .nav-menu{left:auto;right:0}
+    .nav-menu a{display:block;padding:8px 10px;border-radius:6px;font-size:12.5px;font-weight:600;color:var(--muted);text-decoration:none;white-space:nowrap;transition:background .15s,color .15s}
+    .nav-menu a:hover,.nav-menu a.active{background:var(--bg2);color:var(--scarlet)}
 
     /* MAIN */
     main{max-width:1200px;margin:0 auto;padding:60px 32px 100px}
@@ -496,9 +508,19 @@
       .pfields{grid-template-columns:1fr}
       .mg{grid-template-columns:1fr}
       .brand-qs{grid-template-columns:1fr}
+      .nav-inner{justify-content:flex-start;overflow-x:auto;padding:7px 14px;scrollbar-width:none}
+      .nav-group summary{padding:7px 10px}
+      .nav-menu{position:fixed;top:52px;left:14px!important;right:14px!important;min-width:0;max-height:70vh;overflow-y:auto}
+      .offer-cols,.offer-results{grid-template-columns:1fr}
+      .offer-col{border-right:none;border-bottom:1px solid var(--line)}
+    }
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+      .rv{opacity:1;transform:none}
     }
     @media print{
-      #prog,.nav,#btt,.topbar-btns,.hero-links,.pbuilder{display:none!important}
+      #prog,.nav,#btt,.topbar-btns,.hero-links,.pbuilder,.story-builder,.ai-tool,.offer-calc,.check-tools{display:none!important}
       .rv{opacity:1!important;transform:none!important}
       body{background:#fff}
       .hero{background:var(--navy)!important;print-color-adjust:exact}
@@ -523,18 +545,18 @@
         </div>
         <div class="topbar-meta">
           <div class="label">Professional Development</div>
-          <div class="title">Career Guide · 2025–26</div>
+          <div class="title">Career Guide · 2026–27</div>
         </div>
       </div>
       <div class="topbar-btns">
         <a class="btn-o" href="#templates">Templates</a>
         <a class="btn-o" href="#checklist">Checklists</a>
-        <button class="btn-o" onclick="toggleSearch()" title="Search (/)">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <button type="button" class="btn-o" id="search-toggle" onclick="toggleSearch()" title="Search (/)" aria-label="Open career guide search" aria-expanded="false" aria-controls="search-bar">
+          <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           Search
         </button>
-        <button class="btn-s" onclick="window.print()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        <button type="button" class="btn-s" onclick="window.print()">
+          <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
           Print / PDF
         </button>
       </div>
@@ -566,8 +588,8 @@
 
     <div class="hero-stats">
       <div class="hs"><strong>21</strong><span>Sections</span></div>
-      <div class="hs"><strong>6</strong><span>Email Templates</span></div>
-      <div class="hs"><strong>3</strong><span>Interactive Tools</span></div>
+      <div class="hs"><strong>7</strong><span>Email Templates</span></div>
+      <div class="hs"><strong>4</strong><span>Interactive Tools</span></div>
       <div class="hs"><strong>3</strong><span>Checklists</span></div>
       <div class="hs"><strong>1</strong><span>Print-Ready</span></div>
     </div>
@@ -575,29 +597,54 @@
 </header>
 
 <!-- ══ NAV ══ -->
-<nav class="nav" aria-label="Sections">
+<nav class="nav" aria-label="Career guide sections">
   <div class="nav-inner">
-    <a href="#start">Quick Start</a>
-    <a href="#paths">Student Paths</a>
-    <a href="#opps">Intern vs Co-op</a>
-    <a href="#brand">Your Brand</a>
-    <a href="#resume">Resume</a>
-    <a href="#linkedin">LinkedIn</a>
-    <a href="#elevator">Elevator Pitch</a>
-    <a href="#coverletter">Cover Letter</a>
-    <a href="#portfolio">Portfolio</a>
-    <a href="#dress">Dress Code</a>
-    <a href="#interviews">Interviews</a>
-    <a href="#technical">Technical Prep</a>
-    <a href="#careerfair">Career Fair</a>
-    <a href="#infosessions">Info Sessions</a>
-    <a href="#networking">Networking</a>
-    <a href="#internship">Internship Success</a>
-    <a href="#offer">Evaluating Offers</a>
-    <a href="#nointernship">No Internship?</a>
-    <a href="#gradschool">Grad School</a>
-    <a href="#templates">Templates</a>
-    <a href="#checklist">Checklists</a>
+    <details class="nav-group">
+      <summary>Start Here</summary>
+      <div class="nav-menu">
+        <a href="#start">Quick Start</a>
+        <a href="#paths">Student Paths</a>
+        <a href="#opps">Intern vs Co-op</a>
+      </div>
+    </details>
+    <details class="nav-group">
+      <summary>Build Your Materials</summary>
+      <div class="nav-menu">
+        <a href="#brand">Your Brand</a>
+        <a href="#resume">Resume</a>
+        <a href="#linkedin">LinkedIn</a>
+        <a href="#elevator">Elevator Pitch</a>
+        <a href="#coverletter">Cover Letter</a>
+        <a href="#portfolio">Portfolio</a>
+      </div>
+    </details>
+    <details class="nav-group">
+      <summary>Prepare</summary>
+      <div class="nav-menu">
+        <a href="#dress">Dress Code</a>
+        <a href="#interviews">Interviews</a>
+        <a href="#technical">Technical Prep</a>
+        <a href="#careerfair">Career Fair</a>
+        <a href="#infosessions">Info Sessions</a>
+        <a href="#networking">Networking</a>
+      </div>
+    </details>
+    <details class="nav-group">
+      <summary>Opportunities</summary>
+      <div class="nav-menu">
+        <a href="#internship">Internship Success</a>
+        <a href="#offer">Evaluating Offers</a>
+        <a href="#nointernship">No Internship?</a>
+        <a href="#gradschool">Grad School</a>
+      </div>
+    </details>
+    <details class="nav-group">
+      <summary>Templates &amp; Tools</summary>
+      <div class="nav-menu">
+        <a href="#templates">Templates</a>
+        <a href="#checklist">Checklists</a>
+      </div>
+    </details>
   </div>
 </nav>
 
@@ -605,11 +652,12 @@
 <div id="search-bar" style="background:var(--bg);border-bottom:1px solid var(--line);padding:10px 32px;display:none">
   <div style="max-width:1200px;margin:0 auto">
     <div class="search-wrap">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="search-input" placeholder="Search sections, topics, templates…" oninput="doSearch(this.value)" onkeydown="if(event.key==='Escape'){closeSearch()}">
-      <button class="search-clear" id="search-clear" onclick="closeSearch()">×</button>
+      <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <label class="sr-only" for="search-input">Search the career guide</label>
+      <input type="search" id="search-input" aria-controls="search-results" placeholder="Search sections, topics, templates…" oninput="doSearch(this.value)" onkeydown="if(event.key==='Escape'){closeSearch()}">
+      <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" onclick="clearSearch()">×</button>
     </div>
-    <div id="search-results" style="display:none;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-md);max-height:320px;overflow-y:auto;margin-top:4px"></div>
+    <div id="search-results" role="region" aria-label="Search results" aria-live="polite" style="display:none;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-md);max-height:320px;overflow-y:auto;margin-top:4px"></div>
   </div>
 </div>
 <main>
@@ -781,7 +829,7 @@
   </div>
 
   <div class="callout rv" style="margin-top:13px">
-    <p><strong>Resume format non-negotiables:</strong> One page. Common, readable font — no smaller than 11pt. Bold position titles. Clear sections separated with lines. No walls of text. No photos of yourself. No MS Word templates (build from scratch or use a clean Overleaf/LaTeX template). Save and submit as PDF named <code>Firstname_Lastname_Resume_2025.pdf</code>.</p>
+    <p><strong>Resume format non-negotiables:</strong> One page. Common, readable font — no smaller than 11pt. Bold position titles. Clear sections separated with lines. No walls of text. No photos of yourself. No MS Word templates (build from scratch or use a clean Overleaf/LaTeX template). Save and submit as PDF named <code>Firstname_Lastname_Resume.pdf</code>.</p>
     <p><strong>ATS — Applicant Tracking Systems:</strong> Most large companies run resumes through software before a human sees them. ATS systems scan for keywords from the job description. Use the exact terminology from the posting (e.g. "CAD" vs "SolidWorks"), avoid tables and text boxes (they confuse parsers), and don't put critical info in headers/footers. Tailor your skills section to match each job posting's language — it takes 5 minutes and meaningfully improves your chances of getting through.</p>
   </div>
 
@@ -900,15 +948,15 @@
     <div class="pbuilder rv">
       <h3>Build Your Pitch</h3>
       <div class="pfields">
-        <div class="pf"><label>Your name</label><input type="text" id="p-name" placeholder="e.g. Alex Chen" oninput="buildPitch()"></div>
-        <div class="pf"><label>Year / standing</label><input type="text" id="p-year" placeholder="e.g. junior" oninput="buildPitch()"></div>
-        <div class="pf"><label>Key experience</label><input type="text" id="p-exp" placeholder="e.g. interned at Dow Chemical" oninput="buildPitch()"></div>
-        <div class="pf"><label>What you did there</label><input type="text" id="p-did" placeholder="e.g. designed PM plans for agitators" oninput="buildPitch()"></div>
-        <div class="pf"><label>Involvement / club</label><input type="text" id="p-inv" placeholder="e.g. VP of ASME at OSU" oninput="buildPitch()"></div>
-        <div class="pf"><label>Target role or area</label><input type="text" id="p-tgt" placeholder="e.g. manufacturing engineering" oninput="buildPitch()"></div>
+        <div class="pf"><label for="p-name">Your name</label><input type="text" id="p-name" placeholder="e.g. Alex Chen" oninput="buildPitch()"></div>
+        <div class="pf"><label for="p-year">Year / standing</label><input type="text" id="p-year" placeholder="e.g. junior" oninput="buildPitch()"></div>
+        <div class="pf"><label for="p-exp">Key experience</label><input type="text" id="p-exp" placeholder="e.g. interned at Dow Chemical" oninput="buildPitch()"></div>
+        <div class="pf"><label for="p-did">What you did there</label><input type="text" id="p-did" placeholder="e.g. designed PM plans for agitators" oninput="buildPitch()"></div>
+        <div class="pf"><label for="p-inv">Involvement / club</label><input type="text" id="p-inv" placeholder="e.g. VP of ASME at OSU" oninput="buildPitch()"></div>
+        <div class="pf"><label for="p-tgt">Target role or area</label><input type="text" id="p-tgt" placeholder="e.g. manufacturing engineering" oninput="buildPitch()"></div>
       </div>
-      <div class="pout" id="pitch-out">Fill in the fields above to generate your pitch.</div>
-      <button class="pbtn" onclick="copyPitch()">Copy Pitch Text</button>
+      <div class="pout" id="pitch-out" aria-live="polite">Fill in the fields above to generate your pitch.</div>
+      <button type="button" class="pbtn" onclick="copyPitch()">Copy Pitch Text</button>
     </div>
   </div>
 </section>
@@ -1158,11 +1206,11 @@
     <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);margin-bottom:14px">Interactive Story Bank — Build &amp; Track Your STAR Stories</p>
     <div class="story-builder">
       <div class="story-builder-hd">
-        <div><h3>Story Bank Builder</h3><p>Add your best STAR moments. They persist until you clear them.</p></div>
+        <div><h3>Story Bank Builder</h3><p>Add your best STAR moments. They are saved only in this browser.</p></div>
       </div>
       <div class="story-form" id="story-form">
         <div>
-          <label>Story type / question it answers</label>
+          <label for="s-type">Story type / question it answers</label>
           <select id="s-type">
             <option value="Teamwork">Teamwork</option>
             <option value="Conflict">Conflict</option>
@@ -1177,41 +1225,45 @@
           </select>
         </div>
         <div>
-          <label>One-line title (your memory hook)</label>
+          <label for="s-title">One-line title (your memory hook)</label>
           <input type="text" id="s-title" placeholder="e.g. Drone landing gear redesign under 48h deadline">
         </div>
         <div class="full">
-          <label>Situation &amp; Task (brief — 2–3 sentences)</label>
+          <label for="s-sit">Situation &amp; Task (brief — 2–3 sentences)</label>
           <textarea id="s-sit" placeholder="What was the context? Why did this situation exist?"></textarea>
         </div>
         <div class="full">
-          <label>Action — what YOU specifically did and why</label>
+          <label for="s-act">Action — what YOU specifically did and why</label>
           <textarea id="s-act" placeholder="Focus on your decisions, reasoning, and specific steps."></textarea>
         </div>
         <div class="full">
-          <label>Result — outcome + what you learned</label>
+          <label for="s-res">Result — outcome + what you learned</label>
           <textarea id="s-res" placeholder="What happened? Quantify if possible. What would you do differently?"></textarea>
         </div>
         <div class="full">
-          <label>Also works for these question types (optional, comma-separated)</label>
+          <label for="s-also">Also works for these question types (optional, comma-separated)</label>
           <input type="text" id="s-also" placeholder="e.g. Leadership, Time Management">
         </div>
       </div>
       <div class="story-actions">
-        <button class="btn-primary" onclick="addStory()">+ Add Story</button>
-        <button class="btn-secondary" onclick="clearStories()">Clear All</button>
-        <button class="btn-secondary" onclick="exportStories()">Export as Text</button>
+        <button type="button" class="btn-primary" onclick="addStory()">+ Add Story</button>
+        <button type="button" class="btn-secondary" onclick="downloadStoriesText()">Download Text</button>
+        <button type="button" class="btn-secondary" onclick="exportStoriesBackup()">Export Backup</button>
+        <button type="button" class="btn-secondary" onclick="document.getElementById('story-import').click()">Import Backup</button>
+        <label class="sr-only" for="story-import">Choose a STAR story backup file</label>
+        <input class="sr-only" type="file" id="story-import" tabindex="-1" accept="application/json,.json" onchange="importStoriesBackup(this.files[0]);this.value=''">
+        <button type="button" class="btn-secondary" onclick="clearStories()">Clear All</button>
       </div>
       <div class="story-tabs" id="story-tabs" style="display:none">
-        <button class="story-tab active" onclick="filterStories('all',this)">All</button>
-        <button class="story-tab" onclick="filterStories('Teamwork',this)">Teamwork</button>
-        <button class="story-tab" onclick="filterStories('Conflict',this)">Conflict</button>
-        <button class="story-tab" onclick="filterStories('Failure / Mistake',this)">Failure</button>
-        <button class="story-tab" onclick="filterStories('Leadership',this)">Leadership</button>
-        <button class="story-tab" onclick="filterStories('Technical Problem-Solving',this)">Technical</button>
+        <button type="button" class="story-tab active" aria-pressed="true" onclick="filterStories('all',this)">All</button>
+        <button type="button" class="story-tab" aria-pressed="false" onclick="filterStories('Teamwork',this)">Teamwork</button>
+        <button type="button" class="story-tab" aria-pressed="false" onclick="filterStories('Conflict',this)">Conflict</button>
+        <button type="button" class="story-tab" aria-pressed="false" onclick="filterStories('Failure / Mistake',this)">Failure</button>
+        <button type="button" class="story-tab" aria-pressed="false" onclick="filterStories('Leadership',this)">Leadership</button>
+        <button type="button" class="story-tab" aria-pressed="false" onclick="filterStories('Technical Problem-Solving',this)">Technical</button>
       </div>
-      <div class="story-list" id="story-list">
-        <div class="story-empty" id="story-empty">No stories yet. Add your first one above — it'll save here for the session.</div>
+      <div class="story-list" id="story-list" aria-live="polite">
+        <div class="story-empty" id="story-empty">No stories yet. Add your first one above — it will be stored locally in this browser.</div>
       </div>
     </div>
   </div>
@@ -1221,21 +1273,23 @@
     <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);margin-bottom:14px">AI Practice Prompt Generator</p>
     <div class="ai-tool">
       <h3>Generate a Custom Practice Prompt</h3>
-      <p>Paste your resume summary and a job description. We'll generate an AI prompt you can copy into ChatGPT or Claude to get personalized interview questions.</p>
+      <p>Paste your resume summary and a job description. This page processes the text locally and does not upload it; only the prompt you choose to paste into an AI service leaves your browser.</p>
       <div class="ai-fields">
         <div class="ai-field">
-          <label>Your resume summary / top experiences</label>
+          <label for="ai-resume">Your resume summary / top experiences</label>
           <textarea id="ai-resume" placeholder="e.g. Junior ME student at OSU. Interned at Dow Chemical doing preventive maintenance planning. VP of ASME. Lead on Buckeye Vertical UAV team. Skills: SolidWorks, MATLAB, Python, FEA."></textarea>
         </div>
         <div class="ai-field">
-          <label>Job description or role (paste key parts)</label>
-          <textarea id="ai-jd" placeholder="e.g. Manufacturing Engineering Intern at P&G. Responsibilities: process improvement, root cause analysis, cross-functional collaboration, CAD modeling, production floor support."></textarea>
+          <label for="ai-jd">Job description or role (paste key parts)</label>
+          <textarea id="ai-jd" placeholder="e.g. Manufacturing Engineering Intern at P&amp;G. Responsibilities: process improvement, root cause analysis, cross-functional collaboration, CAD modeling, production floor support."></textarea>
         </div>
       </div>
-      <div class="ai-prompt-out" id="ai-out">Your generated prompt will appear here once you fill in both fields above.</div>
-      <button class="ai-copy" id="ai-copy-btn" onclick="copyAiPrompt()">Copy Prompt to Clipboard</button>
+      <div class="ai-prompt-out" id="ai-out" aria-live="polite">Your generated prompt will appear here once you fill in both fields above.</div>
+      <button type="button" class="ai-copy" id="ai-copy-btn" onclick="copyAiPrompt()">Copy Prompt to Clipboard</button>
     </div>
   </div>
+
+</section>
 
 <!-- ── 12 TECHNICAL PREP ── -->
 <section id="technical">
@@ -1442,41 +1496,41 @@
 
   <!-- OFFER COMPARISON CALCULATOR -->
   <div style="margin-top:28px" class="rv">
-    <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);margin-bottom:6px">ME Internship Pay Benchmarks <span style="font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">(national averages, 2024–25)</span></p>
+    <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);margin-bottom:6px">U.S. Internship &amp; Co-op Benchmarks <span style="font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">(2026 NACE report; summer 2025 wages)</span></p>
     <div class="bench-band rv">
-      <div class="bench-item"><div class="bench-val">$18–22</div><div class="bench-lbl">/hr · Entry (Frosh/Soph)</div></div>
-      <div class="bench-item"><div class="bench-val">$22–28</div><div class="bench-lbl">/hr · Mid (Junior)</div></div>
-      <div class="bench-item"><div class="bench-val">$28–36</div><div class="bench-lbl">/hr · Strong (Top firms)</div></div>
-      <div class="bench-item"><div class="bench-val">$36–50+</div><div class="bench-lbl">/hr · FAANG / Defense / Aero</div></div>
+      <div class="bench-item"><div class="bench-val">$23.35</div><div class="bench-lbl">/hr · Bachelor's interns</div></div>
+      <div class="bench-item"><div class="bench-val">$24.46</div><div class="bench-lbl">/hr · Bachelor's co-ops</div></div>
+      <div class="bench-item"><div class="bench-val">280+</div><div class="bench-lbl">U.S. organizations</div></div>
+      <div class="bench-item"><div class="bench-val">2025</div><div class="bench-lbl">Wage reference year</div></div>
     </div>
-    <p style="font-size:11.5px;color:var(--muted);margin:6px 0 18px">Always factor in housing stipend, cost of living, and the quality of the engineering work — the highest number is not always the best offer.</p>
+    <p style="font-size:11.5px;color:var(--muted);margin:6px 0 18px">These are national averages across bachelor's-level roles, not mechanical-engineering guarantees. Compare region, industry, housing, and work quality. Source: <a href="https://www.naceweb.org/talent-acquisition/internships/hourly-wage-for-interns-climbs-but-is-down-over-last-10-years-in-real-terms" target="_blank" rel="noopener noreferrer">NACE 2026 Internship &amp; Co-op research</a>.</p>
     <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);margin-bottom:14px">Compare Two Offers Side by Side</p>
     <div class="offer-calc">
-      <div class="offer-calc-hd"><h3>Compare Two Offers Side by Side</h3><p>Enter the numbers — we'll calculate real take-home and flag the better deal.</p></div>
+      <div class="offer-calc-hd"><h3>Compare Two Offers Side by Side</h3><p>Estimate pre-tax compensation after rent. Taxes, travel, meals, and other expenses are not included.</p></div>
       <div class="offer-cols">
         <div class="offer-col">
           <div class="offer-col-title">Offer A</div>
-          <div class="offer-field"><label>Company name</label><input type="text" id="oa-name" placeholder="e.g. Company A" oninput="calcOffers()"></div>
-          <div class="offer-field"><label>Hourly rate ($/hr)</label><input type="number" id="oa-rate" placeholder="e.g. 25" oninput="calcOffers()"></div>
-          <div class="offer-field"><label>Hours per week</label><input type="number" id="oa-hrs" placeholder="e.g. 40" oninput="calcOffers()"></div>
-          <div class="offer-field"><label>Duration (weeks)</label><input type="number" id="oa-wks" placeholder="e.g. 12" oninput="calcOffers()"></div>
-          <div class="offer-field"><label>Housing stipend ($, total)</label><input type="number" id="oa-hous" placeholder="e.g. 3000" oninput="calcOffers()"></div>
-          <div class="offer-field"><label>Est. monthly rent at location ($)</label><input type="number" id="oa-rent" placeholder="e.g. 1200" oninput="calcOffers()"></div>
+          <div class="offer-field"><label for="oa-name">Company name</label><input type="text" id="oa-name" placeholder="e.g. Company A" oninput="calcOffers()"></div>
+          <div class="offer-field"><label for="oa-rate">Hourly rate ($/hr)</label><input type="number" id="oa-rate" min="0" step="0.01" inputmode="decimal" placeholder="e.g. 25" oninput="calcOffers()"></div>
+          <div class="offer-field"><label for="oa-hrs">Hours per week</label><input type="number" id="oa-hrs" min="0" step="0.5" inputmode="decimal" placeholder="e.g. 40" oninput="calcOffers()"></div>
+          <div class="offer-field"><label for="oa-wks">Duration (weeks)</label><input type="number" id="oa-wks" min="0" step="0.5" inputmode="decimal" placeholder="e.g. 12" oninput="calcOffers()"></div>
+          <div class="offer-field"><label for="oa-hous">Housing stipend ($, total)</label><input type="number" id="oa-hous" min="0" step="1" inputmode="decimal" placeholder="e.g. 3000" oninput="calcOffers()"></div>
+          <div class="offer-field"><label for="oa-rent">Est. monthly rent at location ($)</label><input type="number" id="oa-rent" min="0" step="1" inputmode="decimal" placeholder="e.g. 1200" oninput="calcOffers()"></div>
         </div>
         <div class="offer-col">
           <div class="offer-col-title">Offer B</div>
-          <div class="offer-field"><label>Company name</label><input type="text" id="ob-name" placeholder="e.g. Company B" oninput="calcOffers()"></div>
-          <div class="offer-field"><label>Hourly rate ($/hr)</label><input type="number" id="ob-rate" placeholder="e.g. 22" oninput="calcOffers()"></div>
-          <div class="offer-field"><label>Hours per week</label><input type="number" id="ob-hrs" placeholder="e.g. 40" oninput="calcOffers()"></div>
-          <div class="offer-field"><label>Duration (weeks)</label><input type="number" id="ob-wks" placeholder="e.g. 16" oninput="calcOffers()"></div>
-          <div class="offer-field"><label>Housing stipend ($, total)</label><input type="number" id="ob-hous" placeholder="e.g. 0" oninput="calcOffers()"></div>
-          <div class="offer-field"><label>Est. monthly rent at location ($)</label><input type="number" id="ob-rent" placeholder="e.g. 900" oninput="calcOffers()"></div>
+          <div class="offer-field"><label for="ob-name">Company name</label><input type="text" id="ob-name" placeholder="e.g. Company B" oninput="calcOffers()"></div>
+          <div class="offer-field"><label for="ob-rate">Hourly rate ($/hr)</label><input type="number" id="ob-rate" min="0" step="0.01" inputmode="decimal" placeholder="e.g. 22" oninput="calcOffers()"></div>
+          <div class="offer-field"><label for="ob-hrs">Hours per week</label><input type="number" id="ob-hrs" min="0" step="0.5" inputmode="decimal" placeholder="e.g. 40" oninput="calcOffers()"></div>
+          <div class="offer-field"><label for="ob-wks">Duration (weeks)</label><input type="number" id="ob-wks" min="0" step="0.5" inputmode="decimal" placeholder="e.g. 16" oninput="calcOffers()"></div>
+          <div class="offer-field"><label for="ob-hous">Housing stipend ($, total)</label><input type="number" id="ob-hous" min="0" step="1" inputmode="decimal" placeholder="e.g. 0" oninput="calcOffers()"></div>
+          <div class="offer-field"><label for="ob-rent">Est. monthly rent at location ($)</label><input type="number" id="ob-rent" min="0" step="1" inputmode="decimal" placeholder="e.g. 900" oninput="calcOffers()"></div>
         </div>
       </div>
-      <div class="offer-results" id="offer-results">
-        <div class="offer-result-item"><div class="val" id="or-a-gross">—</div><div class="lbl">Offer A gross pay</div></div>
-        <div class="offer-result-item"><div class="val" id="or-b-gross">—</div><div class="lbl">Offer B gross pay</div></div>
-        <div class="offer-result-item"><div class="val" id="or-winner">—</div><div class="lbl">Higher net value</div></div>
+      <div class="offer-results" id="offer-results" aria-live="polite">
+        <div class="offer-result-item"><div class="val" id="or-a-gross">—</div><div class="lbl">Offer A est. after rent</div></div>
+        <div class="offer-result-item"><div class="val" id="or-b-gross">—</div><div class="lbl">Offer B est. after rent</div></div>
+        <div class="offer-result-item"><div class="val" id="or-winner">—</div><div class="lbl">Higher estimated value</div></div>
       </div>
     </div>
   </div>
@@ -1651,7 +1705,7 @@ Best,
       </div>
       <div class="clwrap">
         <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>One page — not one page and a few extra lines.</span></label>
-        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Saved as PDF, named <code>Firstname_Lastname_Resume_2025.pdf</code></span></label>
+        <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Saved as PDF, named <code>Firstname_Lastname_Resume.pdf</code></span></label>
         <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Contact info, graduation date, and major are easy to find.</span></label>
         <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Every bullet starts with a strong action verb — no first-person pronouns.</span></label>
         <label class="cli"><input type="checkbox" onchange="toggleDone(this);updateCount()"><span>Technical skills listed are honest and interview-ready — no skills you can't explain.</span></label>
@@ -1700,11 +1754,12 @@ Best,
 
   </div>
 
-  <div style="text-align:center;margin-top:22px" class="rv">
+  <p class="tip rv" style="margin-top:20px"><strong>Saved locally:</strong> Checklist progress is stored only in this browser. It is not uploaded or shared.</p>
+  <div style="text-align:center;margin-top:22px" class="rv check-tools">
     <div style="display:inline-block;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 36px;box-shadow:var(--shadow-sm)">
       <p style="font-family:var(--display);font-size:48px;font-weight:400;color:var(--scarlet);line-height:1" id="cl-count">0 / 27</p>
       <p style="font-size:12px;font-weight:600;color:var(--muted);margin-top:4px;letter-spacing:.05em;text-transform:uppercase">items checked off</p>
-      <button onclick="resetChecklists()" style="margin-top:14px;background:none;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-family:var(--sans);font-size:12px;font-weight:600;padding:7px 16px;cursor:pointer;transition:border-color .2s,color .2s" onmouseover="this.style.borderColor='var(--scarlet)';this.style.color='var(--scarlet)'" onmouseout="this.style.borderColor='var(--line)';this.style.color='var(--muted)'">Reset all checklists</button>
+      <button type="button" onclick="resetChecklists()" style="margin-top:14px;background:none;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-family:var(--sans);font-size:12px;font-weight:600;padding:7px 16px;cursor:pointer;transition:border-color .2s,color .2s" onmouseover="this.style.borderColor='var(--scarlet)';this.style.color='var(--scarlet)'" onmouseout="this.style.borderColor='var(--line)';this.style.color='var(--muted)'">Reset all checklists</button>
     </div>
   </div>
 </section>
@@ -1712,7 +1767,7 @@ Best,
 </main>
 
 <footer>
-  <p><strong>ASME at The Ohio State University</strong> · Professional Development Career Guide · 2025–26 · Built for resume reviews, employer nights, career fair prep, and interview coaching.</p>
+  <p><strong>ASME at The Ohio State University</strong> · Professional Development Career Guide · 2026–27 · Built for resume reviews, employer nights, career fair prep, and interview coaching.</p>
 </footer>
 
 <a id="btt" href="#top" aria-label="Back to top">↑</a>
@@ -1730,14 +1785,30 @@ Best,
   onScroll();
 
   // Active nav tracking
-  const navLinks = document.querySelectorAll('.nav-inner a');
+  const navLinks = document.querySelectorAll('.nav-menu a');
+  const navGroups = document.querySelectorAll('.nav-group');
+  navGroups.forEach(group => group.addEventListener('toggle', () => {
+    if (group.open) navGroups.forEach(other => { if (other !== group) other.open = false; });
+  }));
+  navLinks.forEach(link => link.addEventListener('click', () => {
+    navGroups.forEach(group => { group.open = false; });
+  }));
+  document.addEventListener('click', event => {
+    if (!event.target.closest('.nav')) navGroups.forEach(group => { group.open = false; });
+  });
   document.querySelectorAll('section[id]').forEach(sec => {
     new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
           navLinks.forEach(l => l.classList.remove('active'));
-          const a = document.querySelector(`.nav-inner a[href="#${e.target.id}"]`);
-          if (a) { a.classList.add('active'); a.scrollIntoView({ inline: 'nearest', block: 'nearest' }); }
+          document.querySelectorAll('.nav-group summary').forEach(summary => summary.classList.remove('active'));
+          const a = document.querySelector(`.nav-menu a[href="#${e.target.id}"]`);
+          if (a) {
+            a.classList.add('active');
+            const summary = a.closest('.nav-group').querySelector('summary');
+            summary.classList.add('active');
+            summary.scrollIntoView({ inline: 'nearest', block: 'nearest' });
+          }
         }
       });
     }, { rootMargin: '-50% 0px -40% 0px' }).observe(sec);
@@ -1750,20 +1821,74 @@ Best,
   document.querySelectorAll('.rv').forEach(el => ro.observe(el));
 
   // Checklist
+  const STORAGE_KEYS = {
+    checklist: 'asme-career-packet-checklist-v1',
+    stories: 'asme-career-packet-stories-v1'
+  };
+  function storageGet(key, fallback) {
+    try {
+      const value = localStorage.getItem(key);
+      return value === null ? fallback : JSON.parse(value);
+    } catch (error) {
+      console.warn('Local storage is unavailable.', error);
+      return fallback;
+    }
+  }
+  function storageSet(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); }
+    catch (error) { console.warn('Could not save locally.', error); }
+  }
+  function storageRemove(key) {
+    try { localStorage.removeItem(key); }
+    catch (error) { console.warn('Could not clear local storage.', error); }
+  }
   function toggleDone(cb) { cb.closest('.cli').classList.toggle('done', cb.checked); }
   function updateCount() {
     const total   = document.querySelectorAll('.cli input').length;
     const checked = document.querySelectorAll('.cli input:checked').length;
     document.getElementById('cl-count').textContent = checked + ' / ' + total;
   }
+  function saveChecklistState() {
+    storageSet(STORAGE_KEYS.checklist, [...document.querySelectorAll('.cli input[type=checkbox]')].map(cb => cb.checked));
+  }
+  function loadChecklistState() {
+    const saved = storageGet(STORAGE_KEYS.checklist, []);
+    document.querySelectorAll('.cli input[type=checkbox]').forEach((cb, index) => {
+      cb.checked = Boolean(saved[index]);
+      toggleDone(cb);
+      cb.addEventListener('change', saveChecklistState);
+    });
+    updateCount();
+  }
+
+  async function copyText(text) {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.setAttribute('readonly', '');
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.appendChild(area);
+      area.select();
+      const copied = document.execCommand('copy');
+      area.remove();
+      return copied;
+    } catch (error) {
+      console.warn('Copy failed.', error);
+      return false;
+    }
+  }
 
   // Copy templates
-  function copyTmpl(btn) {
+  async function copyTmpl(btn) {
     const text = btn.closest('.tmpl').querySelector('.tmpl-body').textContent.trim();
-    navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = 'Copied!'; btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2200);
-    });
+    if (!await copyText(text)) { alert('Copy failed. Select the template text and copy it manually.'); return; }
+    btn.textContent = 'Copied!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2200);
   }
 
   // Elevator pitch builder
@@ -1775,23 +1900,33 @@ Best,
     const inv    = document.getElementById('p-inv').value.trim();
     const tgt    = document.getElementById('p-tgt').value.trim();
     const out    = document.getElementById('pitch-out');
-    const ph     = v => `<span class="fill">[${v}]</span>`;
-    if (!name && !year && !exp) { out.innerHTML = 'Fill in the fields above to generate your pitch.'; return; }
-    out.innerHTML =
-      `Hi, my name is ${name ? `<strong>${name}</strong>` : ph('Your Name')}. ` +
-      `I'm a ${year || ph('year')} mechanical engineering student at Ohio State. ` +
-      (exp ? exp : ph('Key experience')) +
-      (did ? `, where I ${did}. ` : '. ') +
-      (inv ? `I'm also ${inv}. ` : '') +
-      `I'm looking for ${tgt || ph('target role/area')} opportunities — I'd love to hear what your team is working on.`;
+    if (!name && !year && !exp) { out.textContent = 'Fill in the fields above to generate your pitch.'; return; }
+    const addText = text => out.append(document.createTextNode(text));
+    const addEmphasis = (text, className = '') => {
+      const el = document.createElement(className ? 'span' : 'strong');
+      if (className) el.className = className;
+      el.textContent = text;
+      out.append(el);
+    };
+    const addValue = (value, placeholder, strong = false) => {
+      if (value) strong ? addEmphasis(value) : addText(value);
+      else addEmphasis(`[${placeholder}]`, 'fill');
+    };
+    out.replaceChildren();
+    addText('Hi, my name is '); addValue(name, 'Your Name', true); addText(". I'm a ");
+    addValue(year, 'year'); addText(' mechanical engineering student at Ohio State. ');
+    addValue(exp, 'Key experience');
+    if (did) addText(`, where I ${did}. `); else addText('. ');
+    if (inv) addText(`I'm also ${inv}. `);
+    addText("I'm looking for "); addValue(tgt, 'target role/area');
+    addText(" opportunities — I'd love to hear what your team is working on.");
   }
-  function copyPitch() {
+  async function copyPitch() {
     const text = document.getElementById('pitch-out').innerText;
-    navigator.clipboard.writeText(text).then(() => {
-      const btn = document.querySelector('.pbtn');
-      btn.textContent = 'Copied!';
-      setTimeout(() => btn.textContent = 'Copy Pitch Text', 2200);
-    });
+    if (!await copyText(text)) { alert('Copy failed. Select the pitch and copy it manually.'); return; }
+    const btn = document.querySelector('.pbtn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy Pitch Text', 2200);
   }
 
   // Remove any stale dark class
@@ -1802,6 +1937,7 @@ Best,
   const searchInput = document.getElementById('search-input');
   const searchResults = document.getElementById('search-results');
   const searchClear = document.getElementById('search-clear');
+  const searchToggle = document.getElementById('search-toggle');
 
   // Build search index from page text
   const searchIndex = [];
@@ -1823,6 +1959,7 @@ Best,
     const visible = searchBar.style.display !== 'none';
     if (visible) { closeSearch(); } else {
       searchBar.style.display = 'block';
+      searchToggle.setAttribute('aria-expanded', 'true');
       searchInput.value = '';
       searchResults.style.display = 'none';
       searchClear.style.display = 'none';
@@ -1831,8 +1968,15 @@ Best,
   }
   function closeSearch() {
     searchBar.style.display = 'none';
+    searchToggle.setAttribute('aria-expanded', 'false');
     searchResults.style.display = 'none';
     searchInput.value = '';
+  }
+  function clearSearch() {
+    searchInput.value = '';
+    searchResults.style.display = 'none';
+    searchClear.style.display = 'none';
+    searchInput.focus();
   }
   function doSearch(q) {
     searchClear.style.display = q ? 'block' : 'none';
@@ -1846,16 +1990,31 @@ Best,
       if (seen.has(item.id + (item.snippet||''))) return false;
       seen.add(item.id + (item.snippet||'')); return true;
     }).slice(0, 10);
+    searchResults.replaceChildren();
     if (!hits.length) {
-      searchResults.innerHTML = '<div style="padding:16px 20px;color:var(--muted);font-size:14px">No results found.</div>';
+      const empty = document.createElement('div');
+      empty.className = 'search-empty';
+      empty.textContent = 'No results found.';
+      searchResults.append(empty);
     } else {
-      searchResults.innerHTML = hits.map(h => {
+      hits.forEach(h => {
         const snippet = h.snippet ? h.snippet.substring(0,90) + (h.snippet.length > 90 ? '…' : '') : '';
-        return `<a href="#${h.id}" onclick="closeSearch()" style="display:block;padding:12px 18px;border-top:1px solid var(--line);text-decoration:none;transition:background .15s" onmouseover="this.style.background='var(--bg2)'" onmouseout="this.style.background=''">
-          <div style="font-size:13px;font-weight:700;color:var(--navy)">${h.title}</div>
-          ${snippet ? `<div style="font-size:12px;color:var(--muted);margin-top:2px">${snippet}</div>` : ''}
-        </a>`;
-      }).join('');
+        const link = document.createElement('a');
+        link.className = 'search-result';
+        link.href = `#${h.id}`;
+        link.addEventListener('click', closeSearch);
+        const title = document.createElement('div');
+        title.className = 'search-result-title';
+        title.textContent = h.title;
+        link.append(title);
+        if (snippet) {
+          const description = document.createElement('div');
+          description.className = 'search-result-snippet';
+          description.textContent = snippet;
+          link.append(description);
+        }
+        searchResults.append(link);
+      });
     }
     searchResults.style.display = 'block';
   }
@@ -1864,7 +2023,10 @@ Best,
     if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
       e.preventDefault(); toggleSearch();
     }
-    if (e.key === 'Escape') closeSearch();
+    if (e.key === 'Escape') {
+      closeSearch();
+      navGroups.forEach(group => { group.open = false; });
+    }
   });
   // Close search if clicking outside
   document.addEventListener('click', e => {
@@ -1875,19 +2037,45 @@ Best,
   let activeFilter = 'all';
   function filterStories(type, btn) {
     activeFilter = type;
-    document.querySelectorAll('.story-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.story-tab').forEach(t => {
+      t.classList.remove('active');
+      t.setAttribute('aria-pressed', 'false');
+    });
     btn.classList.add('active');
+    btn.setAttribute('aria-pressed', 'true');
     renderStories();
   }
 
   function resetChecklists() {
     if (!confirm('Reset all checklist items?')) return;
     document.querySelectorAll('.cli input[type=checkbox]').forEach(cb => { cb.checked=false; cb.closest('.cli').classList.remove('done'); });
+    storageRemove(STORAGE_KEYS.checklist);
     updateCount();
   }
 
   // Story bank
   let stories = [];
+  function newStoryId() {
+    return globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  }
+  function normalizeStories(value) {
+    if (!Array.isArray(value)) return [];
+    const allowedTypes = new Set([...document.querySelectorAll('#s-type option')].map(option => option.value));
+    return value.slice(0, 100).map(story => ({
+      type: allowedTypes.has(String(story?.type)) ? String(story.type) : 'Teamwork',
+      title: String(story?.title || '').slice(0, 200),
+      sit: String(story?.sit || '').slice(0, 5000),
+      act: String(story?.act || '').slice(0, 5000),
+      res: String(story?.res || '').slice(0, 5000),
+      also: String(story?.also || '').slice(0, 500),
+      id: newStoryId()
+    })).filter(story => story.title && story.act);
+  }
+  function saveStories() { storageSet(STORAGE_KEYS.stories, stories); }
+  function loadStories() {
+    stories = normalizeStories(storageGet(STORAGE_KEYS.stories, []));
+    renderStories();
+  }
   function addStory() {
     const type  = document.getElementById('s-type').value;
     const title = document.getElementById('s-title').value.trim();
@@ -1896,43 +2084,108 @@ Best,
     const res   = document.getElementById('s-res').value.trim();
     const also  = document.getElementById('s-also').value.trim();
     if (!title || !act) { alert('Please fill in at least a title and the Action field.'); return; }
-    stories.push({ type, title, sit, act, res, also, id: Date.now() });
+    stories.push({ type, title, sit, act, res, also, id: newStoryId() });
+    saveStories();
     renderStories();
     ['s-title','s-sit','s-act','s-res','s-also'].forEach(id => document.getElementById(id).value = '');
   }
-  function deleteStory(id) { stories = stories.filter(s => s.id !== id); renderStories(); }
+  function deleteStory(id) {
+    stories = stories.filter(s => s.id !== id);
+    saveStories();
+    renderStories();
+  }
+  function makeStoryTag(text, incomplete = false) {
+    const tag = document.createElement('span');
+    tag.className = 's-tag';
+    if (incomplete) tag.style.opacity = '.4';
+    tag.textContent = text;
+    return tag;
+  }
   function renderStories() {
     const list = document.getElementById('story-list');
     const tabs = document.getElementById('story-tabs');
     if (!list) return;
     const filtered = activeFilter === 'all' ? stories : stories.filter(s => s.type === activeFilter || (s.also && s.also.split(',').map(t=>t.trim()).includes(activeFilter)));
     if (tabs) tabs.style.display = stories.length ? 'flex' : 'none';
+    list.replaceChildren();
     if (!filtered.length) {
-      list.innerHTML = `<div class="story-empty">${stories.length ? 'No stories match this filter.' : 'No stories yet. Add your first one above.'}</div>`;
+      const empty = document.createElement('div');
+      empty.className = 'story-empty';
+      empty.textContent = stories.length ? 'No stories match this filter.' : 'No stories yet. Add your first one above — it will be stored locally in this browser.';
+      list.append(empty);
       return;
     }
-    list.innerHTML = filtered.map(s => `
-      <div class="story-item">
-        <div class="story-item-main">
-          <div class="s-type">${s.type}</div>
-          <div class="s-title">${s.title}</div>
-          <div class="s-tags">
-            ${s.sit ? '<span class="s-tag">S ✓</span>' : '<span class="s-tag" style="opacity:.4">S –</span>'}
-            ${s.act ? '<span class="s-tag">A ✓</span>' : '<span class="s-tag" style="opacity:.4">A –</span>'}
-            ${s.res ? '<span class="s-tag">R ✓</span>' : '<span class="s-tag" style="opacity:.4">R –</span>'}
-            ${s.also ? s.also.split(',').map(t=>`<span class="s-tag">${t.trim()}</span>`).join('') : ''}
-          </div>
-        </div>
-        <button class="story-delete" onclick="deleteStory(${s.id})">Remove</button>
-      </div>`).join('');
+    filtered.forEach(story => {
+      const item = document.createElement('div');
+      item.className = 'story-item';
+      const main = document.createElement('div');
+      main.className = 'story-item-main';
+      const type = document.createElement('div');
+      type.className = 's-type';
+      type.textContent = story.type;
+      const title = document.createElement('div');
+      title.className = 's-title';
+      title.textContent = story.title;
+      const tags = document.createElement('div');
+      tags.className = 's-tags';
+      tags.append(
+        makeStoryTag(story.sit ? 'S ✓' : 'S –', !story.sit),
+        makeStoryTag(story.act ? 'A ✓' : 'A –', !story.act),
+        makeStoryTag(story.res ? 'R ✓' : 'R –', !story.res)
+      );
+      story.also.split(',').map(tag => tag.trim()).filter(Boolean).forEach(tag => tags.append(makeStoryTag(tag)));
+      main.append(type, title, tags);
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'story-delete';
+      remove.textContent = 'Remove';
+      remove.addEventListener('click', () => deleteStory(story.id));
+      item.append(main, remove);
+      list.append(item);
+    });
   }
-  function clearStories() { if (!stories.length || confirm('Clear all stories?')) { stories = []; renderStories(); } }
-  function exportStories() {
-    if (!stories.length) { alert('No stories to export yet.'); return; }
-    const txt = stories.map((s,i) =>
+  function clearStories() {
+    if (!stories.length || confirm('Clear all stories from this browser?')) {
+      stories = [];
+      storageRemove(STORAGE_KEYS.stories);
+      renderStories();
+    }
+  }
+  function storiesAsText() {
+    return stories.map((s,i) =>
       `=== Story ${i+1}: ${s.type} ===\nTitle: ${s.title}\n\nSituation / Task:\n${s.sit||'—'}\n\nAction:\n${s.act||'—'}\n\nResult:\n${s.res||'—'}${s.also ? `\n\nAlso works for: ${s.also}` : ''}`
     ).join('\n\n---\n\n');
-    navigator.clipboard.writeText(txt).then(() => alert('All ' + stories.length + ' stories copied to clipboard!'));
+  }
+  function downloadFile(filename, text, type) {
+    const url = URL.createObjectURL(new Blob([text], { type }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
+  function downloadStoriesText() {
+    if (!stories.length) { alert('No stories to download yet.'); return; }
+    downloadFile('ASME_STAR_Stories.txt', storiesAsText(), 'text/plain;charset=utf-8');
+  }
+  function exportStoriesBackup() {
+    if (!stories.length) { alert('No stories to export yet.'); return; }
+    downloadFile('ASME_STAR_Stories_Backup.json', JSON.stringify({ version: 1, stories }, null, 2), 'application/json');
+  }
+  async function importStoriesBackup(file) {
+    if (!file) return;
+    try {
+      const parsed = JSON.parse(await file.text());
+      const imported = normalizeStories(parsed?.stories);
+      if (!imported.length) throw new Error('No valid stories found.');
+      if (stories.length && !confirm('Replace the stories currently saved in this browser?')) return;
+      stories = imported;
+      saveStories();
+      renderStories();
+      alert(`Imported ${stories.length} ${stories.length === 1 ? 'story' : 'stories'}.`);
+    } catch (error) {
+      alert('That backup could not be imported. Choose a JSON backup exported by this guide.');
+    }
   }
 
   // AI practice prompt
@@ -1966,19 +2219,18 @@ Format with numbered questions, labeled Behavioral or Technical, and a short coa
   if (aiR) aiR.addEventListener('input', buildAiPrompt);
   if (aiJ) aiJ.addEventListener('input', buildAiPrompt);
 
-  function copyAiPrompt() {
+  async function copyAiPrompt() {
     const text = document.getElementById('ai-out').textContent.trim();
     const btn  = document.getElementById('ai-copy-btn');
     if (!text || text.startsWith('Your generated')) { alert('Fill in the fields first to generate a prompt.'); return; }
-    navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = '✓ Copied — paste into Claude or ChatGPT'; btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'Copy Prompt to Clipboard'; btn.classList.remove('copied'); }, 3000);
-    });
+    if (!await copyText(text)) { alert('Copy failed. Select the generated prompt and copy it manually.'); return; }
+    btn.textContent = '✓ Copied — paste into Claude or ChatGPT'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Prompt to Clipboard'; btn.classList.remove('copied'); }, 3000);
   }
 
   // Offer calculator
   function calcOffers() {
-    const v  = id => { const el = document.getElementById(id); return el ? (parseFloat(el.value)||0) : 0; };
+    const v  = id => { const el = document.getElementById(id); return el ? Math.max(0, parseFloat(el.value) || 0) : 0; };
     const s  = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
     const aGross = v('oa-rate') * v('oa-hrs') * v('oa-wks') + v('oa-hous');
     const bGross = v('ob-rate') * v('ob-hrs') * v('ob-wks') + v('ob-hous');
@@ -1991,21 +2243,26 @@ Format with numbered questions, labeled Behavioral or Technical, and a short coa
     const bEl = document.getElementById('or-b-gross');
     const wEl = document.getElementById('or-winner');
     if (!aEl) return;
-    aEl.textContent = fmt(aGross);
-    bEl.textContent = fmt(bGross);
-    aEl.closest('.offer-result-item').querySelector('.lbl').textContent = (s('oa-name')||'Offer A') + ' gross total';
-    bEl.closest('.offer-result-item').querySelector('.lbl').textContent = (s('ob-name')||'Offer B') + ' gross total';
-    if (aNet > 0 && bNet > 0) {
+    aEl.textContent = fmt(aNet);
+    bEl.textContent = fmt(bNet);
+    aEl.closest('.offer-result-item').querySelector('.lbl').textContent = (s('oa-name')||'Offer A') + ' est. after rent';
+    bEl.closest('.offer-result-item').querySelector('.lbl').textContent = (s('ob-name')||'Offer B') + ' est. after rent';
+    const aComplete = v('oa-rate') > 0 && v('oa-hrs') > 0 && v('oa-wks') > 0;
+    const bComplete = v('ob-rate') > 0 && v('ob-hrs') > 0 && v('ob-wks') > 0;
+    if (aComplete && bComplete) {
       const winner = aNet >= bNet ? (s('oa-name')||'Offer A') : (s('ob-name')||'Offer B');
       wEl.textContent = winner;
-      wEl.closest('.offer-result-item').querySelector('.lbl').textContent = '+$' + Math.round(Math.abs(aNet-bNet)).toLocaleString() + ' net advantage';
+      wEl.closest('.offer-result-item').querySelector('.lbl').textContent = '+$' + Math.round(Math.abs(aNet-bNet)).toLocaleString() + ' estimated advantage';
       wEl.closest('.offer-result-item').className = 'offer-result-item better';
     } else {
       wEl.textContent = '—';
-      wEl.closest('.offer-result-item').querySelector('.lbl').textContent = 'Higher net value';
+      wEl.closest('.offer-result-item').querySelector('.lbl').textContent = 'Higher estimated value';
       wEl.closest('.offer-result-item').className = 'offer-result-item';
     }
   }
+
+  loadChecklistState();
+  loadStories();
 </script>
 </body>
 </html>
