@@ -4,10 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="ASME at Ohio State's interactive guide to resumes, interviews, career fairs, internships, networking, and evaluating engineering offers.">
+  <meta name="theme-color" content="#0c1f3a">
   <title>ASME at Ohio State — Professional Development Guide</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/app-icon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+  <script src="config.js"></script>
   <style>
     :root{
       --scarlet:#bb0000;--scarlet-dim:#fce8e8;
@@ -27,6 +32,8 @@
     body{background:var(--bg);color:var(--body);font-family:var(--sans);font-weight:400;line-height:1.6;-webkit-font-smoothing:antialiased}
     :focus-visible{outline:3px solid rgba(187,0,0,.38);outline-offset:3px}
     .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    .offline-banner{display:none;position:fixed;left:50%;bottom:18px;z-index:400;transform:translateX(-50%);background:var(--navy);color:#fff;border-radius:999px;padding:8px 16px;font-size:12px;font-weight:700;box-shadow:var(--shadow-md)}
+    body.is-offline .offline-banner{display:block}
 
     /* CODE INLINE */
     code{background:#f0f4f9;color:#b91c1c;border-radius:4px;padding:2px 6px;font-family:var(--mono);font-size:.88em;border:1px solid #e2e8f0}
@@ -44,8 +51,20 @@
     .search-result{display:block;padding:12px 18px;border-top:1px solid var(--line);text-decoration:none;transition:background .15s}
     .search-result:hover,.search-result:focus-visible{background:var(--bg2)}
     .search-result-title{font-size:13px;font-weight:700;color:var(--navy)}
+    .search-result-category{font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--scarlet);margin-right:5px}
     .search-result-snippet{font-size:12px;color:var(--muted);margin-top:2px}
     .search-empty{padding:16px 20px;color:var(--muted);font-size:14px}
+    .search-result.keyboard-active{background:var(--bg2);box-shadow:inset 3px 0 var(--scarlet)}
+    .search-result-meta{display:flex;align-items:center;gap:7px;margin-bottom:2px}
+    .search-result-type{font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--scarlet)}
+    .search-result mark{background:#fff1a8;color:inherit;border-radius:2px;padding:0 1px}
+    .recent-searches{padding:12px 16px}
+    .recent-searches-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .recent-searches-list{display:flex;flex-wrap:wrap;gap:7px}
+    .recent-search{border:1px solid var(--line);border-radius:999px;background:var(--bg2);color:var(--body);padding:5px 10px;font:600 12px var(--sans);cursor:pointer}
+    .recent-clear{border:0;background:none;color:var(--scarlet);font:700 11px var(--sans);cursor:pointer}
+    .search-recent-title{padding:10px 16px 6px;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .search-recent{margin:0 0 8px 8px;border:1px solid var(--line);border-radius:999px;background:var(--bg2);color:var(--body);padding:5px 10px;font:600 12px var(--sans);cursor:pointer}
 
     /* NAV SECTION COUNT BADGE */
     .nav-count{display:inline-block;background:var(--scarlet);color:#fff;border-radius:999px;
@@ -135,6 +154,69 @@
     .offer-result-item .lbl{font-size:11px;font-weight:600;color:var(--muted);margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
     .offer-result-item.better .val{color:#166534}
     .offer-result-item.worse .val{color:#991b1b}
+
+    /* MULTI-OFFER COMPARISON */
+    .offer-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--bg2)}
+    .offer-toolbar p{font-size:12px;color:var(--muted)}
+    .offer-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:18px}
+    .offer-card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow-sm)}
+    .offer-card-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+    .offer-card-title{font-family:var(--display);font-size:20px;color:var(--navy)}
+    .offer-remove{border:0;background:none;color:var(--muted);font:700 11px var(--sans);cursor:pointer}
+    .offer-remove:hover{color:var(--scarlet)}
+    .offer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .offer-fit-title{margin:16px 0 8px;padding-top:13px;border-top:1px solid var(--line);font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--scarlet)}
+    .rating-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+    .rating-field label{display:block;font-size:11px;font-weight:650;color:var(--muted);margin-bottom:3px}
+    .rating-field select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:7px 8px;color:var(--ink);font:12px var(--sans)}
+    .offer-ranking{padding:0 18px 18px}
+    .offer-ranking-empty{padding:22px;text-align:center;border:1px dashed var(--line);border-radius:var(--r-sm);color:var(--muted);font-size:13px}
+    .offer-rank-row{display:grid;grid-template-columns:auto minmax(130px,1.2fr) minmax(130px,1fr) minmax(110px,.8fr);gap:12px;align-items:center;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--card);margin-top:8px}
+    .offer-rank-num{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;font-size:12px;font-weight:800}
+    .offer-rank-name{font-weight:750;color:var(--navy)}
+    .offer-rank-value,.offer-rank-fit{font-size:12px;color:var(--muted)}
+    .offer-rank-value strong,.offer-rank-fit strong{display:block;font-family:var(--display);font-size:20px;font-weight:400;color:var(--navy)}
+
+    /* PREP PLANNER */
+    .prep-planner{margin-top:22px;background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:var(--r);padding:22px;color:#fff;box-shadow:var(--shadow-md)}
+    .prep-planner-hd{display:flex;align-items:start;justify-content:space-between;gap:18px;margin-bottom:15px}
+    .prep-planner h3{font-family:var(--display);font-size:23px;font-weight:400}
+    .prep-planner p{font-size:13px;color:rgba(255,255,255,.65)}
+    .prep-controls{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end}
+    .prep-field label{display:block;margin-bottom:4px;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.58)}
+    .prep-field select,.prep-field input{width:100%;border:1px solid rgba(255,255,255,.22);border-radius:7px;background:rgba(255,255,255,.1);color:#fff;padding:9px 11px;font:13px var(--sans);color-scheme:dark}
+    .prep-generate{border:0;border-radius:999px;background:#fff;color:var(--navy);padding:9px 17px;font:750 13px var(--sans);cursor:pointer}
+    .prep-output{display:none;margin-top:16px;background:#fff;color:var(--body);border-radius:var(--r-sm);padding:16px}
+    .prep-output.show{display:block}
+    .prep-output-hd{display:flex;align-items:start;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .prep-output h4{font-family:var(--display);font-size:20px;font-weight:400;color:var(--navy)}
+    .prep-countdown{font-size:11px;font-weight:800;color:var(--scarlet);text-transform:uppercase;letter-spacing:.06em}
+    .prep-task{display:flex;gap:9px;align-items:start;padding:8px 0;border-top:1px solid var(--line);font-size:13px}
+    .prep-task:first-child{border-top:0}
+    .prep-task input{margin-top:4px;accent-color:var(--scarlet)}
+    .prep-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+    .prep-links a{border-radius:999px;background:var(--bg2);color:var(--navy);padding:5px 10px;text-decoration:none;font-size:11.5px;font-weight:700}
+
+    /* SECTION ACTIONS */
+    .section-share{flex:0 0 auto;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--muted);padding:6px 10px;font:700 11px var(--sans);cursor:pointer;white-space:nowrap}
+    .section-share:hover{border-color:var(--scarlet);color:var(--scarlet)}
+
+    /* DIALOGS + SAVED DATA */
+    dialog{width:min(92vw,560px);max-height:88vh;margin:auto;border:0;border-radius:16px;padding:0;background:var(--card);color:var(--body);box-shadow:0 24px 80px rgba(12,31,58,.32)}
+    dialog::backdrop{background:rgba(6,14,24,.68);backdrop-filter:blur(4px)}
+    .dialog-hd{display:flex;align-items:start;justify-content:space-between;gap:16px;padding:20px 22px;background:var(--navy);color:#fff}
+    .dialog-hd h2{font-family:var(--display);font-size:24px;font-weight:400}
+    .dialog-hd p{font-size:12px;color:rgba(255,255,255,.6);margin-top:3px}
+    .dialog-close{border:1px solid rgba(255,255,255,.25);border-radius:50%;width:32px;height:32px;background:rgba(255,255,255,.08);color:#fff;font-size:18px;cursor:pointer}
+    .dialog-body{padding:20px 22px;overflow-y:auto}
+    .dialog-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .dialog-action{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--bg);padding:13px;text-align:left;cursor:pointer;color:var(--body);font-family:var(--sans)}
+    .dialog-action:hover{border-color:var(--scarlet);background:var(--scarlet-dim)}
+    .dialog-action strong{display:block;color:var(--navy);font-size:13px}
+    .dialog-action span{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
+    .data-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+    .data-status{min-height:20px;margin-top:12px;font-size:12px;color:var(--muted)}
+    .print-only{display:none}
 
     /* AI PRACTICE TOOL */
     .ai-tool{background:linear-gradient(135deg,#060e18,#0c1f3a);border-radius:var(--r);padding:24px;color:#fff}
@@ -499,6 +581,7 @@
       main{padding:36px 20px 64px}
       .topbar{flex-wrap:wrap}
       .nav-inner{padding:0 18px}
+      .offer-list{grid-template-columns:1fr}
     }
     @media(max-width:600px){
       .hero h1{font-size:30px}
@@ -508,11 +591,21 @@
       .pfields{grid-template-columns:1fr}
       .mg{grid-template-columns:1fr}
       .brand-qs{grid-template-columns:1fr}
+      .sh{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start}
+      .sh-desc{grid-column:1 / -1}
       .nav-inner{justify-content:flex-start;overflow-x:auto;padding:7px 14px;scrollbar-width:none}
       .nav-group summary{padding:7px 10px}
       .nav-menu{position:fixed;top:52px;left:14px!important;right:14px!important;min-width:0;max-height:70vh;overflow-y:auto}
       .offer-cols,.offer-results{grid-template-columns:1fr}
       .offer-col{border-right:none;border-bottom:1px solid var(--line)}
+      .prep-controls{grid-template-columns:1fr}
+      .prep-generate{justify-self:start}
+      .prep-planner-hd,.prep-output-hd{display:block}
+      .prep-countdown{margin-top:4px}
+      .offer-grid,.rating-grid{grid-template-columns:1fr}
+      .offer-rank-row{grid-template-columns:auto 1fr}
+      .offer-rank-value,.offer-rank-fit{grid-column:2}
+      .dialog-actions{grid-template-columns:1fr}
     }
     @media(prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}
@@ -520,17 +613,26 @@
       .rv{opacity:1;transform:none}
     }
     @media print{
-      #prog,.nav,#btt,.topbar-btns,.hero-links,.pbuilder,.story-builder,.ai-tool,.offer-calc,.check-tools{display:none!important}
+      #prog,.nav,#btt,.topbar-btns,.hero-links,.pbuilder,.story-builder,.ai-tool,.offer-calc,.check-tools,.section-share,.prep-planner,.offline-banner,dialog{display:none!important}
       .rv{opacity:1!important;transform:none!important}
       body{background:#fff}
       .hero{background:var(--navy)!important;print-color-adjust:exact}
       section{break-inside:avoid;margin-top:32px}
       .card,.chap,.tmpl{box-shadow:none}
+      body.print-current main>section:not(.print-target),body.print-checklists main>section:not(#checklist),body.print-templates main>section:not(#templates),body.print-stories main>section{display:none!important}
+      body.print-checklists .hero,body.print-templates .hero,body.print-stories .hero,body.print-current .hero{display:none!important}
+      body.print-stories #print-stories{display:block!important}
+      #print-stories .print-story{break-inside:avoid;border:1px solid #ccd3df;border-radius:8px;padding:14px;margin:0 0 12px}
+      #print-stories h2{font-family:var(--display);font-size:28px;color:var(--navy);margin-bottom:14px}
+      #print-stories h3{font-size:15px;color:var(--navy);margin-bottom:8px}
+      #print-stories h4{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--scarlet);margin-top:8px}
+      #print-stories p{font-size:12px;line-height:1.5}
     }
   </style>
 </head>
 <body id="top">
 <div id="prog" aria-hidden="true"></div>
+<div class="offline-banner" role="status">Offline mode — saved tools remain available.</div>
 
 <!-- ══ HERO ══ -->
 <header class="hero">
@@ -541,21 +643,23 @@
     <div class="topbar">
       <div style="display:flex;align-items:center;gap:13px">
         <div class="logo-wrap">
-          <img src="https://org.osu.edu/asme/files/2026/05/asme_osu_logo_horizontal_black.png" alt="ASME at The Ohio State University">
+          <img src="assets/asme-osu-logo.png" alt="ASME at The Ohio State University">
         </div>
         <div class="topbar-meta">
           <div class="label">Professional Development</div>
-          <div class="title">Career Guide · 2026–27</div>
+          <div class="title">Career Guide · <span data-config="edition">2026–27</span></div>
         </div>
       </div>
       <div class="topbar-btns">
         <a class="btn-o" href="#templates">Templates</a>
         <a class="btn-o" href="#checklist">Checklists</a>
+        <button type="button" class="btn-o" onclick="openDataDialog()">Data &amp; Backup</button>
+        <button type="button" class="btn-o" id="install-app" style="display:none">Install</button>
         <button type="button" class="btn-o" id="search-toggle" onclick="toggleSearch()" title="Search (/)" aria-label="Open career guide search" aria-expanded="false" aria-controls="search-bar">
           <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           Search
         </button>
-        <button type="button" class="btn-s" onclick="window.print()">
+        <button type="button" class="btn-s" onclick="openPrintDialog()">
           <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
           Print / PDF
         </button>
@@ -587,10 +691,10 @@
     </div>
 
     <div class="hero-stats">
-      <div class="hs"><strong>21</strong><span>Sections</span></div>
-      <div class="hs"><strong>7</strong><span>Email Templates</span></div>
-      <div class="hs"><strong>4</strong><span>Interactive Tools</span></div>
-      <div class="hs"><strong>3</strong><span>Checklists</span></div>
+      <div class="hs"><strong data-stat="sections">21</strong><span>Sections</span></div>
+      <div class="hs"><strong data-stat="templates">7</strong><span>Email Templates</span></div>
+      <div class="hs"><strong data-stat="tools">6</strong><span>Interactive Tools</span></div>
+      <div class="hs"><strong data-stat="checklists">3</strong><span>Checklists</span></div>
       <div class="hs"><strong>1</strong><span>Print-Ready</span></div>
     </div>
   </div>
@@ -654,7 +758,7 @@
     <div class="search-wrap">
       <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <label class="sr-only" for="search-input">Search the career guide</label>
-      <input type="search" id="search-input" aria-controls="search-results" placeholder="Search sections, topics, templates…" oninput="doSearch(this.value)" onkeydown="if(event.key==='Escape'){closeSearch()}">
+      <input type="search" id="search-input" aria-controls="search-results" aria-autocomplete="list" placeholder="Search sections, topics, templates…" oninput="doSearch(this.value)" onkeydown="handleSearchKeys(event)">
       <button type="button" class="search-clear" id="search-clear" aria-label="Clear search" onclick="clearSearch()">×</button>
     </div>
     <div id="search-results" role="region" aria-label="Search results" aria-live="polite" style="display:none;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-md);max-height:320px;overflow-y:auto;margin-top:4px"></div>
@@ -687,6 +791,18 @@
       <p class="ct" style="position:relative">Ask smarter questions.</p>
       <p class="cb" style="position:relative">Replace "Are you hiring?" with "Which teams take interns, and what experiences make candidates stand out before they even apply?"</p>
     </div>
+  </div>
+  <div class="prep-planner rv" id="prep-planner">
+    <div class="prep-planner-hd">
+      <div><h3>Build My Prep Plan</h3><p>Choose your next milestone and date to get a focused, locally saved action plan.</p></div>
+      <span class="chip" style="background:rgba(255,255,255,.12);color:#fff">Personalized</span>
+    </div>
+    <div class="prep-controls">
+      <div class="prep-field"><label for="prep-type">What are you preparing for?</label><select id="prep-type"><option value="careerfair">Career fair</option><option value="interview">Interview</option><option value="search">Internship or job search</option><option value="offer">Offer decision</option></select></div>
+      <div class="prep-field"><label for="prep-date">Target date</label><input type="date" id="prep-date"></div>
+      <button type="button" class="prep-generate" onclick="generatePrepPlan()">Build My Plan</button>
+    </div>
+    <div class="prep-output" id="prep-output" aria-live="polite"></div>
   </div>
 </section>
 
@@ -1496,42 +1612,23 @@
 
   <!-- OFFER COMPARISON CALCULATOR -->
   <div style="margin-top:28px" class="rv">
-    <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);margin-bottom:6px">U.S. Internship &amp; Co-op Benchmarks <span style="font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">(2026 NACE report; summer 2025 wages)</span></p>
+    <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);margin-bottom:6px">U.S. Internship &amp; Co-op Benchmarks <span style="font-size:10px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">(<span data-config="compensation.reportLabel">2026 NACE report; summer 2025 wages</span>)</span></p>
     <div class="bench-band rv">
-      <div class="bench-item"><div class="bench-val">$23.35</div><div class="bench-lbl">/hr · Bachelor's interns</div></div>
-      <div class="bench-item"><div class="bench-val">$24.46</div><div class="bench-lbl">/hr · Bachelor's co-ops</div></div>
-      <div class="bench-item"><div class="bench-val">280+</div><div class="bench-lbl">U.S. organizations</div></div>
-      <div class="bench-item"><div class="bench-val">2025</div><div class="bench-lbl">Wage reference year</div></div>
+      <div class="bench-item"><div class="bench-val" data-config="compensation.internHourly">$23.35</div><div class="bench-lbl">/hr · Bachelor's interns</div></div>
+      <div class="bench-item"><div class="bench-val" data-config="compensation.coOpHourly">$24.46</div><div class="bench-lbl">/hr · Bachelor's co-ops</div></div>
+      <div class="bench-item"><div class="bench-val" data-config="compensation.organizations">280+</div><div class="bench-lbl">U.S. organizations</div></div>
+      <div class="bench-item"><div class="bench-val" data-config="compensation.referenceYear">2025</div><div class="bench-lbl">Wage reference year</div></div>
     </div>
-    <p style="font-size:11.5px;color:var(--muted);margin:6px 0 18px">These are national averages across bachelor's-level roles, not mechanical-engineering guarantees. Compare region, industry, housing, and work quality. Source: <a href="https://www.naceweb.org/talent-acquisition/internships/hourly-wage-for-interns-climbs-but-is-down-over-last-10-years-in-real-terms" target="_blank" rel="noopener noreferrer">NACE 2026 Internship &amp; Co-op research</a>.</p>
-    <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);margin-bottom:14px">Compare Two Offers Side by Side</p>
+    <p style="font-size:11.5px;color:var(--muted);margin:6px 0 18px">These are national averages across bachelor's-level roles, not mechanical-engineering guarantees. Compare region, industry, housing, and work quality. Source: <a data-config-href="compensation.sourceUrl" data-config="compensation.sourceLabel" href="https://www.naceweb.org/talent-acquisition/internships/hourly-wage-for-interns-climbs-but-is-down-over-last-10-years-in-real-terms" target="_blank" rel="noopener noreferrer">NACE 2026 Internship &amp; Co-op research</a>.</p>
+    <p style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--scarlet);margin-bottom:14px">Compare Offers Side by Side</p>
     <div class="offer-calc">
-      <div class="offer-calc-hd"><h3>Compare Two Offers Side by Side</h3><p>Estimate pre-tax compensation after rent. Taxes, travel, meals, and other expenses are not included.</p></div>
-      <div class="offer-cols">
-        <div class="offer-col">
-          <div class="offer-col-title">Offer A</div>
-          <div class="offer-field"><label for="oa-name">Company name</label><input type="text" id="oa-name" placeholder="e.g. Company A" oninput="calcOffers()"></div>
-          <div class="offer-field"><label for="oa-rate">Hourly rate ($/hr)</label><input type="number" id="oa-rate" min="0" step="0.01" inputmode="decimal" placeholder="e.g. 25" oninput="calcOffers()"></div>
-          <div class="offer-field"><label for="oa-hrs">Hours per week</label><input type="number" id="oa-hrs" min="0" step="0.5" inputmode="decimal" placeholder="e.g. 40" oninput="calcOffers()"></div>
-          <div class="offer-field"><label for="oa-wks">Duration (weeks)</label><input type="number" id="oa-wks" min="0" step="0.5" inputmode="decimal" placeholder="e.g. 12" oninput="calcOffers()"></div>
-          <div class="offer-field"><label for="oa-hous">Housing stipend ($, total)</label><input type="number" id="oa-hous" min="0" step="1" inputmode="decimal" placeholder="e.g. 3000" oninput="calcOffers()"></div>
-          <div class="offer-field"><label for="oa-rent">Est. monthly rent at location ($)</label><input type="number" id="oa-rent" min="0" step="1" inputmode="decimal" placeholder="e.g. 1200" oninput="calcOffers()"></div>
-        </div>
-        <div class="offer-col">
-          <div class="offer-col-title">Offer B</div>
-          <div class="offer-field"><label for="ob-name">Company name</label><input type="text" id="ob-name" placeholder="e.g. Company B" oninput="calcOffers()"></div>
-          <div class="offer-field"><label for="ob-rate">Hourly rate ($/hr)</label><input type="number" id="ob-rate" min="0" step="0.01" inputmode="decimal" placeholder="e.g. 22" oninput="calcOffers()"></div>
-          <div class="offer-field"><label for="ob-hrs">Hours per week</label><input type="number" id="ob-hrs" min="0" step="0.5" inputmode="decimal" placeholder="e.g. 40" oninput="calcOffers()"></div>
-          <div class="offer-field"><label for="ob-wks">Duration (weeks)</label><input type="number" id="ob-wks" min="0" step="0.5" inputmode="decimal" placeholder="e.g. 16" oninput="calcOffers()"></div>
-          <div class="offer-field"><label for="ob-hous">Housing stipend ($, total)</label><input type="number" id="ob-hous" min="0" step="1" inputmode="decimal" placeholder="e.g. 0" oninput="calcOffers()"></div>
-          <div class="offer-field"><label for="ob-rent">Est. monthly rent at location ($)</label><input type="number" id="ob-rent" min="0" step="1" inputmode="decimal" placeholder="e.g. 900" oninput="calcOffers()"></div>
-        </div>
+      <div class="offer-calc-hd"><h3>Compare Up to Four Offers</h3><p>See estimated pre-tax compensation after rent alongside a weighted fit score. Taxes, travel, meals, and other expenses are not included.</p></div>
+      <div class="offer-toolbar">
+        <p>Fit score weights: engineering work 30%, mentorship 20%, return-offer potential 20%, location 15%, industry interest 15%.</p>
+        <button type="button" class="btn-primary" id="add-offer" onclick="addOffer()">+ Add Offer</button>
       </div>
-      <div class="offer-results" id="offer-results" aria-live="polite">
-        <div class="offer-result-item"><div class="val" id="or-a-gross">—</div><div class="lbl">Offer A est. after rent</div></div>
-        <div class="offer-result-item"><div class="val" id="or-b-gross">—</div><div class="lbl">Offer B est. after rent</div></div>
-        <div class="offer-result-item"><div class="val" id="or-winner">—</div><div class="lbl">Higher estimated value</div></div>
-      </div>
+      <div class="offer-list" id="offer-list"></div>
+      <div class="offer-ranking" id="offer-ranking" aria-live="polite"></div>
     </div>
   </div>
 </section>
@@ -1766,13 +1863,75 @@ Best,
 
 </main>
 
+<section id="print-stories" class="print-only" aria-label="Printable STAR stories">
+  <h2>STAR Story Bank</h2>
+  <div id="print-story-list"></div>
+</section>
+
+<dialog id="print-dialog" aria-labelledby="print-dialog-title">
+  <div class="dialog-hd">
+    <div><h2 id="print-dialog-title">Print or Save as PDF</h2><p>Choose only what you need for the next conversation or event.</p></div>
+    <button type="button" class="dialog-close" aria-label="Close print options" onclick="closeDialog('print-dialog')">×</button>
+  </div>
+  <div class="dialog-body">
+    <div class="dialog-actions">
+      <button type="button" class="dialog-action" onclick="printPacket('full')"><strong>Full guide</strong><span>All 21 sections</span></button>
+      <button type="button" class="dialog-action" onclick="printPacket('current')"><strong>Current section</strong><span id="print-current-label">The section currently in view</span></button>
+      <button type="button" class="dialog-action" onclick="printPacket('checklists')"><strong>Checklists only</strong><span>Resume, career fair, and interview prep</span></button>
+      <button type="button" class="dialog-action" onclick="printPacket('templates')"><strong>Templates only</strong><span>Outreach and follow-up messages</span></button>
+      <button type="button" class="dialog-action" onclick="printPacket('stories')"><strong>STAR stories only</strong><span>Your locally saved story bank</span></button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="data-dialog" aria-labelledby="data-dialog-title">
+  <div class="dialog-hd">
+    <div><h2 id="data-dialog-title">Saved Data &amp; Backup</h2><p>Everything remains in this browser unless you export it.</p></div>
+    <button type="button" class="dialog-close" aria-label="Close saved data options" onclick="closeDialog('data-dialog')">×</button>
+  </div>
+  <div class="dialog-body">
+    <p class="tip"><strong>One backup includes:</strong> your prep plan, STAR stories, pitch-builder entries, checklists, offer comparisons, and recent searches.</p>
+    <div class="data-actions">
+      <button type="button" class="btn-primary" onclick="exportAllData()">Export All Data</button>
+      <button type="button" class="btn-secondary" onclick="document.getElementById('all-data-import').click()">Import Backup</button>
+      <button type="button" class="btn-secondary" onclick="clearAllSavedData()">Clear Saved Data</button>
+      <label class="sr-only" for="all-data-import">Choose a Career Packet backup file</label>
+      <input class="sr-only" type="file" id="all-data-import" tabindex="-1" accept="application/json,.json" onchange="importAllData(this.files[0]);this.value=''">
+    </div>
+    <p class="data-status" id="data-status" role="status" aria-live="polite"></p>
+  </div>
+</dialog>
+
 <footer>
-  <p><strong>ASME at The Ohio State University</strong> · Professional Development Career Guide · 2026–27 · Built for resume reviews, employer nights, career fair prep, and interview coaching.</p>
+  <p><strong>ASME at The Ohio State University</strong> · Professional Development Career Guide · <span data-config="edition">2026–27</span> · Built for resume reviews, employer nights, career fair prep, and interview coaching.</p>
 </footer>
 
 <a id="btt" href="#top" aria-label="Back to top">↑</a>
 
 <script>
+  const CONFIG = window.CAREER_PACKET_CONFIG || {};
+  const getConfig = path => path.split('.').reduce((value, key) => value?.[key], CONFIG);
+  function applyConfig() {
+    document.querySelectorAll('[data-config]').forEach(element => {
+      const value = getConfig(element.dataset.config);
+      if (value !== undefined && value !== null) element.textContent = value;
+    });
+    document.querySelectorAll('[data-config-href]').forEach(element => {
+      const value = getConfig(element.dataset.configHref);
+      if (value) element.href = value;
+    });
+    const counts = {
+      sections: document.querySelectorAll('main > section[id]').length,
+      templates: document.querySelectorAll('.tmpl').length,
+      checklists: document.querySelectorAll('#checklist .clwrap').length,
+      tools: 6
+    };
+    Object.entries(counts).forEach(([name, value]) => {
+      const element = document.querySelector(`[data-stat="${name}"]`);
+      if (element) element.textContent = value;
+    });
+  }
+
   // Progress + back to top
   const prog = document.getElementById('prog');
   const btt  = document.getElementById('btt');
@@ -1796,10 +1955,12 @@ Best,
   document.addEventListener('click', event => {
     if (!event.target.closest('.nav')) navGroups.forEach(group => { group.open = false; });
   });
-  document.querySelectorAll('section[id]').forEach(sec => {
+  let currentSectionId = 'start';
+  document.querySelectorAll('main > section[id]').forEach(sec => {
     new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
+          currentSectionId = e.target.id;
           navLinks.forEach(l => l.classList.remove('active'));
           document.querySelectorAll('.nav-group summary').forEach(summary => summary.classList.remove('active'));
           const a = document.querySelector(`.nav-menu a[href="#${e.target.id}"]`);
@@ -1823,7 +1984,11 @@ Best,
   // Checklist
   const STORAGE_KEYS = {
     checklist: 'asme-career-packet-checklist-v1',
-    stories: 'asme-career-packet-stories-v1'
+    stories: 'asme-career-packet-stories-v1',
+    pitch: 'asme-career-packet-pitch-v1',
+    offers: 'asme-career-packet-offers-v2',
+    prep: 'asme-career-packet-prep-v1',
+    recentSearches: 'asme-career-packet-recent-searches-v1'
   };
   function storageGet(key, fallback) {
     try {
@@ -1841,6 +2006,10 @@ Best,
   function storageRemove(key) {
     try { localStorage.removeItem(key); }
     catch (error) { console.warn('Could not clear local storage.', error); }
+  }
+  function hasSavedData() {
+    try { return Object.values(STORAGE_KEYS).some(key => localStorage.getItem(key) !== null); }
+    catch (error) { return false; }
   }
   function toggleDone(cb) { cb.closest('.cli').classList.toggle('done', cb.checked); }
   function updateCount() {
@@ -1892,7 +2061,7 @@ Best,
   }
 
   // Elevator pitch builder
-  function buildPitch() {
+  function buildPitch(persist = true) {
     const name   = document.getElementById('p-name').value.trim();
     const year   = document.getElementById('p-year').value.trim();
     const exp    = document.getElementById('p-exp').value.trim();
@@ -1900,6 +2069,7 @@ Best,
     const inv    = document.getElementById('p-inv').value.trim();
     const tgt    = document.getElementById('p-tgt').value.trim();
     const out    = document.getElementById('pitch-out');
+    if (persist) savePitchState();
     if (!name && !year && !exp) { out.textContent = 'Fill in the fields above to generate your pitch.'; return; }
     const addText = text => out.append(document.createTextNode(text));
     const addEmphasis = (text, className = '') => {
@@ -1920,6 +2090,20 @@ Best,
     if (inv) addText(`I'm also ${inv}. `);
     addText("I'm looking for "); addValue(tgt, 'target role/area');
     addText(" opportunities — I'd love to hear what your team is working on.");
+  }
+  function pitchState() {
+    return ['name','year','exp','did','inv','tgt'].reduce((state, field) => {
+      state[field] = document.getElementById(`p-${field}`).value;
+      return state;
+    }, {});
+  }
+  function savePitchState() { storageSet(STORAGE_KEYS.pitch, pitchState()); }
+  function loadPitchState() {
+    const saved = storageGet(STORAGE_KEYS.pitch, {});
+    ['name','year','exp','did','inv','tgt'].forEach(field => {
+      document.getElementById(`p-${field}`).value = String(saved?.[field] || '').slice(0, 1000);
+    });
+    buildPitch(false);
   }
   async function copyPitch() {
     const text = document.getElementById('pitch-out').innerText;
@@ -1955,14 +2139,64 @@ Best,
     });
   });
 
+  let searchResultLinks = [];
+  let searchActiveIndex = -1;
+  let recentSearches = [];
+  function searchCategory(id) {
+    if (id === 'templates') return 'Template';
+    if (id === 'checklist') return 'Checklist';
+    if (id === 'offer') return 'Tool';
+    return 'Section';
+  }
+  function appendHighlighted(element, text, terms) {
+    if (!terms.length) { element.textContent = text; return; }
+    const expression = new RegExp(`(${terms.map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'gi');
+    text.split(expression).forEach(part => {
+      if (terms.some(term => part.toLowerCase() === term.toLowerCase())) {
+        const mark = document.createElement('mark');
+        mark.textContent = part;
+        element.append(mark);
+      } else element.append(document.createTextNode(part));
+    });
+  }
+  function saveRecentSearch(query) {
+    const value = query.trim();
+    if (!value) return;
+    recentSearches = [value, ...recentSearches.filter(item => item.toLowerCase() !== value.toLowerCase())].slice(0, 5);
+    storageSet(STORAGE_KEYS.recentSearches, recentSearches);
+  }
+  function renderRecentSearches() {
+    recentSearches = storageGet(STORAGE_KEYS.recentSearches, []).filter(item => typeof item === 'string').slice(0, 5);
+    searchResults.replaceChildren();
+    searchResultLinks = [];
+    searchActiveIndex = -1;
+    if (!recentSearches.length) { searchResults.style.display = 'none'; return; }
+    const heading = document.createElement('div');
+    heading.className = 'search-recent-title';
+    heading.textContent = 'Recent searches';
+    searchResults.append(heading);
+    recentSearches.forEach(query => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'search-recent';
+      button.textContent = query;
+      button.addEventListener('click', () => {
+        searchInput.value = query;
+        doSearch(query);
+        searchInput.focus();
+      });
+      searchResults.append(button);
+    });
+    searchResults.style.display = 'block';
+  }
   function toggleSearch() {
     const visible = searchBar.style.display !== 'none';
     if (visible) { closeSearch(); } else {
       searchBar.style.display = 'block';
       searchToggle.setAttribute('aria-expanded', 'true');
       searchInput.value = '';
-      searchResults.style.display = 'none';
       searchClear.style.display = 'none';
+      renderRecentSearches();
       searchInput.focus();
     }
   }
@@ -1974,14 +2208,14 @@ Best,
   }
   function clearSearch() {
     searchInput.value = '';
-    searchResults.style.display = 'none';
     searchClear.style.display = 'none';
+    renderRecentSearches();
     searchInput.focus();
   }
   function doSearch(q) {
     searchClear.style.display = q ? 'block' : 'none';
-    if (!q.trim()) { searchResults.style.display = 'none'; return; }
-    const terms = q.toLowerCase().split(/\s+/);
+    if (!q.trim()) { renderRecentSearches(); return; }
+    const terms = q.toLowerCase().trim().split(/\s+/);
     const seen  = new Set();
     const hits  = searchIndex.filter(item => {
       const hay = item.text.toLowerCase();
@@ -1991,6 +2225,8 @@ Best,
       seen.add(item.id + (item.snippet||'')); return true;
     }).slice(0, 10);
     searchResults.replaceChildren();
+    searchResultLinks = [];
+    searchActiveIndex = -1;
     if (!hits.length) {
       const empty = document.createElement('div');
       empty.className = 'search-empty';
@@ -2002,21 +2238,43 @@ Best,
         const link = document.createElement('a');
         link.className = 'search-result';
         link.href = `#${h.id}`;
-        link.addEventListener('click', closeSearch);
+        link.id = `search-result-${searchResultLinks.length}`;
+        link.addEventListener('click', () => { saveRecentSearch(q); closeSearch(); });
         const title = document.createElement('div');
         title.className = 'search-result-title';
-        title.textContent = h.title;
+        const category = document.createElement('span');
+        category.className = 'search-result-category';
+        category.textContent = searchCategory(h.id);
+        title.append(category, document.createTextNode(' '));
+        appendHighlighted(title, h.title, terms);
         link.append(title);
         if (snippet) {
           const description = document.createElement('div');
           description.className = 'search-result-snippet';
-          description.textContent = snippet;
+          appendHighlighted(description, snippet, terms);
           link.append(description);
         }
         searchResults.append(link);
+        searchResultLinks.push(link);
       });
     }
     searchResults.style.display = 'block';
+  }
+  function handleSearchKeys(event) {
+    if (event.key === 'Escape') { event.preventDefault(); closeSearch(); return; }
+    if (!searchResultLinks.length) return;
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      const increment = event.key === 'ArrowDown' ? 1 : -1;
+      searchActiveIndex = (searchActiveIndex + increment + searchResultLinks.length) % searchResultLinks.length;
+      searchResultLinks.forEach((link, index) => link.classList.toggle('keyboard-active', index === searchActiveIndex));
+      searchInput.setAttribute('aria-activedescendant', searchResultLinks[searchActiveIndex].id);
+      searchResultLinks[searchActiveIndex].scrollIntoView({ block: 'nearest' });
+    }
+    if (event.key === 'Enter' && searchActiveIndex >= 0) {
+      event.preventDefault();
+      searchResultLinks[searchActiveIndex].click();
+    }
   }
   // Keyboard shortcut: / opens search
   document.addEventListener('keydown', e => {
@@ -2113,6 +2371,7 @@ Best,
       empty.className = 'story-empty';
       empty.textContent = stories.length ? 'No stories match this filter.' : 'No stories yet. Add your first one above — it will be stored locally in this browser.';
       list.append(empty);
+      renderPrintableStories();
       return;
     }
     filtered.forEach(story => {
@@ -2143,6 +2402,7 @@ Best,
       item.append(main, remove);
       list.append(item);
     });
+    renderPrintableStories();
   }
   function clearStories() {
     if (!stories.length || confirm('Clear all stories from this browser?')) {
@@ -2228,41 +2488,420 @@ Format with numbered questions, labeled Behavioral or Technical, and a short coa
     setTimeout(() => { btn.textContent = 'Copy Prompt to Clipboard'; btn.classList.remove('copied'); }, 3000);
   }
 
-  // Offer calculator
-  function calcOffers() {
-    const v  = id => { const el = document.getElementById(id); return el ? Math.max(0, parseFloat(el.value) || 0) : 0; };
-    const s  = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
-    const aGross = v('oa-rate') * v('oa-hrs') * v('oa-wks') + v('oa-hous');
-    const bGross = v('ob-rate') * v('ob-hrs') * v('ob-wks') + v('ob-hous');
-    const aRent  = v('oa-rent') * (v('oa-wks') / 4.33);
-    const bRent  = v('ob-rent') * (v('ob-wks') / 4.33);
-    const aNet   = aGross - aRent;
-    const bNet   = bGross - bRent;
-    const fmt    = n => n > 0 ? '$' + Math.round(n).toLocaleString() : '—';
-    const aEl = document.getElementById('or-a-gross');
-    const bEl = document.getElementById('or-b-gross');
-    const wEl = document.getElementById('or-winner');
-    if (!aEl) return;
-    aEl.textContent = fmt(aNet);
-    bEl.textContent = fmt(bNet);
-    aEl.closest('.offer-result-item').querySelector('.lbl').textContent = (s('oa-name')||'Offer A') + ' est. after rent';
-    bEl.closest('.offer-result-item').querySelector('.lbl').textContent = (s('ob-name')||'Offer B') + ' est. after rent';
-    const aComplete = v('oa-rate') > 0 && v('oa-hrs') > 0 && v('oa-wks') > 0;
-    const bComplete = v('ob-rate') > 0 && v('ob-hrs') > 0 && v('ob-wks') > 0;
-    if (aComplete && bComplete) {
-      const winner = aNet >= bNet ? (s('oa-name')||'Offer A') : (s('ob-name')||'Offer B');
-      wEl.textContent = winner;
-      wEl.closest('.offer-result-item').querySelector('.lbl').textContent = '+$' + Math.round(Math.abs(aNet-bNet)).toLocaleString() + ' estimated advantage';
-      wEl.closest('.offer-result-item').className = 'offer-result-item better';
-    } else {
-      wEl.textContent = '—';
-      wEl.closest('.offer-result-item').querySelector('.lbl').textContent = 'Higher estimated value';
-      wEl.closest('.offer-result-item').className = 'offer-result-item';
+  // Personalized prep plan
+  function prepState() {
+    return {
+      type: document.getElementById('prep-type').value,
+      date: document.getElementById('prep-date').value,
+      checked: [...document.querySelectorAll('#prep-output input[type="checkbox"]')].map(input => input.checked)
+    };
+  }
+  function prepCountdown(dateString) {
+    if (!dateString) return 'Add a target date';
+    const target = new Date(`${dateString}T12:00:00`);
+    if (Number.isNaN(target.getTime())) return 'Add a target date';
+    const today = new Date();
+    today.setHours(12, 0, 0, 0);
+    const days = Math.round((target - today) / 86400000);
+    if (days < 0) return `${Math.abs(days)} day${Math.abs(days) === 1 ? '' : 's'} past target`;
+    if (days === 0) return 'Target is today';
+    return `${days} day${days === 1 ? '' : 's'} to go`;
+  }
+  function generatePrepPlan(savedState) {
+    const typeInput = document.getElementById('prep-type');
+    const dateInput = document.getElementById('prep-date');
+    if (savedState) {
+      if (CONFIG.prepPlans?.[savedState.type]) typeInput.value = savedState.type;
+      dateInput.value = /^\d{4}-\d{2}-\d{2}$/.test(savedState.date || '') ? savedState.date : '';
+    }
+    const plan = CONFIG.prepPlans?.[typeInput.value];
+    const output = document.getElementById('prep-output');
+    if (!plan) return;
+    output.replaceChildren();
+    const header = document.createElement('div');
+    header.className = 'prep-output-hd';
+    const title = document.createElement('h4');
+    title.textContent = `${plan.label} prep plan`;
+    const countdown = document.createElement('div');
+    countdown.className = 'prep-countdown';
+    countdown.textContent = prepCountdown(dateInput.value);
+    header.append(title, countdown);
+    const tasks = document.createElement('div');
+    plan.tasks.forEach((task, index) => {
+      const label = document.createElement('label');
+      label.className = 'prep-task';
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.checked = Boolean(savedState?.checked?.[index]);
+      input.addEventListener('change', () => storageSet(STORAGE_KEYS.prep, prepState()));
+      const text = document.createElement('span');
+      text.textContent = task;
+      label.append(input, text);
+      tasks.append(label);
+    });
+    const links = document.createElement('div');
+    links.className = 'prep-links';
+    plan.links.forEach(id => {
+      const section = document.getElementById(id);
+      if (!section) return;
+      const link = document.createElement('a');
+      link.href = `#${id}`;
+      link.textContent = section.querySelector('h2')?.textContent.trim() || id;
+      links.append(link);
+    });
+    output.append(header, tasks, links);
+    output.classList.add('show');
+    storageSet(STORAGE_KEYS.prep, prepState());
+  }
+  function loadPrepPlan() {
+    const saved = storageGet(STORAGE_KEYS.prep, null);
+    if (saved?.type) generatePrepPlan(saved);
+  }
+
+  // Multi-offer comparison
+  const OFFER_FIELDS = [
+    ['rate', 'Hourly rate ($)', 'number'], ['hours', 'Hours / week', 'number'],
+    ['weeks', 'Number of weeks', 'number'], ['housing', 'Housing stipend ($)', 'number'],
+    ['rent', 'Monthly rent ($)', 'number']
+  ];
+  const RATING_LABELS = {
+    work: 'Work quality', mentorship: 'Mentorship', returnOffer: 'Return-offer potential',
+    location: 'Location fit', industry: 'Industry interest'
+  };
+  let offers = [];
+  function newOffer(name = '') {
+    return { id: newStoryId(), name, rate: '', hours: '', weeks: '', housing: '', rent: '', ratings: { work: 3, mentorship: 3, returnOffer: 3, location: 3, industry: 3 } };
+  }
+  function normalizeOffers(value) {
+    if (!Array.isArray(value)) return [];
+    return value.slice(0, 4).map(item => {
+      const offer = newOffer(String(item?.name || '').slice(0, 120));
+      offer.id = String(item?.id || newStoryId()).slice(0, 100);
+      OFFER_FIELDS.forEach(([field]) => offer[field] = item?.[field] === '' ? '' : String(Math.max(0, Number(item?.[field]) || 0)));
+      Object.keys(RATING_LABELS).forEach(field => offer.ratings[field] = Math.min(5, Math.max(1, Number(item?.ratings?.[field]) || 3)));
+      return offer;
+    });
+  }
+  function saveOffers() { storageSet(STORAGE_KEYS.offers, offers); }
+  function addOffer() {
+    if (offers.length >= 4) { alert('You can compare up to four offers at once.'); return; }
+    offers.push(newOffer());
+    saveOffers();
+    renderOffers();
+  }
+  function removeOffer(id) {
+    if (offers.length <= 2) return;
+    offers = offers.filter(offer => offer.id !== id);
+    saveOffers();
+    renderOffers();
+  }
+  function updateOffer(id, field, value, isRating = false) {
+    const offer = offers.find(item => item.id === id);
+    if (!offer) return;
+    if (isRating) offer.ratings[field] = Math.min(5, Math.max(1, Number(value) || 3));
+    else if (field === 'name') offer.name = value.slice(0, 120);
+    else offer[field] = value === '' ? '' : String(Math.max(0, Number(value) || 0));
+    saveOffers();
+    renderOfferRanking();
+  }
+  function fieldControl(offer, field, labelText, type) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'offer-field';
+    const label = document.createElement('label');
+    const id = `offer-${offer.id}-${field}`;
+    label.htmlFor = id;
+    label.textContent = labelText;
+    const input = document.createElement('input');
+    input.id = id;
+    input.type = type;
+    input.min = '0';
+    input.step = field === 'rate' ? '0.01' : '1';
+    input.value = offer[field];
+    input.addEventListener('input', () => updateOffer(offer.id, field, input.value));
+    wrapper.append(label, input);
+    return wrapper;
+  }
+  function renderOffers() {
+    const list = document.getElementById('offer-list');
+    list.replaceChildren();
+    offers.forEach((offer, index) => {
+      const card = document.createElement('div');
+      card.className = 'offer-card';
+      const header = document.createElement('div');
+      header.className = 'offer-card-hd';
+      const title = document.createElement('div');
+      title.className = 'offer-card-title';
+      title.textContent = `Offer ${index + 1}`;
+      header.append(title);
+      if (offers.length > 2) {
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'offer-remove';
+        remove.textContent = 'Remove';
+        remove.addEventListener('click', () => removeOffer(offer.id));
+        header.append(remove);
+      }
+      const nameField = fieldControl(offer, 'name', 'Company / offer name', 'text');
+      nameField.querySelector('input').placeholder = `Offer ${index + 1}`;
+      const grid = document.createElement('div');
+      grid.className = 'offer-grid';
+      OFFER_FIELDS.forEach(args => grid.append(fieldControl(offer, ...args)));
+      const fitTitle = document.createElement('div');
+      fitTitle.className = 'offer-fit-title';
+      fitTitle.textContent = 'Rate each fit factor from 1 (low) to 5 (high)';
+      const ratings = document.createElement('div');
+      ratings.className = 'rating-grid';
+      Object.entries(RATING_LABELS).forEach(([field, labelText]) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'rating-field';
+        const label = document.createElement('label');
+        const id = `offer-${offer.id}-rating-${field}`;
+        label.htmlFor = id;
+        label.textContent = `${labelText} (${CONFIG.offerFitWeights?.[field] || 0}%)`;
+        const select = document.createElement('select');
+        select.id = id;
+        for (let rating = 1; rating <= 5; rating += 1) {
+          const option = document.createElement('option');
+          option.value = rating;
+          option.textContent = `${rating} / 5`;
+          option.selected = offer.ratings[field] === rating;
+          select.append(option);
+        }
+        select.addEventListener('change', () => updateOffer(offer.id, field, select.value, true));
+        wrapper.append(label, select);
+        ratings.append(wrapper);
+      });
+      card.append(header, nameField, grid, fitTitle, ratings);
+      list.append(card);
+    });
+    const addButton = document.getElementById('add-offer');
+    if (addButton) addButton.disabled = offers.length >= 4;
+    renderOfferRanking();
+  }
+  function offerMetrics(offer) {
+    const number = field => Math.max(0, Number(offer[field]) || 0);
+    const net = number('rate') * number('hours') * number('weeks') + number('housing') - number('rent') * (number('weeks') / 4.33);
+    const fit = Object.entries(CONFIG.offerFitWeights || {}).reduce((sum, [field, weight]) => sum + (offer.ratings[field] / 5) * weight, 0);
+    return { net, fit: Math.round(fit), complete: number('rate') > 0 && number('hours') > 0 && number('weeks') > 0 };
+  }
+  function renderOfferRanking() {
+    const ranking = document.getElementById('offer-ranking');
+    ranking.replaceChildren();
+    if (!offers.length) {
+      const empty = document.createElement('div');
+      empty.className = 'offer-ranking-empty';
+      empty.textContent = 'Add offer details to compare estimated value and overall fit.';
+      ranking.append(empty);
+      return;
+    }
+    const ranked = offers.map((offer, index) => ({ offer, index, ...offerMetrics(offer) }))
+      .sort((a, b) => b.fit - a.fit || b.net - a.net);
+    ranked.forEach((item, rank) => {
+      const row = document.createElement('div');
+      row.className = 'offer-rank-row';
+      const number = document.createElement('div');
+      number.className = 'offer-rank-num';
+      number.textContent = rank + 1;
+      const name = document.createElement('div');
+      name.className = 'offer-rank-name';
+      name.textContent = item.offer.name || `Offer ${item.index + 1}`;
+      const value = document.createElement('div');
+      value.className = 'offer-rank-value';
+      const valueStrong = document.createElement('strong');
+      valueStrong.textContent = item.complete ? `$${Math.round(item.net).toLocaleString()}` : '—';
+      value.append(valueStrong, document.createTextNode('Estimated after rent'));
+      const fit = document.createElement('div');
+      fit.className = 'offer-rank-fit';
+      const fitStrong = document.createElement('strong');
+      fitStrong.textContent = `${item.fit} / 100`;
+      fit.append(fitStrong, document.createTextNode('Weighted fit score'));
+      row.append(number, name, value, fit);
+      ranking.append(row);
+    });
+  }
+  function loadOffers() {
+    offers = normalizeOffers(storageGet(STORAGE_KEYS.offers, []));
+    while (offers.length < 2) offers.push(newOffer());
+    renderOffers();
+  }
+
+  // Section links, dialogs, and focused printing
+  function addSectionShareButtons() {
+    document.querySelectorAll('main > section[id]').forEach(section => {
+      const heading = section.querySelector('.sh');
+      if (!heading || heading.querySelector('.section-share')) return;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'section-share';
+      button.textContent = 'Copy link';
+      button.setAttribute('aria-label', `Copy link to ${section.querySelector('h2')?.textContent || section.id}`);
+      button.addEventListener('click', async () => {
+        const url = new URL(window.location.href);
+        url.hash = section.id;
+        const copied = await copyText(url.href);
+        button.textContent = copied ? 'Copied!' : 'Copy failed';
+        setTimeout(() => { button.textContent = 'Copy link'; }, 1800);
+      });
+      heading.append(button);
+    });
+  }
+  function openDialog(id) {
+    const dialog = document.getElementById(id);
+    if (dialog?.showModal) dialog.showModal();
+    else dialog?.setAttribute('open', '');
+  }
+  function closeDialog(id) {
+    const dialog = document.getElementById(id);
+    if (dialog?.close) dialog.close();
+    else dialog?.removeAttribute('open');
+  }
+  function openDataDialog() { setDataStatus(''); openDialog('data-dialog'); }
+  function openPrintDialog() {
+    const section = document.getElementById(currentSectionId);
+    document.getElementById('print-current-label').textContent = section?.querySelector('h2')?.textContent || 'Current section';
+    openDialog('print-dialog');
+  }
+  function clearPrintMode() {
+    document.body.classList.remove('print-current', 'print-checklists', 'print-templates', 'print-stories');
+    document.querySelectorAll('.print-target').forEach(element => element.classList.remove('print-target'));
+  }
+  function renderPrintableStories() {
+    const container = document.getElementById('print-story-list');
+    if (!container) return;
+    container.replaceChildren();
+    stories.forEach(story => {
+      const article = document.createElement('article');
+      article.className = 'print-story';
+      const title = document.createElement('h3');
+      title.textContent = `${story.type}: ${story.title}`;
+      article.append(title);
+      [['Situation / Task', story.sit], ['Action', story.act], ['Result', story.res], ['Also works for', story.also]].forEach(([label, value]) => {
+        if (!value) return;
+        const heading = document.createElement('h4');
+        heading.textContent = label;
+        const paragraph = document.createElement('p');
+        paragraph.textContent = value;
+        article.append(heading, paragraph);
+      });
+      container.append(article);
+    });
+  }
+  function printPacket(mode) {
+    clearPrintMode();
+    closeDialog('print-dialog');
+    if (mode === 'stories' && !stories.length) { alert('Add at least one STAR story before printing your story bank.'); return; }
+    if (mode === 'current') {
+      document.body.classList.add('print-current');
+      document.getElementById(currentSectionId)?.classList.add('print-target');
+    } else if (mode !== 'full') document.body.classList.add(`print-${mode}`);
+    renderPrintableStories();
+    window.print();
+  }
+  window.addEventListener('afterprint', clearPrintMode);
+
+  // Complete local backup and restore
+  function collectAllData() {
+    return {
+      version: 2,
+      edition: CONFIG.edition || '',
+      exportedAt: new Date().toISOString(),
+      checklist: [...document.querySelectorAll('.cli input[type="checkbox"]')].map(input => input.checked),
+      stories,
+      pitch: pitchState(),
+      offers,
+      prep: storageGet(STORAGE_KEYS.prep, null),
+      recentSearches
+    };
+  }
+  function setDataStatus(message) { document.getElementById('data-status').textContent = message; }
+  function exportAllData() {
+    downloadFile(`ASME_Career_Packet_Backup_${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify(collectAllData(), null, 2), 'application/json');
+    setDataStatus('Backup downloaded. Store it somewhere you can find next semester.');
+  }
+  async function importAllData(file) {
+    if (!file) return;
+    try {
+      const parsed = JSON.parse(await file.text());
+      if (![1, 2].includes(Number(parsed?.version))) throw new Error('Unsupported backup version');
+      if (hasSavedData() && !confirm('Replace all Career Packet data currently saved in this browser?')) return;
+      storageSet(STORAGE_KEYS.checklist, Array.isArray(parsed.checklist) ? parsed.checklist.map(Boolean) : []);
+      storageSet(STORAGE_KEYS.stories, normalizeStories(parsed.stories));
+      storageSet(STORAGE_KEYS.pitch, parsed.pitch && typeof parsed.pitch === 'object' ? parsed.pitch : {});
+      storageSet(STORAGE_KEYS.offers, normalizeOffers(parsed.offers));
+      storageSet(STORAGE_KEYS.prep, parsed.prep && typeof parsed.prep === 'object' ? parsed.prep : null);
+      storageSet(STORAGE_KEYS.recentSearches, Array.isArray(parsed.recentSearches) ? parsed.recentSearches.filter(item => typeof item === 'string').slice(0, 5) : []);
+      reloadSavedInterfaces();
+      setDataStatus('Backup imported successfully. Your saved tools have been refreshed.');
+    } catch (error) {
+      setDataStatus('Import failed. Choose a JSON file exported from this Career Packet.');
+    }
+  }
+  function clearAllSavedData() {
+    if (!confirm('Clear all checklists, stories, pitch fields, offers, prep plans, and recent searches from this browser?')) return;
+    Object.values(STORAGE_KEYS).forEach(storageRemove);
+    reloadSavedInterfaces();
+    setDataStatus('All saved Career Packet data has been cleared from this browser.');
+  }
+  function reloadSavedInterfaces() {
+    document.querySelectorAll('.cli input[type="checkbox"]').forEach(input => { input.checked = false; toggleDone(input); });
+    const savedChecklist = storageGet(STORAGE_KEYS.checklist, []);
+    document.querySelectorAll('.cli input[type="checkbox"]').forEach((input, index) => { input.checked = Boolean(savedChecklist[index]); toggleDone(input); });
+    updateCount();
+    loadStories();
+    loadPitchState();
+    offers = normalizeOffers(storageGet(STORAGE_KEYS.offers, []));
+    while (offers.length < 2) offers.push(newOffer());
+    renderOffers();
+    document.getElementById('prep-output').classList.remove('show');
+    document.getElementById('prep-output').replaceChildren();
+    const savedPrep = storageGet(STORAGE_KEYS.prep, null);
+    if (savedPrep?.type) generatePrepPlan(savedPrep);
+    recentSearches = storageGet(STORAGE_KEYS.recentSearches, []);
+  }
+
+  // Progressive web app / offline availability
+  function setupPwa() {
+    const updateConnectionState = () => document.body.classList.toggle('is-offline', !navigator.onLine);
+    window.addEventListener('online', updateConnectionState);
+    window.addEventListener('offline', updateConnectionState);
+    updateConnectionState();
+    let installPrompt = null;
+    const installButton = document.getElementById('install-app');
+    window.addEventListener('beforeinstallprompt', event => {
+      event.preventDefault();
+      installPrompt = event;
+      installButton.style.display = '';
+    });
+    installButton?.addEventListener('click', async () => {
+      if (!installPrompt) return;
+      await installPrompt.prompt();
+      installPrompt = null;
+      installButton.style.display = 'none';
+    });
+    window.addEventListener('appinstalled', () => { installButton.style.display = 'none'; });
+    if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+      navigator.serviceWorker.register('./sw.js').catch(error => console.warn('Offline setup failed.', error));
     }
   }
 
+  document.querySelectorAll('dialog').forEach(dialog => dialog.addEventListener('click', event => {
+    if (event.target === dialog) dialog.close();
+  }));
+  document.getElementById('prep-type').addEventListener('change', () => {
+    if (document.getElementById('prep-output').classList.contains('show')) generatePrepPlan();
+  });
+  document.getElementById('prep-date').addEventListener('change', () => {
+    if (document.getElementById('prep-output').classList.contains('show')) generatePrepPlan();
+  });
+
+  applyConfig();
   loadChecklistState();
   loadStories();
+  loadPitchState();
+  loadOffers();
+  loadPrepPlan();
+  addSectionShareButtons();
+  setupPwa();
 </script>
 </body>
 </html>

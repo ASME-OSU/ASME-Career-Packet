@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">ASME at Ohio State Career Packet</title>
+  <rect width="512" height="512" rx="104" fill="#0c1f3a"/>
+  <path d="M0 344 512 176v336H0Z" fill="#1a3a5c"/>
+  <circle cx="406" cy="102" r="86" fill="#bb0000" opacity=".92"/>
+  <text x="256" y="250" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="118" font-weight="700" text-anchor="middle">ASME</text>
+  <text x="256" y="318" fill="#ffd0d0" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" letter-spacing="8" text-anchor="middle">OHIO STATE</text>
+</svg>
