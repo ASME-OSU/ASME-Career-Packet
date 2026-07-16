@@ -1,0 +1,14 @@
+{
+  "name": "asme-career-packet",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "test": "npm run validate && playwright test",
+    "test:browser": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0"
+  }
+}
+

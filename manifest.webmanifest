@@ -1,0 +1,18 @@
+{
+  "name": "ASME at Ohio State Career Packet",
+  "short_name": "ASME Career",
+  "description": "An interactive engineering career-preparation guide from ASME at Ohio State.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8fafd",
+  "theme_color": "#0c1f3a",
+  "icons": [
+    {
+      "src": "./assets/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
