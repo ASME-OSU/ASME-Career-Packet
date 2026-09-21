@@ -52,3 +52,7 @@ Rebuilt the editable Word resume with black horizontal section rules, serif type
 ## Quantifying resume results
 
 Added six question groups covering scope, before/after measurements, requirements, beneficiaries, personal contribution, and supporting records. Included a 25% time-reduction example and a scope-based alternative when outcome data is unavailable, with guidance on estimates and confidentiality.
+
+## Matching flat icons
+
+Added a reusable set of native SVG icons to the quick-start cards, application loop, quantification questions, offer lenses, and AI practice steps. Recolored the older clothing and alternative-experience illustrations to match scarlet, charcoal, and warm gray. Icons are decorative, paired with visible labels, and included in the offline page. Desktop and phone layouts were visually inspected.
