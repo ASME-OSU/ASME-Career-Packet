@@ -27,6 +27,30 @@ test('builds and restores a personalized prep plan', async ({ page }) => {
   await expect(page.locator('#prep-output input[type="checkbox"]').first()).toBeChecked();
 });
 
+test('adjusts prep tasks for a near-term deadline', async ({ page }) => {
+  await page.locator('#prep-type').selectOption('careerfair');
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  await page.locator('#prep-date').fill(tomorrow.toISOString().slice(0, 10));
+  await page.getByRole('button', { name: 'Build My Plan' }).click();
+  await expect(page.locator('#prep-output')).toContainText('Your next 48 hours');
+  await expect(page.locator('#prep-output')).toContainText('Lay out your outfit');
+});
+
+test('reads and edits a saved STAR story', async ({ page }) => {
+  await page.locator('#s-title').fill('Fixture redesign');
+  await page.locator('#s-act').fill('Modeled and tested two mounting concepts.');
+  await page.locator('#s-res').fill('Reduced setup time by 40%.');
+  await page.getByRole('button', { name: '+ Add Story' }).click();
+  await page.getByText('Read story').click();
+  await expect(page.locator('.story-details')).toContainText('Reduced setup time by 40%.');
+  await page.getByRole('button', { name: 'Edit' }).click();
+  await page.locator('#s-res').fill('Reduced setup time by 45%.');
+  await page.getByRole('button', { name: 'Save changes' }).click();
+  await page.getByText('Read story').click();
+  await expect(page.locator('.story-details')).toContainText('Reduced setup time by 45%.');
+});
+
 test('compares multiple offers by value and weighted fit', async ({ page }) => {
   const cards = page.locator('.offer-card');
   await expect(cards).toHaveCount(2);
@@ -69,4 +93,65 @@ test('exports a complete backup and supports focused print mode', async ({ page 
   await page.getByRole('button', { name: /Current section/ }).click();
   await expect(page.locator('body')).toHaveClass(/print-current/);
   await expect(page.locator('main > section.print-target')).toHaveCount(1);
+});
+
+test('navigates the field guide with direct routes and keyboard menus', async ({ page }) => {
+  await page.getByRole('link', { name: /I’m getting application-ready/ }).click();
+  await expect(page).toHaveURL(/#resume$/);
+  await page.locator('#resume .chapter-next a').click();
+  await expect(page).toHaveURL(/#linkedin$/);
+  const menu = page.locator('.nav-group').first();
+  await menu.locator('summary').click();
+  await expect(menu).toHaveAttribute('open', '');
+  await page.keyboard.press('Escape');
+  await expect(menu).not.toHaveAttribute('open', '');
+  await expect(menu.locator('summary')).toBeFocused();
+});
+
+test('keeps chapter navigation and tables within a narrow viewport', async ({ page }) => {
+  for (const width of [360, 700, 1024]) {
+    await page.setViewportSize({ width, height: 850 });
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - innerWidth);
+    expect(overflow).toBeLessThanOrEqual(1);
+  }
+});
+
+test('configures an AI interviewer and copies the selected session', async ({ page }) => {
+  await page.locator('#ai-mode').selectOption('technical');
+  await page.locator('#ai-style').selectOption('realistic');
+  await page.locator('#ai-count').selectOption('8');
+  await page.locator('#ai-resume').fill('Built a sensor fixture in SolidWorks.');
+  await page.locator('#ai-jd').fill('Test engineering intern');
+  const prompt = await page.locator('#ai-out').textContent();
+  expect(prompt).toContain('Ask 8 main questions, ONE question at a time');
+  expect(prompt).toContain('REALISTIC MODE');
+  expect(prompt).toContain('Built a sensor fixture in SolidWorks.');
+  expect(prompt).toContain('Test engineering intern');
+  expect(prompt).toContain('Supply enough data for any numerical exercise.');
+  await page.evaluate(() => { window.copyText = async text => { window.copiedPrompt = text; return true; }; });
+  await page.locator('#ai-copy-btn').click();
+  expect(await page.evaluate(() => window.copiedPrompt)).toBe(prompt);
+  await expect(page.locator('#ai-ready')).toContainText('Copied.');
+});
+
+test('offers a usable default AI session and a manual copy fallback', async ({ page }) => {
+  await expect(page.locator('#ai-out')).toContainText('COACHING MODE');
+  await expect(page.locator('#ai-out')).toContainText('ask which role I am targeting');
+  await page.evaluate(() => { window.copyText = async () => false; });
+  await page.locator('#ai-copy-btn').click();
+  await expect(page.locator('.ai-preview')).toHaveAttribute('open', '');
+  await expect(page.locator('#ai-ready')).toContainText('Select and copy');
+});
+
+test('shows realistic resume examples in the requested section order', async ({ page }) => {
+  await expect(page.locator('#resume-examples')).toContainText('fictional teaching examples');
+  for (const year of ['freshman', 'sophomore', 'junior', 'senior']) {
+    const example = page.locator(`#resume-${year}`);
+    if (!(await example.getAttribute('open') !== null)) await example.locator('summary').click();
+    await expect(example.locator('.sample-resume')).toBeVisible();
+    expect(await example.locator('.sample-resume h4').allTextContents()).toEqual([
+      'EDUCATION', 'SKILLS AND QUALIFICATIONS', 'EXPERIENCE', 'PROJECTS', 'ORGANIZATIONS AND LEADERSHIP'
+    ]);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
 });

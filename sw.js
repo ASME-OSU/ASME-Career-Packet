@@ -1,11 +1,15 @@
-const CACHE_NAME = 'asme-career-packet-v2';
+const CACHE_NAME = 'asme-career-packet-v8';
 const APP_SHELL = [
   './',
   './index.html',
   './config.js',
+  './assets/field-guide.css',
   './manifest.webmanifest',
   './assets/app-icon.svg',
-  './assets/asme-osu-logo.png'
+  './assets/asme-osu-logo.png',
+  './assets/templates/ASME_Resume_Template.docx',
+  './assets/templates/ASME_Project_Portfolio_Template.docx',
+  './assets/templates/ASME_Application_Tracker.xlsx'
 ];
 
 self.addEventListener('install', event => {

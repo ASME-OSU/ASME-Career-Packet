@@ -13,13 +13,22 @@ An interactive professional-development guide for Ohio State engineering student
 - Personalized, date-based preparation plans for fairs, interviews, searches, and offer decisions
 - Elevator-pitch builder with local persistence
 - Locally saved STAR interview-story bank with text and JSON exports
-- AI interview-practice prompt generator
+- Expandable, editable, and copyable STAR stories for rehearsal
+- Configurable AI interviewer prompts: four interview focuses, coaching or realistic feedback, adjustable question counts, and copy fallback
+- Responsive visual guides for application strategy, resume structure, STAR answers, and offer evaluation
 - Comparison of up to four offers by pre-tax value after rent and weighted qualitative fit
 - Locally saved preparation checklists
 - Focused print/PDF options for one section, checklists, templates, or STAR stories
 - Shareable links for every section
+- Downloadable resume, project-portfolio, and application-tracker templates
+- Resume template with section rules and education → skills → experience → projects → organizations order
+- Expandable freshman, sophomore, junior, and senior resume examples
 - Complete JSON backup and restore for all saved tools
 - Installable offline web app support
+
+## Content additions
+
+Application strategy, student support and scam awareness, a worked beam interview example, responsible AI practice, portfolio permissions, full-time offer questions, and negotiation/acceptance/decline templates complement the original 21 chapters.
 
 ## Privacy
 
