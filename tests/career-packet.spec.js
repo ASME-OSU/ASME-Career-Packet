@@ -122,11 +122,14 @@ test('configures an AI interviewer and copies the selected session', async ({ pa
   await page.locator('#ai-count').selectOption('8');
   await page.locator('#ai-resume').fill('Built a sensor fixture in SolidWorks.');
   await page.locator('#ai-jd').fill('Test engineering intern');
+  await page.locator('#ai-company').fill('Example Aerospace');
   const prompt = await page.locator('#ai-out').textContent();
   expect(prompt).toContain('Ask 8 main questions, ONE question at a time');
   expect(prompt).toContain('REALISTIC MODE');
   expect(prompt).toContain('Built a sensor fixture in SolidWorks.');
   expect(prompt).toContain('Test engineering intern');
+  expect(prompt).toContain('COMPANY CONTEXT\nExample Aerospace');
+  expect(prompt).toContain('Never invent company facts');
   expect(prompt).toContain('Supply enough data for any numerical exercise.');
   await page.evaluate(() => { window.copyText = async text => { window.copiedPrompt = text; return true; }; });
   await page.locator('#ai-copy-btn').click();
@@ -136,6 +139,11 @@ test('configures an AI interviewer and copies the selected session', async ({ pa
 
 test('offers a usable default AI session and a manual copy fallback', async ({ page }) => {
   await expect(page.locator('#ai-out')).toContainText('COACHING MODE');
+  await expect(page.locator('#ai-out')).toContainText('No company supplied. Keep the session role-focused');
+  await page.locator('#ai-company').fill('Example Motors');
+  await expect(page.locator('#ai-out')).toContainText('COMPANY CONTEXT\nExample Motors');
+  await page.locator('#ai-company').fill('');
+  await expect(page.locator('#ai-out')).not.toContainText('Example Motors');
   await expect(page.locator('#ai-out')).toContainText('ask which role I am targeting');
   await page.evaluate(() => { window.copyText = async () => false; });
   await page.locator('#ai-copy-btn').click();

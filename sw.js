@@ -1,4 +1,4 @@
-const CACHE_NAME = 'asme-career-packet-v9';
+const CACHE_NAME = 'asme-career-packet-v10';
 const APP_SHELL = [
   './',
   './index.html',
