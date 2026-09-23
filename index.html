@@ -102,9 +102,6 @@
     .acc-inner > div{overflow:hidden}
 
     /* SECTION DIVIDER */
-    .section-divider{display:flex;align-items:center;gap:16px;margin:72px 0 0;opacity:.35}
-    .section-divider::before,.section-divider::after{content:'';flex:1;height:1px;background:var(--line)}
-    .section-divider span{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 
     /* HOVER TOOLTIP */
     [data-tip]{position:relative;cursor:help}
@@ -747,9 +744,9 @@
 <nav class="nav" aria-label="Career guide sections">
   <div class="nav-inner">
     <a class="nav-home" href="#top" aria-label="Back to guide introduction">FIELD GUIDE <span aria-hidden="true">/</span></a>
-    <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="nav-sections" onclick="toggleMobileMenu()"><span class="menu-glyph" aria-hidden="true">☰</span><span class="mobile-menu-label">Explore guide</span></button>
+    <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="nav-sections" onclick="toggleMobileMenu()"><span class="menu-glyph" aria-hidden="true">☰</span><span class="mobile-menu-label">Chapters</span></button>
     <div class="nav-sections" id="nav-sections">
-    <div class="mobile-menu-heading">Explore the field guide <span>21 sections</span></div>
+    <div class="mobile-menu-heading">Choose a chapter <span>21 chapters</span></div>
     <div class="mobile-reading-switch" aria-label="Mobile reading view">
       <button type="button" data-reading-mode="chapters" aria-pressed="true" onclick="setMobileReadingMode('chapters')">One chapter</button>
       <button type="button" data-reading-mode="all" aria-pressed="false" onclick="setMobileReadingMode('all')">Full guide</button>
@@ -1552,7 +1549,6 @@
 </section>
 
 <!-- ── 13 CAREER FAIR ── -->
-<div class="section-divider rv"><span>Event Day</span></div>
 <section id="careerfair">
   <div class="sh rv">
     <div class="sh-left"><span class="sh-tag">13 — Career Fair Playbook</span><h2>Career Fair Strategy</h2></div>
@@ -1705,7 +1701,6 @@
 </section>
 
 <!-- ── 17 EVALUATING OFFERS ── -->
-<div class="section-divider rv"><span>After the Interview</span></div>
 <section id="offer">
   <div class="sh rv">
     <div class="sh-left"><span class="sh-tag">17 — Evaluating Offers</span><h2>Getting &amp; Evaluating Offers</h2></div>
@@ -1791,7 +1786,6 @@
 </section>
 
 <!-- ── 19 GRAD SCHOOL ── -->
-<div class="section-divider rv"><span>Beyond Industry</span></div>
 <section id="gradschool">
   <div class="sh rv">
     <div class="sh-left"><span class="sh-tag">19 — Research &amp; Grad School</span><h2>Research &amp; Grad School</h2></div>
@@ -2157,7 +2151,12 @@ Best,
     mobileMenuButton.querySelector('.menu-glyph').textContent = next ? '×' : '☰';
     navSections.classList.toggle('is-open', next);
     document.body.classList.toggle('mobile-menu-open', next);
-    if (!next) document.querySelectorAll('.nav-group').forEach(group => { group.open = false; });
+    if (next) {
+      const id = decodeURIComponent(location.hash.slice(1));
+      const chapter = document.getElementById(id)?.closest('main > section[id]');
+      const activeLink = navSections.querySelector(`.nav-menu a[href="#${chapter?.id || 'start'}"]`);
+      if (activeLink) activeLink.closest('.nav-group').open = true;
+    } else document.querySelectorAll('.nav-group').forEach(group => { group.open = false; });
   }
   function toggleHeroPaths() {
     const panel = document.querySelector('.hero-panel');
@@ -2173,6 +2172,7 @@ Best,
   navLinks.forEach(link => link.addEventListener('click', () => {
     closeMobileMenu();
   }));
+  navSections.querySelectorAll('.mobile-quicklinks a').forEach(link => link.addEventListener('click', closeMobileMenu));
   document.addEventListener('click', event => {
     if (!event.target.closest('.nav')) closeMobileMenu();
   });
@@ -2222,15 +2222,26 @@ Best,
   mobileReaderBar.setAttribute('aria-label', 'Chapter navigation');
   const previousChapter = document.createElement('a');
   previousChapter.setAttribute('aria-label', 'Previous chapter');
-  previousChapter.textContent = '‹';
-  const readerProgress = document.createElement('div');
-  readerProgress.setAttribute('aria-live', 'polite');
+  const readerProgress = document.createElement('button');
+  readerProgress.type = 'button';
+  readerProgress.setAttribute('aria-label', 'Choose a chapter');
+  readerProgress.addEventListener('click', event => {
+    event.stopPropagation();
+    toggleMobileMenu();
+  });
   const readerTitle = document.createElement('strong');
   const readerCount = document.createElement('small');
   readerProgress.append(readerTitle, readerCount);
   const nextChapter = document.createElement('a');
   nextChapter.setAttribute('aria-label', 'Next chapter');
-  nextChapter.textContent = '›';
+  for (const [link, symbol, label] of [[previousChapter, '‹', 'Previous'], [nextChapter, '›', 'Next']]) {
+    const icon = document.createElement('span');
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = symbol;
+    const caption = document.createElement('small');
+    caption.textContent = label;
+    link.append(icon, caption);
+  }
   mobileReaderBar.append(previousChapter, readerProgress, nextChapter);
   document.querySelector('main').prepend(mobileReaderBar);
 
@@ -2249,7 +2260,8 @@ Best,
     chapters.forEach(chapter => chapter.classList.toggle('mobile-current', chapter === active));
     const index = chapters.indexOf(active);
     readerTitle.textContent = active.querySelector('h2').textContent;
-    readerCount.textContent = `CHAPTER ${index + 1} / ${chapters.length}`;
+    readerCount.textContent = `CHAPTER ${index + 1}/${chapters.length} · MENU`;
+    readerProgress.setAttribute('aria-label', `Choose a chapter. Current chapter ${index + 1} of ${chapters.length}: ${readerTitle.textContent}`);
     for (const [link, chapter] of [[previousChapter, chapters[index - 1]], [nextChapter, chapters[index + 1]]]) {
       if (chapter) {
         link.href = `#${chapter.id}`;

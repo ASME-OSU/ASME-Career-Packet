@@ -85,7 +85,7 @@ test('mobile readers can page through chapters or show the full guide', async ({
   await page.goto('/#ai-interviewer');
   await expect(page.locator('#interviews')).toBeVisible();
   await expect(page.locator('#ai-interviewer')).toBeVisible();
-  await page.getByRole('button', { name: 'Explore guide' }).click();
+  await page.getByRole('button', { name: 'Chapters', exact: true }).click();
   await page.getByRole('button', { name: 'Full guide' }).click();
   await expect(page.locator('html')).not.toHaveClass(/mobile-chapter-mode/);
   await expect(page.locator('#start')).toBeVisible();
@@ -114,7 +114,7 @@ test('mobile guide menu fills the screen and keeps chapter navigation usable', a
   await page.setViewportSize({ width: 320, height: 812 });
   await page.evaluate(() => localStorage.removeItem('asme-career-mobile-view'));
   await page.reload();
-  await page.getByRole('button', { name: 'Explore guide' }).click();
+  await page.getByRole('button', { name: 'Chapters', exact: true }).click();
   const menuBounds = await page.evaluate(() => {
     const menu = document.querySelector('.nav-sections').getBoundingClientRect();
     return { top: menu.top, bottom: menu.bottom, viewportHeight: innerHeight };
@@ -130,7 +130,7 @@ test('mobile guide menu fills the screen and keeps chapter navigation usable', a
 
 test('mobile chapter menu opens, navigates, and closes', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  const menu = page.getByRole('button', { name: 'Explore guide' });
+  const menu = page.getByRole('button', { name: 'Chapters', exact: true });
   await expect(menu).toBeVisible();
   await menu.click();
   await expect(menu).toHaveAttribute('aria-expanded', 'true');
@@ -144,6 +144,35 @@ test('mobile chapter menu opens, navigates, and closes', async ({ page }) => {
   await menu.click();
   await page.keyboard.press('Escape');
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
+});
+
+test('chapter controls show the current place without stray dividers', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.evaluate(() => localStorage.removeItem('asme-career-mobile-view'));
+  await page.goto('/#interviews');
+  await page.reload();
+  await expect(page.locator('#interviews')).toBeVisible();
+  await expect(page.locator('main > .section-divider')).toHaveCount(0);
+  await expect(page.locator('#interviews .chapter-next a')).toHaveAttribute('href', '#technical');
+  await expect(page.getByRole('link', { name: 'Previous chapter' })).toContainText('Previous');
+  await expect(page.getByRole('link', { name: 'Next chapter' })).toContainText('Next');
+  await page.getByRole('button', { name: /Choose a chapter\. Current chapter 11 of 21/ }).click();
+  await expect(page.getByRole('button', { name: 'Chapters', exact: true })).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('.nav-group').filter({ has: page.getByText('Prepare', { exact: true }) })).toHaveAttribute('open', '');
+  await page.locator('.mobile-quicklinks a[href="#templates"]').click();
+  await expect(page).toHaveURL(/#templates$/);
+  await expect(page.locator('#templates')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Chapters', exact: true })).toHaveAttribute('aria-expanded', 'false');
+});
+
+test('chapter menu follows the reading order', async ({ page }) => {
+  const order = await page.evaluate(() => ({
+    chapters: [...document.querySelectorAll('main > section[id]')].map(section => section.id),
+    menu: [...document.querySelectorAll('.nav-menu a')]
+      .map(link => link.hash.slice(1))
+      .filter(id => document.querySelector(`main > section[id="${id}"]`))
+  }));
+  expect(order.menu).toEqual(order.chapters);
 });
 
 test('mobile hero keeps all guide features available by swiping', async ({ page }) => {
@@ -221,7 +250,7 @@ test('supports keyboard search and remembers searches', async ({ page }) => {
 test('exports a complete backup and supports focused print mode', async ({ page }) => {
   await page.locator('#p-name').fill('Taylor');
   const mobile = page.viewportSize().width <= 700;
-  if (mobile) await page.getByRole('button', { name: 'Explore guide' }).click();
+  if (mobile) await page.getByRole('button', { name: 'Chapters', exact: true }).click();
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Data & Backup' }).click();
   await page.getByRole('button', { name: 'Export All Data' }).click();
@@ -230,7 +259,7 @@ test('exports a complete backup and supports focused print mode', async ({ page 
 
   await page.evaluate(() => { window.print = () => {}; });
   await page.locator('#data-dialog .dialog-close').click();
-  if (mobile) await page.getByRole('button', { name: 'Explore guide' }).click();
+  if (mobile) await page.getByRole('button', { name: 'Chapters', exact: true }).click();
   await page.getByRole('button', { name: 'Print / PDF' }).click();
   await page.getByRole('button', { name: /Current section/ }).click();
   await expect(page.locator('body')).toHaveClass(/print-current/);
@@ -244,13 +273,13 @@ test('navigates the field guide with direct routes and keyboard menus', async ({
   await page.locator('#resume .chapter-next a').click();
   await expect(page).toHaveURL(/#linkedin$/);
   const mobile = page.viewportSize().width <= 700;
-  if (mobile) await page.getByRole('button', { name: 'Explore guide' }).click();
+  if (mobile) await page.getByRole('button', { name: 'Chapters', exact: true }).click();
   const menu = page.locator('.nav-group').first();
   await menu.locator('summary').click();
   await expect(menu).toHaveAttribute('open', '');
   await page.keyboard.press('Escape');
   await expect(menu).not.toHaveAttribute('open', '');
-  if (mobile) await expect(page.getByRole('button', { name: 'Explore guide' })).toBeFocused();
+  if (mobile) await expect(page.getByRole('button', { name: 'Chapters', exact: true })).toBeFocused();
   else await expect(menu.locator('summary')).toBeFocused();
 });
 
