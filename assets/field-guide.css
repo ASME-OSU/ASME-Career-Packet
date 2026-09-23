@@ -111,7 +111,7 @@ section{margin-top:64px;scroll-margin-top:84px}
 @media print{.sample-layout{display:block;padding:0}.sample-layout aside{margin-bottom:12px}.sample-resume{box-shadow:none;break-inside:avoid}.resume-example{break-inside:auto;background:#fff}.resume-example>summary{display:block}}
 #quantify-results{scroll-margin-top:84px}.quantify-grid{margin:20px 0;gap:12px}.quantify-grid>div{padding:20px;background:#fff;border-top:2px solid var(--scarlet)}.quantify-grid h4{font-size:15px;color:var(--ink);margin-bottom:8px}.quantify-grid p{font-size:13px;line-height:1.7}.quantify-example{padding:18px 0;margin-bottom:16px;border-block:1px solid #cac7bb;font-size:14px}.quantify-example p{margin-top:8px}
 /* Shared native flat-icon palette; decorative icons accompany visible text. */
-.icon-library{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}.guide-icon{display:block;width:48px;height:48px;flex:none;margin-bottom:15px}.icon-paper{fill:#eeede7}.icon-soft{fill:#dedbd2}.icon-accent{fill:var(--scarlet)}.icon-ink{fill:#262829}.qs .guide-icon{margin-top:4px}.route-map .guide-icon{width:48px;height:48px;display:inline-block;margin:0 10px 12px 0;vertical-align:middle}.route-map li>.route-step{display:inline-block;vertical-align:middle;font-size:16px;margin-bottom:12px;color:var(--muted)}.offer-lenses .guide-icon{width:52px;height:52px}.practice-loop .guide-icon{width:40px;height:40px;margin-bottom:12px}.practice-loop .icon-ink{fill:#f5f3ed}.practice-loop b{display:inline-grid;width:20px;height:20px;margin:0 7px 6px 0;font-size:10px}.practice-loop strong{display:inline;font-size:13px}.quantify-grid .guide-icon{width:42px;height:42px}.flat-icon svg{overflow:visible}
+.icon-library{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}.guide-icon{display:block;width:48px;height:48px;flex:none;margin-bottom:15px}.icon-paper{fill:#eeede7}.icon-soft{fill:#dedbd2}.icon-accent{fill:var(--scarlet)}.icon-ink{fill:var(--icon-ink,#262829)}.qs .guide-icon{margin-top:4px}.route-map .guide-icon{width:48px;height:48px;display:inline-block;margin:0 10px 12px 0;vertical-align:middle}.route-map li>.route-step{display:inline-block;vertical-align:middle;font-size:16px;margin-bottom:12px;color:var(--muted)}.offer-lenses .guide-icon{width:52px;height:52px}.practice-loop .guide-icon{width:40px;height:40px;margin-bottom:12px}.practice-loop .icon-ink{fill:#f5f3ed}.practice-loop b{display:inline-grid;width:20px;height:20px;margin:0 7px 6px 0;font-size:10px}.practice-loop strong{display:inline;font-size:13px}.quantify-grid .guide-icon{width:42px;height:42px}.flat-icon svg{overflow:visible}
 @media(max-width:600px){.offer-lenses .guide-icon{grid-row:1/3;margin:0;width:48px;height:48px}.qs .guide-icon{width:42px;height:42px}.quantify-grid .guide-icon{width:38px;height:38px}}
 @media print{.guide-icon{print-color-adjust:exact}}
 .ai-company-field{margin:0 0 18px}.ai-company-field input{display:block;width:100%;max-width:560px;min-height:44px;border:1px solid #737575;border-radius:4px;background:#353738;color:#fff;padding:10px 12px;font:13px var(--sans)}.ai-company-field input::placeholder{color:#a9abab}#ai-interviewer .ai-company-hint{font-size:12px;color:#c1c3c3;margin:6px 0 0}
@@ -321,3 +321,43 @@ html[data-theme="dark"] .offer-result-item.worse .val{color:#ffb5b9}
   .route-links small{display:none}
 }
 @media print{.route-card{display:none}}
+
+/* Illustrated summaries turn long reference sections into scannable entry points. */
+.experience-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:20px}
+.experience-card{position:relative;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:26px}
+.experience-card:before{content:'';position:absolute;right:-22px;top:-24px;width:130px;height:130px;border-radius:50%;background:var(--scarlet-dim)}
+.experience-card .guide-icon{position:relative;width:76px;height:76px;margin-bottom:20px}
+.experience-name{font:600 11px var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--scarlet)}
+.experience-card h3{font:600 25px/1.2 var(--sans);color:var(--ink);margin:9px 0}
+.experience-card p{font-size:14px;max-width:36ch;line-height:1.65}
+.experience-sequence{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:24px;font:600 10px var(--sans);color:var(--ink)}
+.experience-sequence span{padding:7px 9px;background:var(--bg2);border-radius:4px}
+.experience-sequence span+span:before{content:'→';margin-right:7px;color:var(--scarlet)}
+.experience-details{border:1px solid var(--line);border-radius:6px;background:var(--card);margin-bottom:18px}
+.experience-details>summary{padding:16px 20px;min-height:48px;color:var(--ink)}
+.experience-details .tbl-wrap{margin:0;border:0;border-top:1px solid var(--line);border-radius:0}
+.experience-table-title{display:flex;align-items:center;gap:10px}
+.experience-table-title .guide-icon{width:32px;height:32px;margin:0}
+.picture-steps{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:0;margin:0 0 24px}
+.picture-steps li{display:flex;align-items:center;gap:18px;padding:22px;background:var(--bg2);border:1px solid var(--line);border-radius:8px}
+.picture-steps .guide-icon{width:64px;height:64px;margin:0}
+.picture-step-number{display:block;color:var(--scarlet);font:10px var(--mono);margin-bottom:5px}
+.picture-steps strong{display:block;color:var(--ink);font-size:16px}
+.picture-steps p{font-size:12px;margin-top:5px;line-height:1.5}
+.visual-stage .guide-icon{width:64px;height:64px;margin-bottom:16px}
+html[data-theme="dark"] .experience-card,html[data-theme="dark"] .picture-steps,html[data-theme="dark"] .visual-stage{--icon-ink:#a8bac9}
+@media(max-width:800px){
+  .experience-cards,.picture-steps{grid-template-columns:1fr;gap:12px}
+  .experience-card{display:grid;grid-template-columns:64px minmax(0,1fr);column-gap:18px;padding:20px}
+  .experience-card .guide-icon{grid-row:1/5;width:64px;height:64px;margin:0;align-self:center}
+  .experience-card h3{font-size:21px;margin:6px 0}
+  .experience-card p{font-size:13px}
+  .experience-sequence{margin-top:12px;grid-column:2}
+  .picture-steps li{padding:16px 20px}
+  .picture-steps .guide-icon{width:48px;height:48px}
+  .visual-stage{display:flex;align-items:center;gap:14px}
+  .visual-stage .guide-icon{width:44px;height:44px;margin:0}
+}
+@media print{.experience-cards,.picture-steps{break-inside:avoid}.experience-card{padding:16px}.experience-card:before{display:none}}
+
+.experience-card>*{position:relative;min-width:0}

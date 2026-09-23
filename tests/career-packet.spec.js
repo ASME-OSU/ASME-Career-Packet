@@ -22,6 +22,20 @@ test('loads current edition without browser errors', async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
+test('illustrated experience summary keeps the detailed comparison accessible', async ({ page }) => {
+  await page.goto('/#opps');
+  await expect(page.locator('.experience-card')).toHaveCount(3);
+  await expect(page.locator('#opps table')).toBeHidden();
+  await page.getByText('Compare duration, pay, responsibilities, and fit', { exact: true }).click();
+  await expect(page.locator('#opps table')).toBeVisible();
+  await expect(page.locator('#opps table')).toContainText('Graduation impact');
+  await page.getByText('Compare duration, pay, responsibilities, and fit', { exact: true }).click();
+  await page.evaluate(() => window.dispatchEvent(new Event('beforeprint')));
+  await expect(page.locator('#opps table')).toBeVisible();
+  await page.evaluate(() => window.dispatchEvent(new Event('afterprint')));
+  await expect(page.locator('#opps table')).toBeHidden();
+});
+
 test('switches theme and remembers the reader choice', async ({ page }) => {
   const toggle = page.locator('.theme-toggle');
   await toggle.click();
