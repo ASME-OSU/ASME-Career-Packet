@@ -288,3 +288,36 @@ html[data-theme="dark"] .offer-result-item.worse .val{color:#ffb5b9}
   .hero-secondary{text-align:center}
 }
 @media print{#search-bar{display:none!important}}
+
+/* Use the viewport for the guide, with direct routes beside the introduction. */
+@media screen{
+  .hero-inner,main,.nav .nav-inner{width:100%;max-width:none}
+  .hero-inner,main{padding-inline:clamp(18px,3vw,64px)}
+  .hero .hero-bg{display:none}
+  .hero-body{grid-template-columns:minmax(0,1.35fr) minmax(320px,.8fr);gap:clamp(28px,5vw,88px)}
+  .hero-copy{max-width:none}
+  .hero h1{font-size:clamp(44px,4.6vw,88px)}
+  .hero-desc{max-width:650px}
+  .nav .mobile-menu-toggle{background:#b5121b;border-color:#b5121b;color:#fff;font-weight:700;box-shadow:0 2px 6px #0002}
+  .nav .mobile-menu-toggle .menu-glyph{color:#fff}
+  .nav .mobile-menu-toggle:hover{background:#941019;border-color:#941019}
+}
+.route-card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--scarlet);border-radius:8px;padding:28px;box-shadow:var(--shadow-md)}
+.route-kicker{font:10px var(--mono);letter-spacing:.09em;color:var(--scarlet)}
+.route-card h2{font:400 34px/1.15 var(--display);color:var(--ink);margin:12px 0 18px}
+.route-links a{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;border-top:1px solid var(--line);color:var(--ink);text-decoration:none}
+.route-links strong{display:block;font:600 14px var(--sans)}
+.route-links small{display:block;margin-top:5px;font-size:12px;color:var(--muted)}
+.route-links a:hover strong,.route-footer:hover{color:var(--scarlet);text-decoration:underline}
+.route-footer{display:block;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);text-underline-offset:3px}
+@media(max-width:800px){
+  .hero-body{grid-template-columns:1fr;gap:24px}
+  .hero h1{font-size:clamp(39px,7vw,58px)}
+  .route-card{padding:18px}
+  .route-card h2{font-size:27px;margin:8px 0 14px}
+  .route-links{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+  .route-links a{min-height:64px;padding:12px 0;gap:8px}
+  .route-links strong{font-size:12px}
+  .route-links small{display:none}
+}
+@media print{.route-card{display:none}}
