@@ -2,7 +2,10 @@ const { test, expect } = require('@playwright/test');
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => {
+    localStorage.clear();
+    localStorage.setItem('asme-career-mobile-view', 'all');
+  });
   await page.reload();
 });
 
@@ -14,6 +17,8 @@ test('loads current edition without browser errors', async ({ page }) => {
   await expect(page.locator('link[rel="manifest"]')).toHaveAttribute('href', 'manifest.webmanifest');
   await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', 'assets/asme-career-logo.png');
   await expect(page.locator('.logo-wrap img')).toHaveJSProperty('naturalWidth', 1254);
+  const manifest = await page.evaluate(() => fetch('manifest.webmanifest').then(response => response.json()));
+  expect(manifest.icons[0].src).toBe('./assets/asme-career-logo.png');
   expect(errors).toEqual([]);
 });
 
@@ -46,6 +51,8 @@ test('follows device appearance changes until the reader chooses a theme', async
 test('dark mode keeps key callouts, resource links, and badges readable', async ({ page }) => {
   await page.evaluate(() => localStorage.setItem('asme-career-theme', 'dark'));
   await page.reload();
+  await page.locator('#prep-date').fill('2027-02-15');
+  await page.getByRole('button', { name: 'Build My Plan' }).click();
   const ratios = await page.evaluate(() => {
     const luminance = color => {
       const channels = color.match(/\d+/g).slice(0, 3).map(value => {
@@ -54,14 +61,36 @@ test('dark mode keeps key callouts, resource links, and badges readable', async 
       });
       return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
     };
-    return ['.tip strong', '.osu-resource-links a', '.ctag'].map(selector => {
+    return ['.tip strong', '.osu-resource-links a', '.ctag', '.prep-output', '.prep-output h4', '.prep-links a'].map(selector => {
       const element = document.querySelector(selector);
       const foreground = luminance(getComputedStyle(element).color);
-      const background = luminance(getComputedStyle(selector === '.tip strong' ? element.parentElement : element).backgroundColor);
+      const background = luminance(getComputedStyle(['.tip strong', '.prep-output h4'].includes(selector) ? element.parentElement : element).backgroundColor);
       return (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05);
     });
   });
   ratios.forEach(ratio => expect(ratio).toBeGreaterThanOrEqual(4.5));
+});
+
+test('mobile readers can page through chapters or show the full guide', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.evaluate(() => localStorage.removeItem('asme-career-mobile-view'));
+  await page.reload();
+  await expect(page.locator('html')).toHaveClass(/mobile-chapter-mode/);
+  await expect(page.locator('#start')).toBeVisible();
+  await expect(page.locator('#paths')).toBeHidden();
+  await page.getByRole('link', { name: 'Next chapter' }).click();
+  await expect(page).toHaveURL(/#paths$/);
+  await expect(page.locator('#paths')).toBeVisible();
+  await expect(page.locator('#start')).toBeHidden();
+  await page.goto('/#ai-interviewer');
+  await expect(page.locator('#interviews')).toBeVisible();
+  await expect(page.locator('#ai-interviewer')).toBeVisible();
+  await page.getByRole('button', { name: 'Explore guide' }).click();
+  await page.getByRole('button', { name: 'Full guide' }).click();
+  await expect(page.locator('html')).not.toHaveClass(/mobile-chapter-mode/);
+  await expect(page.locator('#start')).toBeVisible();
+  await page.reload();
+  await expect(page.locator('html')).not.toHaveClass(/mobile-chapter-mode/);
 });
 
 test('mobile chapter menu opens, navigates, and closes', async ({ page }) => {
@@ -174,6 +203,7 @@ test('exports a complete backup and supports focused print mode', async ({ page 
 });
 
 test('navigates the field guide with direct routes and keyboard menus', async ({ page }) => {
+  if (page.viewportSize().width <= 700) await page.getByRole('button', { name: 'Explore starting paths' }).click();
   await page.getByRole('link', { name: /I’m getting application-ready/ }).click();
   await expect(page).toHaveURL(/#resume$/);
   await page.locator('#resume .chapter-next a').click();

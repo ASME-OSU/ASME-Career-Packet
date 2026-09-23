@@ -31,6 +31,13 @@
     } catch (_) {}
     document.documentElement.dataset.theme = savedTheme === 'dark' || savedTheme === 'light'
       ? savedTheme : (deviceTheme.matches ? 'dark' : 'light');
+    try {
+      if (matchMedia('(max-width: 700px)').matches && localStorage.getItem('asme-career-mobile-view') !== 'all') {
+        document.documentElement.classList.add('mobile-chapter-mode');
+      }
+    } catch (_) {
+      if (matchMedia('(max-width: 700px)').matches) document.documentElement.classList.add('mobile-chapter-mode');
+    }
   </script>
   <style>
     :root{
@@ -678,9 +685,6 @@
 
     <div class="topbar">
       <div class="brand-lockup">
-        <div class="logo-wrap">
-          <img src="assets/asme-career-logo.png" alt="ASME career briefcase and globe logo" width="1254" height="1254">
-        </div>
         <div class="topbar-meta">
           <div class="label">ASME · The Ohio State University</div>
           <div class="title">Career Guide · <span data-config="edition">2026–27</span></div>
@@ -700,6 +704,9 @@
           Print / PDF
         </button>
       </div>
+      <div class="logo-wrap">
+        <img src="assets/asme-career-logo.png" alt="ASME career briefcase and globe logo" width="1254" height="1254">
+      </div>
     </div>
 
     <div class="hero-body">
@@ -716,10 +723,13 @@
       <aside class="hero-panel" aria-label="Choose your next step">
         <div class="panel-kicker">START WITH WHAT’S NEXT <span aria-hidden="true">↘</span></div>
         <h2>Where are you headed?</h2>
+        <button class="hero-paths-toggle" type="button" aria-expanded="false" aria-controls="hero-path-links" onclick="toggleHeroPaths()">Explore starting paths <span aria-hidden="true">⌄</span></button>
+        <div id="hero-path-links">
         <a class="mission" href="#resume"><span class="mission-number">01</span><span><strong>I’m getting application-ready</strong><small>Resume, project evidence &amp; your pitch</small></span><span aria-hidden="true">↗</span></a>
         <a class="mission" href="#interviews"><span class="mission-number">02</span><span><strong>I have a conversation coming up</strong><small>Interview stories &amp; technical preparation</small></span><span aria-hidden="true">↗</span></a>
         <a class="mission" href="#offer"><span class="mission-number">03</span><span><strong>I’m deciding on an opportunity</strong><small>Compare offers &amp; ask better questions</small></span><span aria-hidden="true">↗</span></a>
         <a class="panel-footer" href="#paths">Not sure yet? Find your starting point <span aria-hidden="true">→</span></a>
+        </div>
       </aside>
     </div>
 
@@ -740,6 +750,10 @@
     <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="nav-sections" onclick="toggleMobileMenu()"><span class="menu-glyph" aria-hidden="true">☰</span><span class="mobile-menu-label">Explore guide</span></button>
     <div class="nav-sections" id="nav-sections">
     <div class="mobile-menu-heading">Explore the field guide <span>21 sections</span></div>
+    <div class="mobile-reading-switch" aria-label="Mobile reading view">
+      <button type="button" data-reading-mode="chapters" aria-pressed="true" onclick="setMobileReadingMode('chapters')">One chapter</button>
+      <button type="button" data-reading-mode="all" aria-pressed="false" onclick="setMobileReadingMode('all')">Full guide</button>
+    </div>
     <div class="mobile-quicklinks" aria-label="Guide actions">
       <a href="#templates">Templates</a><a href="#checklist">Checklists</a>
       <button type="button" onclick="closeMobileMenu();openDataDialog()">Data &amp; Backup</button>
@@ -2145,6 +2159,11 @@ Best,
     document.body.classList.toggle('mobile-menu-open', next);
     if (!next) document.querySelectorAll('.nav-group').forEach(group => { group.open = false; });
   }
+  function toggleHeroPaths() {
+    const panel = document.querySelector('.hero-panel');
+    const expanded = panel.classList.toggle('paths-open');
+    panel.querySelector('.hero-paths-toggle').setAttribute('aria-expanded', String(expanded));
+  }
   window.matchMedia('(min-width: 701px)').addEventListener('change', event => { if (event.matches) closeMobileMenu(); });
   const navLinks = document.querySelectorAll('.nav-menu a');
   const navGroups = document.querySelectorAll('.nav-group');
@@ -2198,6 +2217,61 @@ Best,
     footer.append(count, link);
     chapter.append(footer);
   });
+  const mobileReaderBar = document.createElement('nav');
+  mobileReaderBar.className = 'mobile-reader-bar';
+  mobileReaderBar.setAttribute('aria-label', 'Chapter navigation');
+  const previousChapter = document.createElement('a');
+  previousChapter.setAttribute('aria-label', 'Previous chapter');
+  previousChapter.textContent = '‹';
+  const readerProgress = document.createElement('div');
+  readerProgress.setAttribute('aria-live', 'polite');
+  const readerTitle = document.createElement('strong');
+  const readerCount = document.createElement('small');
+  readerProgress.append(readerTitle, readerCount);
+  const nextChapter = document.createElement('a');
+  nextChapter.setAttribute('aria-label', 'Next chapter');
+  nextChapter.textContent = '›';
+  mobileReaderBar.append(previousChapter, readerProgress, nextChapter);
+  document.querySelector('main').prepend(mobileReaderBar);
+
+  const mobileReadingScreen = matchMedia('(max-width: 700px)');
+  let mobileReadingMode = 'chapters';
+  try { mobileReadingMode = localStorage.getItem('asme-career-mobile-view') === 'all' ? 'all' : 'chapters'; } catch (_) {}
+  function updateMobileReadingView(scrollToChapter = false) {
+    const compact = mobileReadingScreen.matches && mobileReadingMode === 'chapters';
+    document.documentElement.classList.toggle('mobile-chapter-mode', compact);
+    document.querySelectorAll('[data-reading-mode]').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.readingMode === mobileReadingMode));
+    });
+    const id = decodeURIComponent(location.hash.slice(1));
+    const target = id ? document.getElementById(id) : null;
+    const active = target?.closest('main > section[id]') || chapters[0];
+    chapters.forEach(chapter => chapter.classList.toggle('mobile-current', chapter === active));
+    const index = chapters.indexOf(active);
+    readerTitle.textContent = active.querySelector('h2').textContent;
+    readerCount.textContent = `CHAPTER ${index + 1} / ${chapters.length}`;
+    for (const [link, chapter] of [[previousChapter, chapters[index - 1]], [nextChapter, chapters[index + 1]]]) {
+      if (chapter) {
+        link.href = `#${chapter.id}`;
+        link.removeAttribute('aria-disabled');
+      } else {
+        link.removeAttribute('href');
+        link.setAttribute('aria-disabled', 'true');
+      }
+    }
+    if (scrollToChapter && target?.closest('main > section[id]')) {
+      requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
+    }
+  }
+  function setMobileReadingMode(mode) {
+    mobileReadingMode = mode === 'all' ? 'all' : 'chapters';
+    try { localStorage.setItem('asme-career-mobile-view', mobileReadingMode); } catch (_) {}
+    updateMobileReadingView(true);
+    closeMobileMenu();
+  }
+  mobileReadingScreen.addEventListener('change', () => updateMobileReadingView());
+  window.addEventListener('hashchange', () => updateMobileReadingView(true));
+  updateMobileReadingView(Boolean(location.hash));
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
       const wasOpen = mobileMenuButton.getAttribute('aria-expanded') === 'true';
