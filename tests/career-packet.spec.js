@@ -71,6 +71,30 @@ test('dark mode keeps key callouts, resource links, and badges readable', async 
   ratios.forEach(ratio => expect(ratio).toBeGreaterThanOrEqual(4.5));
 });
 
+test('dark chapter rows remain readable when hovered', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'dark' });
+  for (const selector of ['#resume .crow:last-child', '#technical .crow:first-child', '#internship .crow:first-child']) {
+    const row = page.locator(selector);
+    await row.hover();
+    const ratios = await row.evaluate(element => {
+      const luminance = color => {
+        const rgb = color.match(/\d+/g).slice(0, 3).map(Number).map(value => {
+          const channel = value / 255;
+          return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+        });
+        return rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722;
+      };
+      const background = luminance(getComputedStyle(element).backgroundColor);
+      return [...element.querySelectorAll('h3, p, li')].map(text => {
+        const foreground = luminance(getComputedStyle(text).color);
+        return (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05);
+      });
+    });
+    expect(ratios.length).toBeGreaterThan(0);
+    ratios.forEach(ratio => expect(ratio).toBeGreaterThanOrEqual(4.5));
+  }
+});
+
 test('mobile readers can page through chapters or show the full guide', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.evaluate(() => localStorage.removeItem('asme-career-mobile-view'));
