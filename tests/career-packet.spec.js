@@ -181,7 +181,8 @@ test('chapter controls show the current place without stray dividers', async ({ 
   await page.getByRole('button', { name: 'Chapters', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Chapters', exact: true })).toHaveAttribute('aria-expanded', 'true');
   await expect(page.locator('.nav-group').filter({ has: page.locator('summary').filter({ hasText: /^Interviews$/ }) })).toHaveAttribute('open', '');
-  await page.locator('.mobile-quicklinks a[href="#templates"]').click();
+  await page.locator('.nav-group').filter({ has: page.locator('summary').filter({ hasText: /^Templates & Tools$/ }) }).locator('summary').click();
+  await page.locator('.nav-menu a[href="#templates"]').click();
   await expect(page).toHaveURL(/#templates$/);
   await expect(page.locator('#templates')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Chapters', exact: true })).toHaveAttribute('aria-expanded', 'false');
@@ -223,16 +224,11 @@ test('tablet menu exposes events without clipping and closes after navigation', 
   await expect(page.locator('#careerfair h2')).toBeInViewport();
 });
 
-test('mobile introduction stays compact with starting paths still accessible', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await expect(page.locator('.hero-stats')).toBeHidden();
-  await expect(page.locator('.hero-panel h2')).toBeHidden();
-  const panel = await page.locator('.hero-panel').boundingBox();
-  expect(panel.height).toBeLessThanOrEqual(64);
-  await expect(page.locator('.mobile-reader-bar')).toHaveCount(0);
-  await page.getByRole('button', { name: 'Explore starting paths' }).click();
-  await page.getByRole('link', { name: /I’m getting application-ready/ }).click();
-  await expect(page).toHaveURL(/#resume$/);
+test('introduction offers one primary action and a starting-point link', async ({ page }) => {
+  await expect(page.locator('.hero-links .btn-s')).toHaveCount(1);
+  await expect(page.locator('.hero-panel')).toHaveCount(0);
+  await page.getByRole('link', { name: 'Help me choose a starting point →' }).click();
+  await expect(page).toHaveURL(/#paths$/);
 });
 
 test('builds and restores a personalized prep plan', async ({ page }) => {
@@ -299,10 +295,27 @@ test('supports keyboard search and remembers searches', async ({ page }) => {
   await expect(page.locator('#search-results')).toContainText('landing gear');
 });
 
+test('one top toolbar opens search without losing the reading position', async ({ page }) => {
+  await expect(page.locator('button[onclick="toggleSearch()"]')).toHaveCount(1);
+  await expect(page.getByRole('button', { name: 'Data & Backup', exact: true })).toHaveCount(1);
+  await expect(page.getByRole('button', { name: 'Print / PDF', exact: true })).toHaveCount(1);
+  await page.goto('/#interviews');
+  await page.locator('#interviews').evaluate(element => element.scrollIntoView({ behavior: 'instant' }));
+  const readingPosition = await page.evaluate(() => scrollY);
+  await page.getByRole('button', { name: 'Search the guide', exact: true }).click();
+  await expect(page.locator('#search-input')).toBeFocused();
+  const bounds = await page.locator('#search-bar').boundingBox();
+  expect(bounds.y).toBeGreaterThanOrEqual(60);
+  expect(bounds.y).toBeLessThanOrEqual(65);
+  expect(Math.abs(await page.evaluate(() => scrollY) - readingPosition)).toBeLessThanOrEqual(1);
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#search-bar')).toBeHidden();
+  await expect(page.getByRole('button', { name: 'Search the guide', exact: true })).toBeFocused();
+});
+
 test('exports a complete backup and supports focused print mode', async ({ page }) => {
   await page.locator('#p-name').fill('Taylor');
   const mobile = page.viewportSize().width <= 700;
-  if (mobile) await page.getByRole('button', { name: 'Chapters', exact: true }).click();
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Data & Backup' }).click();
   await page.getByRole('button', { name: 'Export All Data' }).click();
@@ -311,7 +324,6 @@ test('exports a complete backup and supports focused print mode', async ({ page 
 
   await page.evaluate(() => { window.print = () => {}; });
   await page.locator('#data-dialog .dialog-close').click();
-  if (mobile) await page.getByRole('button', { name: 'Chapters', exact: true }).click();
   await page.getByRole('button', { name: 'Print / PDF' }).click();
   await page.getByRole('button', { name: /Current section/ }).click();
   await expect(page.locator('body')).toHaveClass(/print-current/);
@@ -319,20 +331,20 @@ test('exports a complete backup and supports focused print mode', async ({ page 
 });
 
 test('navigates the field guide with direct routes and keyboard menus', async ({ page }) => {
-  if (page.viewportSize().width <= 700) await page.getByRole('button', { name: 'Explore starting paths' }).click();
-  await page.getByRole('link', { name: /I’m getting application-ready/ }).click();
+  await page.getByRole('button', { name: 'Chapters', exact: true }).click();
+  await page.locator('.nav-group').filter({ has: page.locator('summary').filter({ hasText: /^Materials$/ }) }).locator('summary').click();
+  await page.locator('.nav-menu a[href="#resume"]').click();
   await expect(page).toHaveURL(/#resume$/);
   await page.locator('#resume .chapter-next-link').click();
   await expect(page).toHaveURL(/#linkedin$/);
   const mobile = page.viewportSize().width <= 700;
-  if (mobile) await page.getByRole('button', { name: 'Chapters', exact: true }).click();
+  await page.getByRole('button', { name: 'Chapters', exact: true }).click();
   const menu = page.locator('.nav-group').first();
   await menu.locator('summary').click();
   await expect(menu).toHaveAttribute('open', '');
   await page.keyboard.press('Escape');
   await expect(menu).not.toHaveAttribute('open', '');
-  if (mobile) await expect(page.getByRole('button', { name: 'Chapters', exact: true })).toBeFocused();
-  else await expect(menu.locator('summary')).toBeFocused();
+  await expect(page.getByRole('button', { name: 'Chapters', exact: true })).toBeFocused();
 });
 
 test('keeps chapter navigation and tables within a narrow viewport', async ({ page }) => {

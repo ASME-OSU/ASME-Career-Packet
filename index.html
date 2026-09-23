@@ -675,71 +675,6 @@
 <div class="offline-banner" role="status">Offline mode — saved tools remain available.</div>
 
 <!-- ══ HERO ══ -->
-<header class="hero">
-  <div class="hero-bg" aria-hidden="true"></div>
-  <div class="hero-grid" aria-hidden="true"></div>
-  <div class="hero-inner">
-
-    <div class="topbar">
-      <div class="brand-lockup">
-        <div class="topbar-meta">
-          <div class="label">ASME · The Ohio State University</div>
-          <div class="title">Career Guide · <span data-config="edition">2026–27</span></div>
-        </div>
-      </div>
-      <div class="topbar-btns">
-        <a class="btn-o" href="#templates">Templates</a>
-        <a class="btn-o" href="#checklist">Checklists</a>
-        <button type="button" class="btn-o" onclick="openDataDialog()">Data &amp; Backup</button>
-        <button type="button" class="btn-o" id="install-app" style="display:none">Install</button>
-        <button type="button" class="btn-o" id="search-toggle" onclick="toggleSearch()" title="Search (/)" aria-label="Open career guide search" aria-expanded="false" aria-controls="search-bar">
-          <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          Search
-        </button>
-        <button type="button" class="btn-s" onclick="openPrintDialog()">
-          <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-          Print / PDF
-        </button>
-      </div>
-      <div class="logo-wrap">
-        <img src="assets/asme-career-logo.png" alt="ASME career briefcase and globe logo" width="1254" height="1254">
-      </div>
-    </div>
-
-    <div class="hero-body">
-      <div class="hero-copy">
-        <div class="eyebrow">The engineering career field guide</div>
-        <h1>Build your proof.<br><em>Make your next move.</em></h1>
-        <p class="hero-desc">Turn what you’ve built, tested, and learned into your next opportunity. Practical guidance and working tools for every step from first resume to first offer.</p>
-        <div class="hero-links">
-          <a class="btn-s hero-primary" href="#prep-planner">Build my prep plan <span aria-hidden="true">↗</span></a>
-          <a class="btn-o" href="#templates">Get the templates <span aria-hidden="true">↓</span></a>
-        </div>
-        <p class="hero-note">For Buckeye engineers. At every starting point.</p>
-      </div>
-      <aside class="hero-panel" aria-label="Choose your next step">
-        <div class="panel-kicker">START WITH WHAT’S NEXT <span aria-hidden="true">↘</span></div>
-        <h2>Where are you headed?</h2>
-        <button class="hero-paths-toggle" type="button" aria-expanded="false" aria-controls="hero-path-links" onclick="toggleHeroPaths()">Explore starting paths <span aria-hidden="true">⌄</span></button>
-        <div id="hero-path-links">
-        <a class="mission" href="#resume"><span class="mission-number">01</span><span><strong>I’m getting application-ready</strong><small>Resume, project evidence &amp; your pitch</small></span><span aria-hidden="true">↗</span></a>
-        <a class="mission" href="#interviews"><span class="mission-number">02</span><span><strong>I have a conversation coming up</strong><small>Interview stories &amp; technical preparation</small></span><span aria-hidden="true">↗</span></a>
-        <a class="mission" href="#offer"><span class="mission-number">03</span><span><strong>I’m deciding on an opportunity</strong><small>Compare offers &amp; ask better questions</small></span><span aria-hidden="true">↗</span></a>
-        <a class="panel-footer" href="#paths">Not sure yet? Find your starting point <span aria-hidden="true">→</span></a>
-        </div>
-      </aside>
-    </div>
-
-    <div class="hero-stats">
-      <div class="hs"><strong data-stat="sections">21</strong><span>Sections</span></div>
-      <div class="hs"><strong data-stat="templates">10</strong><span>Email Templates</span></div>
-      <div class="hs"><strong data-stat="tools">6</strong><span>Interactive Tools</span></div>
-      <div class="hs"><strong data-stat="checklists">3</strong><span>Checklists</span></div>
-      <div class="hs"><strong>PDF</strong><span>Take it with you</span></div>
-    </div>
-  </div>
-</header>
-
 <!-- ══ NAV ══ -->
 <nav class="nav" aria-label="Career guide sections">
   <div class="nav-inner">
@@ -747,10 +682,6 @@
     <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="nav-sections" onclick="toggleMobileMenu()"><span class="menu-glyph" aria-hidden="true">☰</span><span class="mobile-menu-label">Chapters</span></button>
     <div class="nav-sections" id="nav-sections">
     <div class="mobile-menu-heading">Choose a chapter <span>21 chapters</span></div>
-    <div class="mobile-quicklinks" aria-label="Popular destinations">
-      <a href="#resume">Resume by Year</a><a href="#ai-interviewer">AI Interview Practice</a>
-      <a href="#templates">Templates</a><a href="#checklist">Checklists</a>
-    </div>
     <details class="nav-group">
       <summary>Start Here</summary>
       <div class="nav-menu">
@@ -809,20 +740,61 @@
         <button type="button" data-reading-mode="chapters" aria-pressed="true" onclick="setMobileReadingMode('chapters')">One chapter</button>
         <button type="button" data-reading-mode="all" aria-pressed="false" onclick="setMobileReadingMode('all')">Full guide</button>
       </div>
-      <div class="mobile-utilities" aria-label="Guide actions">
-        <button type="button" onclick="closeMobileMenu();openDataDialog()">Data &amp; Backup</button>
-        <button type="button" onclick="closeMobileMenu();openPrintDialog()">Print / PDF</button>
-      </div>
+      <button type="button" id="install-app" style="display:none">Install app</button>
     </div>
     </div>
-    <button class="nav-search" type="button" onclick="toggleSearch()" aria-label="Search the guide">Search <span aria-hidden="true">/</span></button>
+    <button class="nav-search" id="search-toggle" type="button" onclick="toggleSearch()" aria-label="Search the guide" aria-expanded="false" aria-controls="search-bar">Search <span aria-hidden="true">/</span></button>
     <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" onclick="toggleTheme()"><span class="theme-icon" aria-hidden="true">◐</span><span class="theme-label">Dark mode</span></button>
+    <button class="toolbar-action" type="button" onclick="closeMobileMenu();openDataDialog()" aria-label="Data &amp; Backup">Backup</button>
+    <button class="toolbar-action" type="button" onclick="closeMobileMenu();openPrintDialog()" aria-label="Print / PDF"><span class="print-label">Print / </span>PDF</button>
   </div>
 </nav>
 
+<header class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-inner">
+
+    <div class="topbar">
+      <div class="brand-lockup">
+        <div class="topbar-meta">
+          <div class="label">ASME · The Ohio State University</div>
+          <div class="title">Career Guide · <span data-config="edition">2026–27</span></div>
+        </div>
+      </div>
+      <div class="logo-wrap">
+        <img src="assets/asme-career-logo.png" alt="ASME career briefcase and globe logo" width="1254" height="1254">
+      </div>
+    </div>
+
+    <div class="hero-body">
+      <div class="hero-copy">
+        <div class="eyebrow">The engineering career field guide</div>
+        <h1>Build your proof.<br><em>Make your next move.</em></h1>
+        <p class="hero-desc">Turn what you’ve built, tested, and learned into your next opportunity. Practical guidance and working tools for every step from first resume to first offer.</p>
+        <div class="hero-links">
+          <a class="btn-s hero-primary" href="#prep-planner">Build my prep plan <span aria-hidden="true">↗</span></a>
+          <a class="hero-secondary" href="#paths">Help me choose a starting point →</a>
+        </div>
+        <p class="hero-note">For Buckeye engineers. At every starting point.</p>
+      </div>
+
+    </div>
+
+    <div class="hero-stats">
+      <div class="hs"><strong data-stat="sections">21</strong><span>Sections</span></div>
+      <div class="hs"><strong data-stat="templates">10</strong><span>Email Templates</span></div>
+      <div class="hs"><strong data-stat="tools">6</strong><span>Interactive Tools</span></div>
+      <div class="hs"><strong data-stat="checklists">3</strong><span>Checklists</span></div>
+      <div class="hs"><strong>PDF</strong><span>Take it with you</span></div>
+    </div>
+  </div>
+</header>
+
 <!-- GLOBAL SEARCH -->
-<div id="search-bar" style="background:var(--bg);border-bottom:1px solid var(--line);padding:10px 32px;display:none">
+<div id="search-bar" role="region" aria-label="Search the guide" style="background:var(--bg);border-bottom:1px solid var(--line);padding:10px 32px;display:none">
   <div style="max-width:1200px;margin:0 auto">
+    <div class="search-panel-heading"><strong>Search the guide</strong><button type="button" onclick="closeSearch(true)" aria-label="Close search">×</button></div>
     <div class="search-wrap">
       <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <label class="sr-only" for="search-input">Search the career guide</label>
@@ -2163,6 +2135,7 @@ Best,
     navSections.classList.toggle('is-open', next);
     document.body.classList.toggle('mobile-menu-open', next);
     if (next) {
+      closeSearch();
       const id = decodeURIComponent(location.hash.slice(1));
       const chapter = document.documentElement.classList.contains('mobile-chapter-mode')
         ? document.getElementById(id)?.closest('main > section[id]')
@@ -2171,12 +2144,6 @@ Best,
       if (activeLink) activeLink.closest('.nav-group').open = true;
     } else document.querySelectorAll('.nav-group').forEach(group => { group.open = false; });
   }
-  function toggleHeroPaths() {
-    const panel = document.querySelector('.hero-panel');
-    const expanded = panel.classList.toggle('paths-open');
-    panel.querySelector('.hero-paths-toggle').setAttribute('aria-expanded', String(expanded));
-  }
-  window.matchMedia('(min-width: 961px)').addEventListener('change', event => { if (event.matches) closeMobileMenu(); });
   const navLinks = document.querySelectorAll('.nav-menu a');
   const navGroups = document.querySelectorAll('.nav-group');
   navGroups.forEach(group => group.addEventListener('toggle', () => {
@@ -2498,19 +2465,21 @@ Best,
   function toggleSearch() {
     const visible = searchBar.style.display !== 'none';
     if (visible) { closeSearch(); } else {
+      closeMobileMenu();
       searchBar.style.display = 'block';
       searchToggle.setAttribute('aria-expanded', 'true');
       searchInput.value = '';
       searchClear.style.display = 'none';
       renderRecentSearches();
-      searchInput.focus();
+      searchInput.focus({ preventScroll: true });
     }
   }
-  function closeSearch() {
+  function closeSearch(returnFocus = false) {
     searchBar.style.display = 'none';
     searchToggle.setAttribute('aria-expanded', 'false');
     searchResults.style.display = 'none';
     searchInput.value = '';
+    if (returnFocus) searchToggle.focus({ preventScroll: true });
   }
   function clearSearch() {
     searchInput.value = '';
@@ -2567,7 +2536,7 @@ Best,
     searchResults.style.display = 'block';
   }
   function handleSearchKeys(event) {
-    if (event.key === 'Escape') { event.preventDefault(); closeSearch(); return; }
+    if (event.key === 'Escape') { event.preventDefault(); closeSearch(true); return; }
     if (!searchResultLinks.length) return;
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
@@ -2588,7 +2557,7 @@ Best,
       e.preventDefault(); toggleSearch();
     }
     if (e.key === 'Escape') {
-      closeSearch();
+      if (searchBar.style.display !== 'none') closeSearch(true);
       navGroups.forEach(group => { group.open = false; });
     }
   });
