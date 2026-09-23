@@ -26,6 +26,21 @@ test('switches theme and remembers the reader choice', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });
 
+test('follows device appearance changes until the reader chooses a theme', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.locator('.theme-toggle')).toHaveAttribute('aria-label', 'Switch to light mode');
+  await page.emulateMedia({ colorScheme: 'light' });
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#f7f6f2');
+  await page.locator('.theme-toggle').click();
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.emulateMedia({ colorScheme: 'light' });
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+});
+
 test('mobile chapter menu opens, navigates, and closes', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const menu = page.getByRole('button', { name: 'Explore guide' });

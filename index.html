@@ -24,11 +24,13 @@
   </script>
 
   <script>
+    const deviceTheme = matchMedia('(prefers-color-scheme: dark)');
+    let savedTheme;
     try {
-      const savedTheme = localStorage.getItem('asme-career-theme');
-      document.documentElement.dataset.theme = savedTheme === 'dark' || savedTheme === 'light'
-        ? savedTheme : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    } catch (_) { document.documentElement.dataset.theme = 'light'; }
+      savedTheme = localStorage.getItem('asme-career-theme');
+    } catch (_) {}
+    document.documentElement.dataset.theme = savedTheme === 'dark' || savedTheme === 'light'
+      ? savedTheme : (deviceTheme.matches ? 'dark' : 'light');
   </script>
   <style>
     :root{
@@ -2112,6 +2114,19 @@ Best,
     syncThemeButton();
   }
   syncThemeButton();
+  deviceTheme.addEventListener('change', event => {
+    let preference;
+    try { preference = localStorage.getItem('asme-career-theme'); } catch (_) {}
+    if (preference === 'dark' || preference === 'light') return;
+    document.documentElement.dataset.theme = event.matches ? 'dark' : 'light';
+    syncThemeButton();
+  });
+  window.addEventListener('storage', event => {
+    if (event.key !== 'asme-career-theme' && event.key !== null) return;
+    document.documentElement.dataset.theme = event.newValue === 'dark' || event.newValue === 'light'
+      ? event.newValue : (deviceTheme.matches ? 'dark' : 'light');
+    syncThemeButton();
+  });
   const mobileMenuButton = document.querySelector('.mobile-menu-toggle');
   const navSections = document.getElementById('nav-sections');
   function closeMobileMenu() {
