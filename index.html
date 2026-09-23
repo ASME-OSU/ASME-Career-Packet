@@ -2260,7 +2260,7 @@ Best,
       }
     }
     if (scrollToChapter && target?.closest('main > section[id]')) {
-      requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
+      requestAnimationFrame(() => target.scrollIntoView({ block: 'start', behavior: 'instant' }));
     }
   }
   function setMobileReadingMode(mode) {

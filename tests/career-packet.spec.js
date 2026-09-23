@@ -93,6 +93,41 @@ test('mobile readers can page through chapters or show the full guide', async ({
   await expect(page.locator('html')).not.toHaveClass(/mobile-chapter-mode/);
 });
 
+test('mobile chapter links clear the sticky navigation', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.evaluate(() => localStorage.removeItem('asme-career-mobile-view'));
+  for (const hash of ['#start', '#ai-interviewer']) {
+    await page.goto(`/${hash}`);
+    await page.reload();
+    await expect(page.locator('html')).toHaveClass(/mobile-chapter-mode/);
+    const position = await page.evaluate(id => ({
+      headingTop: document.querySelector(id === '#start' ? '#start .sh' : '#ai-interviewer h3').getBoundingClientRect().top,
+      readerBottom: document.querySelector('.mobile-reader-bar').getBoundingClientRect().bottom,
+      navBottom: document.querySelector('.nav').getBoundingClientRect().bottom
+    }), hash);
+    expect(position.headingTop).toBeGreaterThanOrEqual(position.readerBottom);
+    expect(position.readerBottom).toBeGreaterThanOrEqual(position.navBottom);
+  }
+});
+
+test('mobile guide menu fills the screen and keeps chapter navigation usable', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 812 });
+  await page.evaluate(() => localStorage.removeItem('asme-career-mobile-view'));
+  await page.reload();
+  await page.getByRole('button', { name: 'Explore guide' }).click();
+  const menuBounds = await page.evaluate(() => {
+    const menu = document.querySelector('.nav-sections').getBoundingClientRect();
+    return { top: menu.top, bottom: menu.bottom, viewportHeight: innerHeight };
+  });
+  expect(menuBounds.top).toBeLessThanOrEqual(65);
+  expect(menuBounds.bottom).toBeGreaterThanOrEqual(menuBounds.viewportHeight - 1);
+  await page.locator('.nav-group').filter({ has: page.getByText('Prepare', { exact: true }) }).locator('summary').click();
+  await page.getByRole('link', { name: 'AI Interview Practice' }).click();
+  await expect(page).toHaveURL(/#ai-interviewer$/);
+  await expect(page.locator('#interviews')).toBeVisible();
+  await expect(page.locator('#start')).toBeHidden();
+});
+
 test('mobile chapter menu opens, navigates, and closes', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const menu = page.getByRole('button', { name: 'Explore guide' });

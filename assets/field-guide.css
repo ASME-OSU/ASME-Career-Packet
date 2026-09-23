@@ -127,6 +127,7 @@ section{margin-top:64px;scroll-margin-top:84px}
 .theme-toggle:hover,.theme-toggle:focus-visible{color:var(--scarlet);border-color:var(--scarlet)}
 .theme-icon{font-size:16px;line-height:1}
 @media(max-width:700px){
+  html{scroll-behavior:auto}
   .topbar{align-items:center;flex-wrap:nowrap}
   .brand-lockup{max-width:calc(100% - 94px)}
   .logo-wrap img{width:82px;height:82px}
@@ -148,6 +149,8 @@ section{margin-top:64px;scroll-margin-top:84px}
   .nav-sections{display:none;position:absolute;left:0;right:0;top:100%;z-index:120;max-height:calc(100dvh - 65px - env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain;padding:13px 16px calc(22px + env(safe-area-inset-bottom));background:var(--bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line);box-shadow:var(--shadow-md)}
   .nav-sections.is-open{display:block}
   body.mobile-menu-open{overflow:hidden}
+  body.mobile-menu-open .nav{position:fixed;top:0;left:0;right:0;z-index:150}
+  body.mobile-menu-open .nav-sections{position:fixed;top:61px;bottom:0;max-height:none;overflow-y:auto}
   .mobile-menu-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:3px 0 13px;color:var(--ink);font:600 14px var(--sans)}
   .mobile-menu-heading span{color:var(--muted);font:10px var(--mono);white-space:nowrap}
   .mobile-reading-switch{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:12px;padding:4px;border:1px solid var(--line);border-radius:6px;background:var(--bg2)}
@@ -179,6 +182,7 @@ section{margin-top:64px;scroll-margin-top:84px}
   .mobile-reader-bar strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;font:600 12px var(--sans);color:var(--ink)}
   .mobile-reader-bar small{display:block;text-align:center;font:9px var(--mono);color:var(--muted)}
   main>section[id],main>section[id] [id]{scroll-margin-top:125px}
+  html.mobile-chapter-mode :target{scroll-margin-top:125px!important}
 }
 @media(max-width:400px){html.mobile-chapter-mode .mobile-reader-bar{margin-inline:-18px;padding-inline:18px}}
 @media(max-width:380px){.nav-inner{gap:5px;padding-inline:10px}.mobile-menu-toggle{gap:6px;padding-inline:9px}.nav-search,.theme-toggle{padding-inline:8px}.topbar-meta .label{letter-spacing:0}.logo-wrap img{width:72px;height:72px}}
