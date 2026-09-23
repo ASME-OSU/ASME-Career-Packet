@@ -122,7 +122,6 @@ section{margin-top:64px;scroll-margin-top:84px}
 .mobile-menu-settings{display:none}
 .mobile-menu-heading{display:none}
 .mobile-reading-switch{display:none}
-.mobile-reader-bar{display:none}
 .mobile-menu-toggle{display:none}
 .theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:38px;padding:8px 11px;border:1px solid var(--line);border-radius:4px;background:var(--card);color:var(--body);font:600 11px var(--sans);white-space:nowrap;cursor:pointer}
 .theme-toggle:hover,.theme-toggle:focus-visible{color:var(--scarlet);border-color:var(--scarlet)}
@@ -139,10 +138,17 @@ section{margin-top:64px;scroll-margin-top:84px}
   #hero-path-links{display:none}
   .hero-panel.paths-open #hero-path-links{display:block}
   .hero-panel.paths-open .hero-paths-toggle span{transform:rotate(180deg)}
-  .hero-stats{display:flex;gap:0;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:var(--line) transparent;padding-bottom:14px}
-  .hero-stats .hs,.hero-stats .hs:nth-child(4),.hero-stats .hs:nth-child(5){display:flex;flex:0 0 128px;scroll-snap-align:start;justify-content:flex-start;padding:0 14px;border-right:1px solid var(--line)}
-  .hero-stats .hs:first-child{padding-left:0}
-  .hero-stats .hs:last-child{border:0}
+  .hero-stats,.hero-note{display:none}
+  .hero .hero-bg{display:none}
+  .hero-inner{padding-bottom:24px}
+  .hero-body{gap:20px}
+  html[data-theme] .hero .hero-panel{margin:0;padding:0 16px;background:var(--bg2);border:1px solid var(--line);box-shadow:none}
+  .hero-panel:before,.hero-panel .panel-kicker,.hero-panel h2{display:none}
+  .hero-paths-toggle{border:0;color:var(--ink);min-height:48px}
+  .hero-panel .mission,.hero-panel .panel-footer{color:var(--ink);border-color:var(--line)}
+  .hero-panel .mission small{color:var(--muted)}
+  .hero-panel .mission-number{color:var(--scarlet)}
+
 }
 @media(max-width:960px){
   .nav{position:sticky;top:0}
@@ -186,18 +192,10 @@ section{margin-top:64px;scroll-margin-top:84px}
   html.mobile-chapter-mode main>section[id]{display:none}
   html.mobile-chapter-mode main>section[id].mobile-current{display:block;margin-top:22px}
   html.mobile-chapter-mode main{padding-top:18px}
-  html.mobile-chapter-mode .mobile-reader-bar{display:grid;grid-template-columns:68px minmax(0,1fr) 68px;align-items:center;gap:7px;position:sticky;top:61px;z-index:75;min-height:58px;margin:0 -24px;padding:5px 24px;background:var(--bg);border-block:1px solid var(--line)}
-  .mobile-reader-bar a{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:46px;border:1px solid var(--line);border-radius:4px;color:var(--ink);background:var(--card);font-size:20px;line-height:1;text-decoration:none}
-  .mobile-reader-bar a small{font:8px var(--sans);color:var(--muted)}
-  .mobile-reader-bar a[aria-disabled="true"]{visibility:hidden}
-  .mobile-reader-bar button{display:block;min-width:0;min-height:46px;padding:2px 0;border:0;background:transparent;color:var(--ink);cursor:pointer}
-  .mobile-reader-bar button:hover strong,.mobile-reader-bar button:focus-visible strong{color:var(--scarlet)}
-  .mobile-reader-bar strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;font:600 12px var(--sans);color:var(--ink)}
-  .mobile-reader-bar small{display:block;text-align:center;font:9px var(--mono);color:var(--muted)}
-  main>section[id],main>section[id] [id]{scroll-margin-top:125px}
-  html.mobile-chapter-mode :target{scroll-margin-top:125px!important}
+  main>section[id],main>section[id] [id]{scroll-margin-top:84px}
+  html.mobile-chapter-mode :target{scroll-margin-top:84px!important}
 }
-@media(max-width:400px){html.mobile-chapter-mode .mobile-reader-bar{margin-inline:-18px;padding-inline:18px}}
+
 @media(max-width:380px){.nav-inner{gap:5px;padding-inline:10px}.mobile-menu-toggle{gap:6px;padding-inline:9px}.nav-search,.theme-toggle{padding-inline:8px}.topbar-meta .label{letter-spacing:0}.logo-wrap img{width:72px;height:72px}}
 
 /* Dark mode keeps the field guide's charcoal and scarlet identity. */
@@ -249,3 +247,15 @@ html[data-theme="dark"] .offer-result-item.better .val{color:#a8e8bd}
 html[data-theme="dark"] .offer-result-item.worse .val{color:#ffb5b9}
 @media print{html[data-theme="dark"]{color-scheme:light;--navy:#242628;--ink:#252628;--body:#45464a;--muted:#626367;--line:#deddd7;--bg:#fff;--bg2:#eeede7;--card:#fff;--scarlet:#b5121b}html[data-theme="dark"] .hero,html[data-theme="dark"] .visual-guide,html[data-theme="dark"] .prep-planner,html[data-theme="dark"] .resume-example{background:#fff!important;color:#222!important}html[data-theme="dark"] .sh h2,html[data-theme="dark"] .ct{color:#222!important}}
 @media print{html[data-theme="dark"] .callout{background:#fff!important}html[data-theme="dark"] .chip.ch-g{background:#eeede7;color:#45464a}html[data-theme="dark"] .chip.ch-r{background:#fae9e7;color:#8e1822}html[data-theme="dark"] .chip.ch-gr{background:#e6f7ee;color:#166534}}
+
+/* Chapter paging belongs after the content; keep one sticky navigation row. */
+.chapter-actions{display:flex;gap:24px;justify-content:flex-end;align-items:center}
+.chapter-actions .chapter-previous-link{text-align:left;color:var(--muted)}
+@media(max-width:700px){
+  .sh .section-share{justify-self:start;margin-top:0;min-height:44px;padding:0;border:0;background:transparent;text-decoration:underline}
+  .chapter-next{display:block}
+  .chapter-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+  .chapter-actions a{display:flex;align-items:center;min-height:48px;padding:12px;border:1px solid var(--line);border-radius:4px;background:var(--card);font-size:12px}
+  .chapter-actions .chapter-next-link{justify-content:flex-end}
+  .chapter-actions a:only-child{grid-column:1/-1}
+}

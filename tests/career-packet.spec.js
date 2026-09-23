@@ -78,7 +78,7 @@ test('mobile readers can page through chapters or show the full guide', async ({
   await expect(page.locator('html')).toHaveClass(/mobile-chapter-mode/);
   await expect(page.locator('#start')).toBeVisible();
   await expect(page.locator('#paths')).toBeHidden();
-  await page.getByRole('link', { name: 'Next chapter' }).click();
+  await page.getByRole('link', { name: /^Next chapter:/ }).click();
   await expect(page).toHaveURL(/#paths$/);
   await expect(page.locator('#paths')).toBeVisible();
   await expect(page.locator('#start')).toBeHidden();
@@ -102,11 +102,9 @@ test('mobile chapter links clear the sticky navigation', async ({ page }) => {
     await expect(page.locator('html')).toHaveClass(/mobile-chapter-mode/);
     const position = await page.evaluate(id => ({
       headingTop: document.querySelector(id === '#start' ? '#start .sh' : '#ai-interviewer h3').getBoundingClientRect().top,
-      readerBottom: document.querySelector('.mobile-reader-bar').getBoundingClientRect().bottom,
       navBottom: document.querySelector('.nav').getBoundingClientRect().bottom
     }), hash);
-    expect(position.headingTop).toBeGreaterThanOrEqual(position.readerBottom);
-    expect(position.readerBottom).toBeGreaterThanOrEqual(position.navBottom);
+    expect(position.headingTop).toBeGreaterThanOrEqual(position.navBottom + 10);
   }
 });
 
@@ -153,10 +151,10 @@ test('chapter controls show the current place without stray dividers', async ({ 
   await page.reload();
   await expect(page.locator('#interviews')).toBeVisible();
   await expect(page.locator('main > .section-divider')).toHaveCount(0);
-  await expect(page.locator('#interviews .chapter-next a')).toHaveAttribute('href', '#technical');
-  await expect(page.getByRole('link', { name: 'Previous chapter' })).toContainText('Previous');
-  await expect(page.getByRole('link', { name: 'Next chapter' })).toContainText('Next');
-  await page.getByRole('button', { name: /Choose a chapter\. Current chapter 11 of 21/ }).click();
+  await expect(page.locator('#interviews .chapter-next-link')).toHaveAttribute('href', '#technical');
+  await expect(page.getByRole('link', { name: /^Previous chapter:/ })).toContainText('Previous');
+  await expect(page.getByRole('link', { name: /^Next chapter:/ })).toContainText('Up next');
+  await page.getByRole('button', { name: 'Chapters', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Chapters', exact: true })).toHaveAttribute('aria-expanded', 'true');
   await expect(page.locator('.nav-group').filter({ has: page.locator('summary').filter({ hasText: /^Interviews$/ }) })).toHaveAttribute('open', '');
   await page.locator('.mobile-quicklinks a[href="#templates"]').click();
@@ -201,12 +199,16 @@ test('tablet menu exposes events without clipping and closes after navigation', 
   await expect(page.locator('#careerfair h2')).toBeInViewport();
 });
 
-test('mobile hero keeps all guide features available by swiping', async ({ page }) => {
+test('mobile introduction stays compact with starting paths still accessible', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await expect(page.locator('.hero-stats .hs')).toHaveCount(5);
-  await expect(page.locator('.hero-stats .hs').last()).toBeVisible();
-  const scrollable = await page.locator('.hero-stats').evaluate(element => element.scrollWidth > element.clientWidth);
-  expect(scrollable).toBe(true);
+  await expect(page.locator('.hero-stats')).toBeHidden();
+  await expect(page.locator('.hero-panel h2')).toBeHidden();
+  const panel = await page.locator('.hero-panel').boundingBox();
+  expect(panel.height).toBeLessThanOrEqual(64);
+  await expect(page.locator('.mobile-reader-bar')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Explore starting paths' }).click();
+  await page.getByRole('link', { name: /I’m getting application-ready/ }).click();
+  await expect(page).toHaveURL(/#resume$/);
 });
 
 test('builds and restores a personalized prep plan', async ({ page }) => {
@@ -296,7 +298,7 @@ test('navigates the field guide with direct routes and keyboard menus', async ({
   if (page.viewportSize().width <= 700) await page.getByRole('button', { name: 'Explore starting paths' }).click();
   await page.getByRole('link', { name: /I’m getting application-ready/ }).click();
   await expect(page).toHaveURL(/#resume$/);
-  await page.locator('#resume .chapter-next a').click();
+  await page.locator('#resume .chapter-next-link').click();
   await expect(page).toHaveURL(/#linkedin$/);
   const mobile = page.viewportSize().width <= 700;
   if (mobile) await page.getByRole('button', { name: 'Chapters', exact: true }).click();

@@ -2227,37 +2227,23 @@ Best,
     const link = document.createElement('a');
     link.href = next ? `#${next.id}` : '#top';
     link.textContent = next ? `Up next: ${next.querySelector('h2').textContent} →` : 'Back to the field guide ↑';
-    footer.append(count, link);
+    link.className = 'chapter-next-link';
+    link.setAttribute('aria-label', next ? `Next chapter: ${next.querySelector('h2').textContent}` : 'Back to guide introduction');
+    const actions = document.createElement('div');
+    actions.className = 'chapter-actions';
+    const previous = chapters[index - 1];
+    if (previous) {
+      const back = document.createElement('a');
+      back.href = `#${previous.id}`;
+      back.className = 'chapter-previous-link';
+      back.textContent = `← Previous: ${previous.querySelector('h2').textContent}`;
+      back.setAttribute('aria-label', `Previous chapter: ${previous.querySelector('h2').textContent}`);
+      actions.append(back);
+    }
+    actions.append(link);
+    footer.append(count, actions);
     chapter.append(footer);
   });
-  const mobileReaderBar = document.createElement('nav');
-  mobileReaderBar.className = 'mobile-reader-bar';
-  mobileReaderBar.setAttribute('aria-label', 'Chapter navigation');
-  const previousChapter = document.createElement('a');
-  previousChapter.setAttribute('aria-label', 'Previous chapter');
-  const readerProgress = document.createElement('button');
-  readerProgress.type = 'button';
-  readerProgress.setAttribute('aria-label', 'Choose a chapter');
-  readerProgress.addEventListener('click', event => {
-    event.stopPropagation();
-    toggleMobileMenu();
-  });
-  const readerTitle = document.createElement('strong');
-  const readerCount = document.createElement('small');
-  readerProgress.append(readerTitle, readerCount);
-  const nextChapter = document.createElement('a');
-  nextChapter.setAttribute('aria-label', 'Next chapter');
-  for (const [link, symbol, label] of [[previousChapter, '‹', 'Previous'], [nextChapter, '›', 'Next']]) {
-    const icon = document.createElement('span');
-    icon.setAttribute('aria-hidden', 'true');
-    icon.textContent = symbol;
-    const caption = document.createElement('small');
-    caption.textContent = label;
-    link.append(icon, caption);
-  }
-  mobileReaderBar.append(previousChapter, readerProgress, nextChapter);
-  document.querySelector('main').prepend(mobileReaderBar);
-
   const mobileReadingScreen = matchMedia('(max-width: 700px)');
   let mobileReadingMode = 'chapters';
   try { mobileReadingMode = localStorage.getItem('asme-career-mobile-view') === 'all' ? 'all' : 'chapters'; } catch (_) {}
@@ -2271,19 +2257,6 @@ Best,
     const target = id ? document.getElementById(id) : null;
     const active = target?.closest('main > section[id]') || chapters[0];
     chapters.forEach(chapter => chapter.classList.toggle('mobile-current', chapter === active));
-    const index = chapters.indexOf(active);
-    readerTitle.textContent = active.querySelector('h2').textContent;
-    readerCount.textContent = `CHAPTER ${index + 1}/${chapters.length} · MENU`;
-    readerProgress.setAttribute('aria-label', `Choose a chapter. Current chapter ${index + 1} of ${chapters.length}: ${readerTitle.textContent}`);
-    for (const [link, chapter] of [[previousChapter, chapters[index - 1]], [nextChapter, chapters[index + 1]]]) {
-      if (chapter) {
-        link.href = `#${chapter.id}`;
-        link.removeAttribute('aria-disabled');
-      } else {
-        link.removeAttribute('href');
-        link.setAttribute('aria-disabled', 'true');
-      }
-    }
     if (scrollToChapter && target?.closest('main > section[id]')) {
       requestAnimationFrame(() => target.scrollIntoView({ block: 'start', behavior: 'instant' }));
     }
