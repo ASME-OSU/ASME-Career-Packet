@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
   <script src="config.js"></script>
-    <!-- Google tag (gtag.js) -->
+  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-869CC4RE83"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -23,6 +23,13 @@
     gtag('config', 'G-869CC4RE83');
   </script>
 
+  <script>
+    try {
+      const savedTheme = localStorage.getItem('asme-career-theme');
+      document.documentElement.dataset.theme = savedTheme === 'dark' || savedTheme === 'light'
+        ? savedTheme : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    } catch (_) { document.documentElement.dataset.theme = 'light'; }
+  </script>
   <style>
     :root{
       --scarlet:#bb0000;--scarlet-dim:#fce8e8;
@@ -728,6 +735,13 @@
 <nav class="nav" aria-label="Career guide sections">
   <div class="nav-inner">
     <a class="nav-home" href="#top" aria-label="Back to guide introduction">FIELD GUIDE <span aria-hidden="true">/</span></a>
+    <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="nav-sections" onclick="toggleMobileMenu()"><span class="menu-glyph" aria-hidden="true">☰</span><span class="mobile-menu-label">Explore guide</span></button>
+    <div class="nav-sections" id="nav-sections">
+    <div class="mobile-quicklinks" aria-label="Guide actions">
+      <a href="#templates">Templates</a><a href="#checklist">Checklists</a>
+      <button type="button" onclick="closeMobileMenu();openDataDialog()">Data &amp; Backup</button>
+      <button type="button" onclick="closeMobileMenu();openPrintDialog()">Print / PDF</button>
+    </div>
     <details class="nav-group">
       <summary>Start Here</summary>
       <div class="nav-menu">
@@ -775,7 +789,9 @@
         <a href="#checklist">Checklists</a>
       </div>
     </details>
+    </div>
     <button class="nav-search" type="button" onclick="toggleSearch()" aria-label="Search the guide">Search <span aria-hidden="true">/</span></button>
+    <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" onclick="toggleTheme()"><span class="theme-icon" aria-hidden="true">◐</span><span class="theme-label">Dark mode</span></button>
   </div>
 </nav>
 
@@ -2080,17 +2096,46 @@ Best,
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Active nav tracking
+  // Theme and chapter navigation
+  const themeButton = document.querySelector('.theme-toggle');
+  function syncThemeButton() {
+    const dark = document.documentElement.dataset.theme === 'dark';
+    themeButton.setAttribute('aria-pressed', String(dark));
+    themeButton.setAttribute('aria-label', `Switch to ${dark ? 'light' : 'dark'} mode`);
+    themeButton.querySelector('.theme-label').textContent = dark ? 'Light mode' : 'Dark mode';
+    document.querySelector('meta[name="theme-color"]').content = dark ? '#171a1d' : '#f7f6f2';
+  }
+  function toggleTheme() {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('asme-career-theme', next); } catch (_) {}
+    syncThemeButton();
+  }
+  syncThemeButton();
+  const mobileMenuButton = document.querySelector('.mobile-menu-toggle');
+  const navSections = document.getElementById('nav-sections');
+  function closeMobileMenu() {
+    mobileMenuButton.setAttribute('aria-expanded', 'false');
+    navSections.classList.remove('is-open');
+    document.querySelectorAll('.nav-group').forEach(group => { group.open = false; });
+  }
+  function toggleMobileMenu() {
+    const next = mobileMenuButton.getAttribute('aria-expanded') !== 'true';
+    mobileMenuButton.setAttribute('aria-expanded', String(next));
+    navSections.classList.toggle('is-open', next);
+    if (!next) document.querySelectorAll('.nav-group').forEach(group => { group.open = false; });
+  }
+  window.matchMedia('(min-width: 701px)').addEventListener('change', event => { if (event.matches) closeMobileMenu(); });
   const navLinks = document.querySelectorAll('.nav-menu a');
   const navGroups = document.querySelectorAll('.nav-group');
   navGroups.forEach(group => group.addEventListener('toggle', () => {
     if (group.open) navGroups.forEach(other => { if (other !== group) other.open = false; });
   }));
   navLinks.forEach(link => link.addEventListener('click', () => {
-    navGroups.forEach(group => { group.open = false; });
+    closeMobileMenu();
   }));
   document.addEventListener('click', event => {
-    if (!event.target.closest('.nav')) navGroups.forEach(group => { group.open = false; });
+    if (!event.target.closest('.nav')) closeMobileMenu();
   });
   let currentSectionId = 'start';
   document.querySelectorAll('main > section[id]').forEach(sec => {
@@ -2108,7 +2153,7 @@ Best,
             summary.classList.add('active');
             // Keep the active group visible without moving the document vertically.
             const rail = summary.closest('.nav-inner');
-            if (rail.scrollWidth > rail.clientWidth) {
+            if (window.innerWidth > 700 && rail.scrollWidth > rail.clientWidth) {
               const item = summary.getBoundingClientRect();
               const bounds = rail.getBoundingClientRect();
               if (item.left < bounds.left || item.right > bounds.right) rail.scrollLeft += item.left - bounds.left - 12;
@@ -2134,9 +2179,11 @@ Best,
     chapter.append(footer);
   });
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape') navGroups.forEach(group => {
-      if (group.open) { group.open = false; group.querySelector('summary').focus(); }
-    });
+    if (event.key === 'Escape') {
+      const wasOpen = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+      closeMobileMenu();
+      if (wasOpen) mobileMenuButton.focus();
+    }
   });
 
   // Scroll reveal
@@ -2276,9 +2323,6 @@ Best,
     btn.textContent = 'Copied!';
     setTimeout(() => btn.textContent = 'Copy Pitch Text', 2200);
   }
-
-  // Remove any stale dark class
-  document.body.classList.remove('dark');
 
   // Search
   const searchBar = document.getElementById('search-bar');

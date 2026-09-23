@@ -15,6 +15,32 @@ test('loads current edition without browser errors', async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
+test('switches theme and remembers the reader choice', async ({ page }) => {
+  const toggle = page.locator('.theme-toggle');
+  await toggle.click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await toggle.click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+});
+
+test('mobile chapter menu opens, navigates, and closes', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const menu = page.getByRole('button', { name: 'Explore guide' });
+  await expect(menu).toBeVisible();
+  await menu.click();
+  await expect(menu).toHaveAttribute('aria-expanded', 'true');
+  await page.locator('.nav-group').filter({ has: page.getByText('Prepare', { exact: true }) }).locator('summary').click();
+  await page.getByRole('link', { name: 'AI Interview Practice' }).click();
+  await expect(page).toHaveURL(/#ai-interviewer$/);
+  await expect(menu).toHaveAttribute('aria-expanded', 'false');
+  await menu.click();
+  await page.keyboard.press('Escape');
+  await expect(menu).toHaveAttribute('aria-expanded', 'false');
+});
+
 test('builds and restores a personalized prep plan', async ({ page }) => {
   await page.locator('#prep-type').selectOption('interview');
   await page.locator('#prep-date').fill('2027-02-15');
@@ -81,6 +107,8 @@ test('supports keyboard search and remembers searches', async ({ page }) => {
 
 test('exports a complete backup and supports focused print mode', async ({ page }) => {
   await page.locator('#p-name').fill('Taylor');
+  const mobile = page.viewportSize().width <= 700;
+  if (mobile) await page.getByRole('button', { name: 'Explore guide' }).click();
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Data & Backup' }).click();
   await page.getByRole('button', { name: 'Export All Data' }).click();
@@ -89,6 +117,7 @@ test('exports a complete backup and supports focused print mode', async ({ page 
 
   await page.evaluate(() => { window.print = () => {}; });
   await page.locator('#data-dialog .dialog-close').click();
+  if (mobile) await page.getByRole('button', { name: 'Explore guide' }).click();
   await page.getByRole('button', { name: 'Print / PDF' }).click();
   await page.getByRole('button', { name: /Current section/ }).click();
   await expect(page.locator('body')).toHaveClass(/print-current/);
@@ -100,12 +129,15 @@ test('navigates the field guide with direct routes and keyboard menus', async ({
   await expect(page).toHaveURL(/#resume$/);
   await page.locator('#resume .chapter-next a').click();
   await expect(page).toHaveURL(/#linkedin$/);
+  const mobile = page.viewportSize().width <= 700;
+  if (mobile) await page.getByRole('button', { name: 'Explore guide' }).click();
   const menu = page.locator('.nav-group').first();
   await menu.locator('summary').click();
   await expect(menu).toHaveAttribute('open', '');
   await page.keyboard.press('Escape');
   await expect(menu).not.toHaveAttribute('open', '');
-  await expect(menu.locator('summary')).toBeFocused();
+  if (mobile) await expect(page.getByRole('button', { name: 'Explore guide' })).toBeFocused();
+  else await expect(menu.locator('summary')).toBeFocused();
 });
 
 test('keeps chapter navigation and tables within a narrow viewport', async ({ page }) => {
