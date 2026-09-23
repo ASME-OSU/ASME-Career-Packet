@@ -1,12 +1,11 @@
-const CACHE_NAME = 'asme-career-packet-v12';
+const CACHE_NAME = 'asme-career-packet-v13';
 const APP_SHELL = [
   './',
   './index.html',
   './config.js',
   './assets/field-guide.css',
   './manifest.webmanifest',
-  './assets/app-icon.svg',
-  './assets/asme-osu-logo.png',
+  './assets/asme-career-logo.png',
   './assets/templates/ASME_Resume_Template.docx',
   './assets/templates/ASME_Project_Portfolio_Template.docx',
   './assets/templates/ASME_Application_Tracker.xlsx'

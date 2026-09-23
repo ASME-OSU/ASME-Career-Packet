@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#0c1f3a">
   <title>ASME at Ohio State — Professional Development Guide</title>
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="assets/app-icon.svg">
+  <link rel="icon" href="assets/asme-career-logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/asme-career-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
@@ -677,9 +677,9 @@
   <div class="hero-inner">
 
     <div class="topbar">
-      <div style="display:flex;align-items:center;gap:13px">
+      <div class="brand-lockup">
         <div class="logo-wrap">
-          <img src="assets/asme-osu-logo.png" alt="ASME at The Ohio State University">
+          <img src="assets/asme-career-logo.png" alt="ASME career briefcase and globe logo" width="1254" height="1254">
         </div>
         <div class="topbar-meta">
           <div class="label">ASME · The Ohio State University</div>
@@ -739,6 +739,7 @@
     <a class="nav-home" href="#top" aria-label="Back to guide introduction">FIELD GUIDE <span aria-hidden="true">/</span></a>
     <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="nav-sections" onclick="toggleMobileMenu()"><span class="menu-glyph" aria-hidden="true">☰</span><span class="mobile-menu-label">Explore guide</span></button>
     <div class="nav-sections" id="nav-sections">
+    <div class="mobile-menu-heading">Explore the field guide <span>21 sections</span></div>
     <div class="mobile-quicklinks" aria-label="Guide actions">
       <a href="#templates">Templates</a><a href="#checklist">Checklists</a>
       <button type="button" onclick="closeMobileMenu();openDataDialog()">Data &amp; Backup</button>
@@ -2131,13 +2132,17 @@ Best,
   const navSections = document.getElementById('nav-sections');
   function closeMobileMenu() {
     mobileMenuButton.setAttribute('aria-expanded', 'false');
+    mobileMenuButton.querySelector('.menu-glyph').textContent = '☰';
     navSections.classList.remove('is-open');
+    document.body.classList.remove('mobile-menu-open');
     document.querySelectorAll('.nav-group').forEach(group => { group.open = false; });
   }
   function toggleMobileMenu() {
     const next = mobileMenuButton.getAttribute('aria-expanded') !== 'true';
     mobileMenuButton.setAttribute('aria-expanded', String(next));
+    mobileMenuButton.querySelector('.menu-glyph').textContent = next ? '×' : '☰';
     navSections.classList.toggle('is-open', next);
+    document.body.classList.toggle('mobile-menu-open', next);
     if (!next) document.querySelectorAll('.nav-group').forEach(group => { group.open = false; });
   }
   window.matchMedia('(min-width: 701px)').addEventListener('change', event => { if (event.matches) closeMobileMenu(); });

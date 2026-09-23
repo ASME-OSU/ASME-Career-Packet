@@ -12,6 +12,8 @@ test('loads current edition without browser errors', async ({ page }) => {
   await expect(page.locator('.topbar-meta .title')).toContainText('2026–27');
   await expect(page.locator('[data-stat="sections"]')).toHaveText('21');
   await expect(page.locator('link[rel="manifest"]')).toHaveAttribute('href', 'manifest.webmanifest');
+  await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', 'assets/asme-career-logo.png');
+  await expect(page.locator('.logo-wrap img')).toHaveJSProperty('naturalWidth', 1254);
   expect(errors).toEqual([]);
 });
 
@@ -41,19 +43,51 @@ test('follows device appearance changes until the reader chooses a theme', async
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
 
+test('dark mode keeps key callouts, resource links, and badges readable', async ({ page }) => {
+  await page.evaluate(() => localStorage.setItem('asme-career-theme', 'dark'));
+  await page.reload();
+  const ratios = await page.evaluate(() => {
+    const luminance = color => {
+      const channels = color.match(/\d+/g).slice(0, 3).map(value => {
+        const normalized = Number(value) / 255;
+        return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
+      });
+      return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+    };
+    return ['.tip strong', '.osu-resource-links a', '.ctag'].map(selector => {
+      const element = document.querySelector(selector);
+      const foreground = luminance(getComputedStyle(element).color);
+      const background = luminance(getComputedStyle(selector === '.tip strong' ? element.parentElement : element).backgroundColor);
+      return (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05);
+    });
+  });
+  ratios.forEach(ratio => expect(ratio).toBeGreaterThanOrEqual(4.5));
+});
+
 test('mobile chapter menu opens, navigates, and closes', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const menu = page.getByRole('button', { name: 'Explore guide' });
   await expect(menu).toBeVisible();
   await menu.click();
   await expect(menu).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('body')).toHaveClass(/mobile-menu-open/);
+  await expect(page.locator('.mobile-menu-heading')).toBeVisible();
   await page.locator('.nav-group').filter({ has: page.getByText('Prepare', { exact: true }) }).locator('summary').click();
   await page.getByRole('link', { name: 'AI Interview Practice' }).click();
   await expect(page).toHaveURL(/#ai-interviewer$/);
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.locator('body')).not.toHaveClass(/mobile-menu-open/);
   await menu.click();
   await page.keyboard.press('Escape');
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
+});
+
+test('mobile hero keeps all guide features available by swiping', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('.hero-stats .hs')).toHaveCount(5);
+  await expect(page.locator('.hero-stats .hs').last()).toBeVisible();
+  const scrollable = await page.locator('.hero-stats').evaluate(element => element.scrollWidth > element.clientWidth);
+  expect(scrollable).toBe(true);
 });
 
 test('builds and restores a personalized prep plan', async ({ page }) => {
