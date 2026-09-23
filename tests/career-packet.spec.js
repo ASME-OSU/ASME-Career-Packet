@@ -121,8 +121,8 @@ test('mobile guide menu fills the screen and keeps chapter navigation usable', a
   });
   expect(menuBounds.top).toBeLessThanOrEqual(65);
   expect(menuBounds.bottom).toBeGreaterThanOrEqual(menuBounds.viewportHeight - 1);
-  await page.locator('.nav-group').filter({ has: page.getByText('Prepare', { exact: true }) }).locator('summary').click();
-  await page.getByRole('link', { name: 'AI Interview Practice' }).click();
+  await page.locator('.nav-group').filter({ has: page.locator('summary').filter({ hasText: /^Interviews$/ }) }).locator('summary').click();
+  await page.locator('.nav-menu').getByRole('link', { name: 'AI Interview Practice' }).click();
   await expect(page).toHaveURL(/#ai-interviewer$/);
   await expect(page.locator('#interviews')).toBeVisible();
   await expect(page.locator('#start')).toBeHidden();
@@ -136,8 +136,8 @@ test('mobile chapter menu opens, navigates, and closes', async ({ page }) => {
   await expect(menu).toHaveAttribute('aria-expanded', 'true');
   await expect(page.locator('body')).toHaveClass(/mobile-menu-open/);
   await expect(page.locator('.mobile-menu-heading')).toBeVisible();
-  await page.locator('.nav-group').filter({ has: page.getByText('Prepare', { exact: true }) }).locator('summary').click();
-  await page.getByRole('link', { name: 'AI Interview Practice' }).click();
+  await page.locator('.nav-group').filter({ has: page.locator('summary').filter({ hasText: /^Interviews$/ }) }).locator('summary').click();
+  await page.locator('.nav-menu').getByRole('link', { name: 'AI Interview Practice' }).click();
   await expect(page).toHaveURL(/#ai-interviewer$/);
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
   await expect(page.locator('body')).not.toHaveClass(/mobile-menu-open/);
@@ -158,7 +158,7 @@ test('chapter controls show the current place without stray dividers', async ({ 
   await expect(page.getByRole('link', { name: 'Next chapter' })).toContainText('Next');
   await page.getByRole('button', { name: /Choose a chapter\. Current chapter 11 of 21/ }).click();
   await expect(page.getByRole('button', { name: 'Chapters', exact: true })).toHaveAttribute('aria-expanded', 'true');
-  await expect(page.locator('.nav-group').filter({ has: page.getByText('Prepare', { exact: true }) })).toHaveAttribute('open', '');
+  await expect(page.locator('.nav-group').filter({ has: page.locator('summary').filter({ hasText: /^Interviews$/ }) })).toHaveAttribute('open', '');
   await page.locator('.mobile-quicklinks a[href="#templates"]').click();
   await expect(page).toHaveURL(/#templates$/);
   await expect(page.locator('#templates')).toBeVisible();
@@ -173,6 +173,32 @@ test('chapter menu follows the reading order', async ({ page }) => {
       .filter(id => document.querySelector(`main > section[id="${id}"]`))
   }));
   expect(order.menu).toEqual(order.chapters);
+});
+
+test('switching reading views keeps the chapter reached by scrolling', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#resume');
+  await page.locator('#interviews').evaluate(element => element.scrollIntoView({ behavior: 'instant' }));
+  await expect(page.locator('.nav-menu a[href="#interviews"]')).toHaveAttribute('aria-current', 'location');
+  await page.getByRole('button', { name: 'Chapters', exact: true }).click();
+  await expect(page.locator('.nav-group').filter({ has: page.locator('summary').filter({ hasText: /^Interviews$/ }) })).toHaveAttribute('open', '');
+  await page.getByRole('button', { name: 'One chapter', exact: true }).click();
+  await expect(page).toHaveURL(/#interviews$/);
+  await expect(page.locator('#interviews')).toBeVisible();
+  await expect(page.locator('#resume')).toBeHidden();
+});
+
+test('tablet menu exposes events without clipping and closes after navigation', async ({ page }) => {
+  await page.setViewportSize({ width: 768, height: 1024 });
+  await page.goto('/#resume');
+  await page.getByRole('button', { name: 'Chapters', exact: true }).click();
+  const events = page.locator('.nav-group').filter({ has: page.locator('summary').filter({ hasText: /^Events & Networking$/ }) });
+  await events.locator('summary').click();
+  await expect(events.getByRole('link', { name: 'Career Fair', exact: true })).toBeInViewport();
+  await events.getByRole('link', { name: 'Career Fair', exact: true }).click();
+  await expect(page).toHaveURL(/#careerfair$/);
+  await expect(page.getByRole('button', { name: 'Chapters', exact: true })).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.locator('#careerfair h2')).toBeInViewport();
 });
 
 test('mobile hero keeps all guide features available by swiping', async ({ page }) => {

@@ -747,14 +747,9 @@
     <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="nav-sections" onclick="toggleMobileMenu()"><span class="menu-glyph" aria-hidden="true">☰</span><span class="mobile-menu-label">Chapters</span></button>
     <div class="nav-sections" id="nav-sections">
     <div class="mobile-menu-heading">Choose a chapter <span>21 chapters</span></div>
-    <div class="mobile-reading-switch" aria-label="Mobile reading view">
-      <button type="button" data-reading-mode="chapters" aria-pressed="true" onclick="setMobileReadingMode('chapters')">One chapter</button>
-      <button type="button" data-reading-mode="all" aria-pressed="false" onclick="setMobileReadingMode('all')">Full guide</button>
-    </div>
-    <div class="mobile-quicklinks" aria-label="Guide actions">
+    <div class="mobile-quicklinks" aria-label="Popular destinations">
+      <a href="#resume">Resume by Year</a><a href="#ai-interviewer">AI Interview Practice</a>
       <a href="#templates">Templates</a><a href="#checklist">Checklists</a>
-      <button type="button" onclick="closeMobileMenu();openDataDialog()">Data &amp; Backup</button>
-      <button type="button" onclick="closeMobileMenu();openPrintDialog()">Print / PDF</button>
     </div>
     <details class="nav-group">
       <summary>Start Here</summary>
@@ -765,7 +760,7 @@
       </div>
     </details>
     <details class="nav-group">
-      <summary>Build Your Materials</summary>
+      <summary>Materials</summary>
       <div class="nav-menu">
         <a href="#brand">Your Brand</a>
         <a href="#resume">Resume</a>
@@ -776,19 +771,24 @@
       </div>
     </details>
     <details class="nav-group">
-      <summary>Prepare</summary>
+      <summary>Interviews</summary>
       <div class="nav-menu">
         <a href="#dress">Dress Code</a>
         <a href="#interviews">Interviews</a>
-        <a href="#technical">Technical Prep</a>
         <a href="#ai-interviewer">AI Interview Practice</a>
+        <a href="#technical">Technical Prep</a>
+      </div>
+    </details>
+    <details class="nav-group">
+      <summary>Events &amp; Networking</summary>
+      <div class="nav-menu">
         <a href="#careerfair">Career Fair</a>
         <a href="#infosessions">Info Sessions</a>
         <a href="#networking">Networking</a>
       </div>
     </details>
     <details class="nav-group">
-      <summary>Opportunities</summary>
+      <summary>Next Steps</summary>
       <div class="nav-menu">
         <a href="#internship">Internship Success</a>
         <a href="#offer">Evaluating Offers</a>
@@ -803,6 +803,17 @@
         <a href="#checklist">Checklists</a>
       </div>
     </details>
+    <div class="mobile-menu-settings">
+      <p>Reading view</p>
+      <div class="mobile-reading-switch" aria-label="Mobile reading view">
+        <button type="button" data-reading-mode="chapters" aria-pressed="true" onclick="setMobileReadingMode('chapters')">One chapter</button>
+        <button type="button" data-reading-mode="all" aria-pressed="false" onclick="setMobileReadingMode('all')">Full guide</button>
+      </div>
+      <div class="mobile-utilities" aria-label="Guide actions">
+        <button type="button" onclick="closeMobileMenu();openDataDialog()">Data &amp; Backup</button>
+        <button type="button" onclick="closeMobileMenu();openPrintDialog()">Print / PDF</button>
+      </div>
+    </div>
     </div>
     <button class="nav-search" type="button" onclick="toggleSearch()" aria-label="Search the guide">Search <span aria-hidden="true">/</span></button>
     <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" onclick="toggleTheme()"><span class="theme-icon" aria-hidden="true">◐</span><span class="theme-label">Dark mode</span></button>
@@ -2153,7 +2164,9 @@ Best,
     document.body.classList.toggle('mobile-menu-open', next);
     if (next) {
       const id = decodeURIComponent(location.hash.slice(1));
-      const chapter = document.getElementById(id)?.closest('main > section[id]');
+      const chapter = document.documentElement.classList.contains('mobile-chapter-mode')
+        ? document.getElementById(id)?.closest('main > section[id]')
+        : document.getElementById(currentSectionId);
       const activeLink = navSections.querySelector(`.nav-menu a[href="#${chapter?.id || 'start'}"]`);
       if (activeLink) activeLink.closest('.nav-group').open = true;
     } else document.querySelectorAll('.nav-group').forEach(group => { group.open = false; });
@@ -2163,7 +2176,7 @@ Best,
     const expanded = panel.classList.toggle('paths-open');
     panel.querySelector('.hero-paths-toggle').setAttribute('aria-expanded', String(expanded));
   }
-  window.matchMedia('(min-width: 701px)').addEventListener('change', event => { if (event.matches) closeMobileMenu(); });
+  window.matchMedia('(min-width: 961px)').addEventListener('change', event => { if (event.matches) closeMobileMenu(); });
   const navLinks = document.querySelectorAll('.nav-menu a');
   const navGroups = document.querySelectorAll('.nav-group');
   navGroups.forEach(group => group.addEventListener('toggle', () => {
@@ -2192,7 +2205,7 @@ Best,
             summary.classList.add('active');
             // Keep the active group visible without moving the document vertically.
             const rail = summary.closest('.nav-inner');
-            if (window.innerWidth > 700 && rail.scrollWidth > rail.clientWidth) {
+            if (window.innerWidth > 960 && rail.scrollWidth > rail.clientWidth) {
               const item = summary.getBoundingClientRect();
               const bounds = rail.getBoundingClientRect();
               if (item.left < bounds.left || item.right > bounds.right) rail.scrollLeft += item.left - bounds.left - 12;
@@ -2276,6 +2289,12 @@ Best,
     }
   }
   function setMobileReadingMode(mode) {
+    if (mobileReadingMode === 'all' && mode === 'chapters') {
+      const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      if (target?.closest('main > section[id]')?.id !== currentSectionId) {
+        history.replaceState(null, '', `#${currentSectionId}`);
+      }
+    }
     mobileReadingMode = mode === 'all' ? 'all' : 'chapters';
     try { localStorage.setItem('asme-career-mobile-view', mobileReadingMode); } catch (_) {}
     updateMobileReadingView(true);
