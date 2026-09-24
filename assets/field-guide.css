@@ -111,7 +111,7 @@ section{margin-top:64px;scroll-margin-top:84px}
 @media print{.sample-layout{display:block;padding:0}.sample-layout aside{margin-bottom:12px}.sample-resume{box-shadow:none;break-inside:avoid}.resume-example{break-inside:auto;background:#fff}.resume-example>summary{display:block}}
 #quantify-results{scroll-margin-top:84px}.quantify-grid{margin:20px 0;gap:12px}.quantify-grid>div{padding:20px;background:#fff;border-top:2px solid var(--scarlet)}.quantify-grid h4{font-size:15px;color:var(--ink);margin-bottom:8px}.quantify-grid p{font-size:13px;line-height:1.7}.quantify-example{padding:18px 0;margin-bottom:16px;border-block:1px solid #cac7bb;font-size:14px}.quantify-example p{margin-top:8px}
 /* Shared native flat-icon palette; decorative icons accompany visible text. */
-.icon-library{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}.guide-icon{display:block;width:48px;height:48px;flex:none;margin-bottom:15px}.icon-paper{fill:#eeede7}.icon-soft{fill:#dedbd2}.icon-accent{fill:var(--scarlet)}.icon-ink{fill:var(--icon-ink,#262829)}.qs .guide-icon{margin-top:4px}.route-map .guide-icon{width:48px;height:48px;display:inline-block;margin:0 10px 12px 0;vertical-align:middle}.route-map li>.route-step{display:inline-block;vertical-align:middle;font-size:16px;margin-bottom:12px;color:var(--muted)}.offer-lenses .guide-icon{width:52px;height:52px}.practice-loop .guide-icon{width:40px;height:40px;margin-bottom:12px}.practice-loop .icon-ink{fill:#f5f3ed}.practice-loop b{display:inline-grid;width:20px;height:20px;margin:0 7px 6px 0;font-size:10px}.practice-loop strong{display:inline;font-size:13px}.quantify-grid .guide-icon{width:42px;height:42px}.flat-icon svg{overflow:visible}
+.icon-library{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}.guide-icon{display:block;width:48px;height:48px;flex:none;margin-bottom:15px}.icon-paper{fill:#eeede7}.icon-soft{fill:var(--icon-soft,#dedbd2)}.icon-accent{fill:var(--scarlet)}.icon-ink{fill:var(--icon-ink,#262829)}.qs .guide-icon{margin-top:4px}.route-map .guide-icon{width:48px;height:48px;display:inline-block;margin:0 10px 12px 0;vertical-align:middle}.route-map li>.route-step{display:inline-block;vertical-align:middle;font-size:16px;margin-bottom:12px;color:var(--muted)}.offer-lenses .guide-icon{width:52px;height:52px}.practice-loop .guide-icon{width:40px;height:40px;margin-bottom:12px}.practice-loop .icon-ink{fill:#f5f3ed}.practice-loop b{display:inline-grid;width:20px;height:20px;margin:0 7px 6px 0;font-size:10px}.practice-loop strong{display:inline;font-size:13px}.quantify-grid .guide-icon{width:42px;height:42px}.flat-icon svg{overflow:visible}
 @media(max-width:600px){.offer-lenses .guide-icon{grid-row:1/3;margin:0;width:48px;height:48px}.qs .guide-icon{width:42px;height:42px}.quantify-grid .guide-icon{width:38px;height:38px}}
 @media print{.guide-icon{print-color-adjust:exact}}
 .ai-company-field{margin:0 0 18px}.ai-company-field input{display:block;width:100%;max-width:560px;min-height:44px;border:1px solid #737575;border-radius:4px;background:#353738;color:#fff;padding:10px 12px;font:13px var(--sans)}.ai-company-field input::placeholder{color:#a9abab}#ai-interviewer .ai-company-hint{font-size:12px;color:#c1c3c3;margin:6px 0 0}
@@ -382,7 +382,7 @@ button.copy-action:focus-visible{outline:3px solid var(--scarlet);outline-offset
 html[data-theme="dark"] .dress-hd.casual{background:#2b4354;color:#f1f5f8}
 .dress .dress-icon{background:#edf1f4!important;border-radius:12px;padding:6px;box-shadow:none}
 html[data-theme="dark"] .guide-icon,.practice-loop .guide-icon{
-  background:#e2e8ed;border-radius:10px;padding:5px;--icon-ink:#263d50;--scarlet:#b5121b;
+  background:#71818f;border-radius:10px;padding:5px;--icon-ink:#142838;--icon-soft:#ede5d6;--scarlet:#650b15;
 }
 .pitch-path{list-style:none!important;padding:0!important;margin:0!important}
 .pitch-path li{position:relative;display:grid;grid-template-columns:34px minmax(0,1fr) 40px;gap:14px;padding:0 0 22px!important;margin:0!important}
@@ -495,3 +495,6 @@ html[data-theme="dark"] .guide-icon,.practice-loop .guide-icon{
  .letter-blocks li{grid-template-columns:49px minmax(0,1fr);gap:12px}
 }
 @media print{.letter-diagram,.research-lane{break-inside:avoid}.letter-paper{box-shadow:none}}
+
+/* A mid-tone plate separates both pale and dark parts of the attire illustrations. */
+html[data-theme="dark"] .dress .dress-icon{background:#71818f!important}

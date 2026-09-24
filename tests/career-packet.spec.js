@@ -455,3 +455,25 @@ test('visual formulas preserve their steps without overflowing', async ({ page }
     }
   }
 });
+
+test('dark icon plates distinguish pale and dark illustration details', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  const ratios = await page.locator('.experience-card .guide-icon').first().evaluate(el => {
+    const s = getComputedStyle(el);
+    const rgb = value => {
+      if (value.trim().startsWith('#')) return value.trim().slice(1).match(/../g).map(n => parseInt(n, 16));
+      return value.match(/[\d.]+/g).slice(0, 3).map(Number);
+    };
+    const lum = value => {
+      const c = rgb(value).map(n => { n /= 255; return n <= .04045 ? n / 12.92 : ((n + .055) / 1.055) ** 2.4; });
+      return c[0] * .2126 + c[1] * .7152 + c[2] * .0722;
+    };
+    const bg = lum(s.backgroundColor);
+    return ['#eeede7', s.getPropertyValue('--icon-soft'), s.getPropertyValue('--icon-ink'), s.getPropertyValue('--scarlet')].map(color => {
+      const fg = lum(color);
+      return (Math.max(bg, fg) + .05) / (Math.min(bg, fg) + .05);
+    });
+  });
+  ratios.forEach(ratio => expect(ratio).toBeGreaterThanOrEqual(3));
+});
