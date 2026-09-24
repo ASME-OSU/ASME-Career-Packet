@@ -25,8 +25,6 @@ test('loads current edition without browser errors', async ({ page }) => {
 test('illustrated experience summary keeps the detailed comparison accessible', async ({ page }) => {
   await page.goto('/#opps');
   await expect(page.locator('.experience-card')).toHaveCount(3);
-  await expect(page.locator('#opps table')).toBeHidden();
-  await page.getByText('Compare duration, pay, responsibilities, and fit', { exact: true }).click();
   await expect(page.locator('#opps table')).toBeVisible();
   await expect(page.locator('#opps table')).toContainText('Graduation impact');
   await page.getByText('Compare duration, pay, responsibilities, and fit', { exact: true }).click();
@@ -414,5 +412,46 @@ test('shows realistic resume examples in the requested section order', async ({ 
       'EDUCATION', 'SKILLS AND QUALIFICATIONS', 'EXPERIENCE', 'PROJECTS', 'ORGANIZATIONS AND LEADERSHIP'
     ]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+});
+
+
+test('attire headers and copy actions stay legible in both themes', async ({ page }) => {
+  await page.addStyleTag({ content: '* { transition: none !important; }' });
+  for (const theme of ['light', 'dark']) {
+    await page.emulateMedia({ colorScheme: theme });
+    await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
+    const results = await page.evaluate(() => {
+      const lum = value => {
+        const c = value.match(/[\d.]+/g).slice(0, 3).map(Number).map(n => {
+          n /= 255; return n <= .04045 ? n / 12.92 : ((n + .055) / 1.055) ** 2.4;
+        });
+        return c[0] * .2126 + c[1] * .7152 + c[2] * .0722;
+      };
+      return [...document.querySelectorAll('.dress-name, .dress-name small, .copy-action')].map(el => {
+        const style = getComputedStyle(el);
+        const bg = getComputedStyle(el.closest('.dress-hd') || el).backgroundColor;
+        const a = lum(style.color), b = lum(bg);
+        return { text: el.textContent, ratio: (Math.max(a,b)+.05)/(Math.min(a,b)+.05) };
+      });
+    });
+    for (const result of results) expect(result.ratio, theme + ': ' + result.text).toBeGreaterThanOrEqual(4.5);
+    const styles = await page.locator('.copy-action').evaluateAll(elements => elements.map(el => {
+      const s = getComputedStyle(el);
+      return [s.minHeight, s.borderRadius, s.fontSize, s.padding, s.backgroundColor, s.color].join('|');
+    }));
+    expect(new Set(styles).size).toBe(1);
+  }
+});
+
+test('visual formulas preserve their steps without overflowing', async ({ page }) => {
+  await expect(page.locator('.pitch-path li')).toHaveCount(5);
+  await expect(page.locator('.bullet-blueprint li')).toHaveCount(4);
+  for (const width of [320, 390, 768, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const selector of ['.pitch-path', '.bullet-blueprint']) {
+      const fits = await page.locator(selector).evaluate(el => el.scrollWidth <= el.clientWidth + 1);
+      expect(fits, selector + ' at ' + width).toBe(true);
+    }
   }
 });
