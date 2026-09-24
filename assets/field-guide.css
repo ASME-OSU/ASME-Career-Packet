@@ -409,3 +409,47 @@ html[data-theme="dark"] .guide-icon,.practice-loop .guide-icon{
 .sh button.section-share.copy-action.copied{background:var(--scarlet-dim);color:var(--ink);border-color:var(--scarlet)}
 .pf label{color:#d6dadd}
 .pf input::placeholder{color:#c4c9cc;opacity:1}
+
+/* Content-led diagrams: readable as a sequence without opening extra panels. */
+.resume-progression.chap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;overflow:hidden}
+.resume-progression .crow{display:block;padding:24px;border:0;border-right:1px solid var(--line);min-width:0}
+.resume-progression .crow:last-child{border-right:0}
+.progression-top,.journey-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.progression-number{font:400 38px/1 var(--mono);color:var(--scarlet)}
+.progression-top .guide-icon,.journey-top .guide-icon{width:48px;height:48px;margin:0}
+.resume-progression h3{font:600 21px/1.3 var(--sans);margin:10px 0 18px;color:var(--ink)}
+.resume-progression p{font-size:13px;line-height:1.65;margin-top:14px}
+.resume-progression p strong{display:block;color:var(--ink);font-size:11px;margin-bottom:4px}
+.progression-note{font-size:12px;color:var(--muted);line-height:1.6;margin:14px 0 28px}
+.fair-journey{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;list-style:none;padding:0;margin:0 0 24px}
+.journey-stage{padding:24px;border:1px solid var(--line);border-top:4px solid var(--scarlet);border-radius:8px;background:var(--card)}
+.journey-stage h3{font:600 23px/1.3 var(--sans);margin:10px 0 20px;color:var(--ink)}
+.journey-stage ul{list-style:none;margin:0;padding:0}
+.journey-stage li{padding:12px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.65;color:var(--body)}
+.journey-stage li strong{display:block;color:var(--ink)}
+.fair-support{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fair-support>.tip{grid-column:1/-1}
+.offer-scorecard{margin:26px 0;padding:26px;border:1px solid var(--line);background:var(--card);border-radius:8px}
+.offer-scorecard h3{font:600 27px/1.25 var(--sans);color:var(--ink);margin:10px 0}
+.offer-scorecard figcaption p,.scorecard-note{font-size:13px;line-height:1.65;color:var(--body)}
+.offer-criteria{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;margin-top:26px}
+.offer-criteria>div{border-top:2px solid var(--scarlet);padding-top:18px}
+.offer-criteria h4{font:600 17px/1.4 var(--sans);color:var(--ink);margin:8px 0}
+.offer-criteria p{font-size:13px;line-height:1.65;color:var(--body)}
+.scorecard-note{border-top:1px solid var(--line);padding-top:18px;margin-top:22px}
+@media(max-width:1000px){
+ .resume-progression.chap,.offer-criteria{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .resume-progression .crow{border-bottom:1px solid var(--line)}
+ .resume-progression .crow:nth-child(2n){border-right:0}
+ .resume-progression .crow:nth-last-child(-n+2){border-bottom:0}
+}
+@media(max-width:700px){
+ .fair-journey,.fair-support,.resume-progression.chap,.offer-criteria{grid-template-columns:1fr}
+ .resume-progression .crow{border-right:0;border-bottom:1px solid var(--line)!important;padding:20px}
+ .resume-progression .crow:last-child{border-bottom:0!important}
+ .journey-stage,.offer-scorecard{padding:20px}
+ .progression-top,.journey-top{margin-bottom:12px}
+ .progression-number{font-size:30px}
+ .offer-criteria{gap:18px}
+}
+@media print{.journey-stage,.progression-card,.offer-criteria>div{break-inside:avoid}}
