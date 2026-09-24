@@ -449,7 +449,7 @@ test('visual formulas preserve their steps without overflowing', async ({ page }
   await expect(page.locator('.bullet-blueprint li')).toHaveCount(4);
   for (const width of [320, 390, 768, 1280]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const selector of ['.pitch-path', '.bullet-blueprint', '.resume-progression', '.fair-journey', '.offer-scorecard', '.letter-diagram', '.research-pathways']) {
+    for (const selector of ['.pitch-path', '.bullet-blueprint', '.resume-progression', '.fair-journey', '.offer-scorecard', '.letter-diagram', '.research-pathways', '#portfolio-example', '#linkedin-example', '.brand-example', '#annotated-bullet', '#star-example', '.search-diagnosis', '.product-process', '.dress-grid']) {
       const fits = await page.locator(selector).evaluate(el => el.scrollWidth <= el.clientWidth + 1);
       expect(fits, selector + ' at ' + width).toBe(true);
     }
