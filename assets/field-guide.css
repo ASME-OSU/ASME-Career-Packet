@@ -382,7 +382,7 @@ button.copy-action:focus-visible{outline:3px solid var(--scarlet);outline-offset
 html[data-theme="dark"] .dress-hd.casual{background:#2b4354;color:#f1f5f8}
 .dress .dress-icon{background:#edf1f4!important;border-radius:12px;padding:6px;box-shadow:none}
 html[data-theme="dark"] .guide-icon,.practice-loop .guide-icon{
-  background:#71818f;border-radius:10px;padding:5px;--icon-ink:#142838;--icon-soft:#ede5d6;--scarlet:#650b15;
+  background:#303b45;border-radius:10px;padding:5px;--icon-ink:#9cc7e8;--icon-soft:#c8d3dc;--scarlet:#ff8c96;--icon-edge:#303b45;
 }
 .pitch-path{list-style:none!important;padding:0!important;margin:0!important}
 .pitch-path li{position:relative;display:grid;grid-template-columns:34px minmax(0,1fr) 40px;gap:14px;padding:0 0 22px!important;margin:0!important}
@@ -498,3 +498,6 @@ html[data-theme="dark"] .guide-icon,.practice-loop .guide-icon{
 
 /* A mid-tone plate separates both pale and dark parts of the attire illustrations. */
 html[data-theme="dark"] .dress .dress-icon{background:#71818f!important}
+
+/* Fine separators keep overlapping light shapes distinct in the dark palette. */
+.icon-paper,.icon-soft,.icon-accent,.icon-ink{stroke:var(--icon-edge,none);stroke-width:1;stroke-linejoin:round}
