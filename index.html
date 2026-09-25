@@ -1006,26 +1006,26 @@
           <!-- Input Fields -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px">
             <div>
-              <label for="b-action" style="display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">01 Action Verb</label>
-              <input type="text" id="b-action" placeholder="e.g. Modeled, Analyzed" oninput="updateBulletBuilder()" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:7px 9px;font-size:12.5px;color:var(--ink)">
+              <label for="b-action" class="bullet-builder-label">01 Action Verb</label>
+              <input type="text" id="b-action" class="bullet-builder-input" placeholder="e.g. Modeled, Analyzed" oninput="updateBulletBuilder()">
             </div>
             <div>
-              <label for="b-scope" style="display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">02 Object &amp; Scope</label>
-              <input type="text" id="b-scope" placeholder="e.g. gearbox housing" oninput="updateBulletBuilder()" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:7px 9px;font-size:12.5px;color:var(--ink)">
+              <label for="b-scope" class="bullet-builder-label">02 Object &amp; Scope</label>
+              <input type="text" id="b-scope" class="bullet-builder-input" placeholder="e.g. gearbox housing" oninput="updateBulletBuilder()">
             </div>
             <div style="grid-column:1/-1">
-              <label for="b-method" style="display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">03 Tool / Method / Technique</label>
-              <input type="text" id="b-method" placeholder="e.g. in SolidWorks using tolerance constraints" oninput="updateBulletBuilder()" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:7px 9px;font-size:12.5px;color:var(--ink)">
+              <label for="b-method" class="bullet-builder-label">03 Tool / Method / Technique</label>
+              <input type="text" id="b-method" class="bullet-builder-input" placeholder="e.g. in SolidWorks using tolerance constraints" oninput="updateBulletBuilder()">
             </div>
             <div style="grid-column:1/-1">
-              <label for="b-outcome" style="display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">04 Constraint or Verified Outcome</label>
-              <input type="text" id="b-outcome" placeholder="e.g. validated fit for 6 machined interfaces with check fixture" oninput="updateBulletBuilder()" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:7px 9px;font-size:12.5px;color:var(--ink)">
+              <label for="b-outcome" class="bullet-builder-label">04 Constraint or Verified Outcome</label>
+              <input type="text" id="b-outcome" class="bullet-builder-input" placeholder="e.g. validated fit for 6 machined interfaces with check fixture" oninput="updateBulletBuilder()">
             </div>
           </div>
 
           <!-- Live Output Box -->
-          <div style="background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 13px;font-size:12.5px;line-height:1.55;color:var(--body);min-height:50px;margin-bottom:10px" id="bullet-out" aria-live="polite">
-            <span class="example-muted">Fill in the fields above or click a preset to build your resume bullet.</span>
+          <div class="bullet-out-box" id="bullet-out" aria-live="polite">
+            <span class="token-placeholder">Fill in the fields above or click a preset to build your resume bullet.</span>
           </div>
 
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px;flex-wrap:wrap">
@@ -1045,40 +1045,40 @@
           
           <div style="display:grid;gap:9px">
             <!-- Stage 1: OK -->
-            <div style="background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 13px">
+            <div class="bullet-stage-card">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px">
                 <span class="chip ch-g" style="margin:0">STAGE 01 · OK</span>
                 <span style="font-size:10.5px;font-weight:700;color:var(--muted);text-transform:uppercase">Task Only</span>
               </div>
-              <p style="font-size:12.5px;color:var(--body);line-height:1.45;margin:0 0 6px;font-style:italic">“Worked on CAD models for gearbox and helped team with testing.”</p>
-              <div style="font-size:11px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap">
-                <span style="background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 6px">Missing: specific tool</span>
-                <span style="background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 6px">Missing: verified outcome</span>
+              <p class="bullet-stage-subtext">“Worked on CAD models for gearbox and helped team with testing.”</p>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <span class="bullet-stage-tag">Missing: specific tool</span>
+                <span class="bullet-stage-tag">Missing: verified outcome</span>
               </div>
             </div>
 
             <!-- Stage 2: Better -->
-            <div style="background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 13px">
+            <div class="bullet-stage-card">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px">
                 <span class="chip ch-b" style="margin:0">STAGE 02 · BETTER</span>
-                <span style="font-size:10.5px;font-weight:700;color:var(--navy);text-transform:uppercase">+ Tool &amp; Scope</span>
+                <span style="font-size:10.5px;font-weight:700;color:var(--navy-light);text-transform:uppercase">+ Tool &amp; Scope</span>
               </div>
-              <p style="font-size:12.5px;color:var(--navy);line-height:1.45;margin:0 0 6px">“Modeled gearbox housing in SolidWorks for 6 machined interfaces.”</p>
-              <div style="font-size:11px;color:var(--navy-mid);display:flex;gap:6px;flex-wrap:wrap">
-                <span style="background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-weight:600">Added: SolidWorks</span>
-                <span style="background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-weight:600">Added: 6 interfaces</span>
+              <p class="bullet-stage-text">“Modeled gearbox housing in SolidWorks for 6 machined interfaces.”</p>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <span class="bullet-stage-tag" style="font-weight:600">Added: SolidWorks</span>
+                <span class="bullet-stage-tag" style="font-weight:600">Added: 6 interfaces</span>
               </div>
             </div>
 
             <!-- Stage 3: Best -->
-            <div style="background:var(--bg2);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 13px">
+            <div class="bullet-stage-card stage-best">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px">
                 <span class="chip ch-gr" style="margin:0">STAGE 03 · BEST</span>
                 <span style="font-size:10.5px;font-weight:700;color:#166534;text-transform:uppercase">+ Constraint &amp; Proof</span>
               </div>
-              <p style="font-size:12.5px;color:var(--navy);font-weight:600;line-height:1.45;margin:0 0 6px">“Modeled gearbox housing in SolidWorks using tolerance constraints for 6 machined interfaces; validated fit with a physical check fixture.”</p>
-              <div style="font-size:11px;color:#166534;display:flex;gap:6px;flex-wrap:wrap">
-                <span style="background:var(--card);border:1px solid #bbf7d0;border-radius:4px;padding:1px 6px;font-weight:700">Complete: Action + Method + Scope + Verification</span>
+              <p class="bullet-stage-text" style="font-weight:600">“Modeled gearbox housing in SolidWorks using tolerance constraints for 6 machined interfaces; validated fit with a physical check fixture.”</p>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <span class="bullet-stage-tag tag-best" style="font-weight:700">Complete: Action + Method + Scope + Verification</span>
               </div>
             </div>
           </div>
@@ -3528,31 +3528,30 @@ Start now with a brief introduction and only your first setup or interview quest
       return;
     }
 
-    const addPart = (text, styleColor, isStrong, placeholderText) => {
+    const addPart = (text, tokenClass, placeholderText) => {
       if (text) {
-        const el = document.createElement(isStrong ? 'strong' : 'span');
-        if (styleColor) el.style.color = styleColor;
+        const el = document.createElement('span');
+        el.className = tokenClass;
         el.textContent = text;
         out.append(el);
       } else if (placeholderText) {
         const ph = document.createElement('span');
-        ph.style.color = 'var(--subtle)';
-        ph.style.fontStyle = 'italic';
+        ph.className = 'token-placeholder';
         ph.textContent = placeholderText;
         out.append(ph);
       }
       out.append(document.createTextNode(' '));
     };
 
-    addPart(action, 'var(--scarlet)', true, '[Action verb]');
-    addPart(scope, '', false, '[scope / object]');
-    addPart(method, 'var(--navy)', true, '[method / tool]');
+    addPart(action, 'token-action', '[Action verb]');
+    addPart(scope, 'token-scope', '[scope / object]');
+    addPart(method, 'token-method', '[method / tool]');
     
     let formattedOutcome = outcome;
     if (outcome && !outcome.startsWith(';') && !outcome.startsWith(',')) {
       formattedOutcome = '; ' + outcome;
     }
-    addPart(formattedOutcome, '#166534', true, '[verified outcome / constraint]');
+    addPart(formattedOutcome, 'token-outcome', '[verified outcome / constraint]');
 
     if (outcome && !outcome.endsWith('.')) {
       out.append(document.createTextNode('.'));

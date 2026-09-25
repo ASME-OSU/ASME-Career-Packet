@@ -559,3 +559,90 @@ html[data-theme="dark"] .flat-icon svg [fill]{stroke:#303b45;stroke-width:.7;str
 /* Keep each caption and illustration on the same centerline at every width. */
 .outfit-plate{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start}.outfit-option{min-width:0;text-align:center}.outfit-option svg{width:100%;height:245px;max-height:none;margin:0 auto}.outfit-caption{margin:12px 0 0!important;padding:0 3px;font:11px/1.5 var(--sans);text-align:center;color:#26323b;text-wrap:balance}
 @media(max-width:600px){.outfit-option svg{height:265px;max-height:none}}
+
+/* ── Resume Bullet Builder & Evolution Theme Support ── */
+.bullet-builder-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+  font: 13px var(--sans);
+  color: var(--ink);
+  outline: none;
+  transition: border-color .2s;
+}
+.bullet-builder-input:focus {
+  border-color: var(--scarlet);
+}
+.bullet-builder-label {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.bullet-out-box {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--body);
+  min-height: 52px;
+  margin-bottom: 12px;
+}
+.token-action { color: #bb0000; font-weight: 700; }
+.token-scope { color: var(--body); }
+.token-method { color: #1a3a5c; font-weight: 600; }
+.token-outcome { color: #166534; font-weight: 600; }
+.token-placeholder { color: var(--subtle); font-style: italic; }
+
+.bullet-stage-card {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 11px 13px;
+}
+.bullet-stage-card.stage-best {
+  background: var(--bg2);
+}
+.bullet-stage-text {
+  font-size: 12.5px;
+  color: var(--ink);
+  line-height: 1.45;
+  margin: 0 0 6px;
+}
+.bullet-stage-subtext {
+  font-size: 12.5px;
+  color: var(--body);
+  line-height: 1.45;
+  margin: 0 0 6px;
+  font-style: italic;
+}
+.bullet-stage-tag {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 2px 7px;
+  font-size: 11px;
+  color: var(--body);
+}
+
+[data-theme="dark"] .token-action { color: #ff8c96 !important; }
+[data-theme="dark"] .token-scope { color: var(--ink) !important; }
+[data-theme="dark"] .token-method { color: #9cc7e8 !important; }
+[data-theme="dark"] .token-outcome { color: #86efac !important; }
+[data-theme="dark"] .token-placeholder { color: #8a8f94 !important; }
+[data-theme="dark"] .bullet-builder-label { color: #b2b6b4 !important; }
+[data-theme="dark"] .bullet-builder-input { background: #2b3135 !important; border-color: #484f54 !important; color: #fff !important; }
+[data-theme="dark"] .bullet-out-box { background: #262c2f !important; border-color: #484f54 !important; color: #f1eee8 !important; }
+[data-theme="dark"] .bullet-stage-card { background: #262b2e !important; border-color: #40464a !important; }
+[data-theme="dark"] .bullet-stage-card.stage-best { background: #23342c !important; border-color: #2e533e !important; }
+[data-theme="dark"] .bullet-stage-text { color: #f1eee8 !important; }
+[data-theme="dark"] .bullet-stage-subtext { color: #c4c8ca !important; }
+[data-theme="dark"] .bullet-stage-tag { background: #343a3e !important; border-color: #484f54 !important; color: #d0d4d6 !important; }
+[data-theme="dark"] .bullet-stage-tag.tag-best { background: #1b3829 !important; border-color: #2e6344 !important; color: #a4e3bd !important; }
