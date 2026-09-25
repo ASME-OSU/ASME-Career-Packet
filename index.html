@@ -983,50 +983,59 @@
           </ul>
         </div>
       </div>
-      <div class="card" style="display:flex;flex-direction:column;gap:16px">
+      <!-- Right Column: Visual Evolution Graphic Matching Left Side -->
+      <figure class="visual-guide" style="margin:0;padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:18px">
         <div>
-          <p class="ct" style="margin-bottom:8px">Bullet Quality Bar</p>
-          <div style="display:grid;gap:8px">
-            <div style="display:flex;gap:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm)">
-              <span style="font-weight:700;color:var(--scarlet);font-size:11px;min-width:70px;text-transform:uppercase">Clarity</span>
-              <span style="font-size:12.5px;color:var(--body)">Can a recruiter understand the role, tool, and result in one single read?</span>
+          <span class="visual-kicker">BULLET EVOLUTION</span>
+          <h3 style="font-family:var(--display);font-size:22px;color:var(--navy);margin:4px 0 8px">From task list to engineering proof.</h3>
+          <p style="font-size:12.5px;color:var(--muted);line-height:1.5;margin-bottom:14px">See how adding constraints, specific software, and verified testing transforms a bullet.</p>
+          
+          <div style="background:var(--card);border:1px solid var(--line);border-left:3px solid #dc2626;border-radius:6px;padding:11px 13px;margin-bottom:9px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+              <span style="font-size:10px;font-weight:800;color:#dc2626;letter-spacing:.08em;text-transform:uppercase">❌ Weak · Task Only</span>
+              <span style="font-size:10.5px;color:var(--muted)">Vague duties, no tools, no outcome</span>
             </div>
-            <div style="display:flex;gap:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm)">
-              <span style="font-weight:700;color:var(--scarlet);font-size:11px;min-width:70px;text-transform:uppercase">Evidence</span>
-              <span style="font-size:12.5px;color:var(--body)">Does the bullet prove a tangible engineering result rather than just duties?</span>
+            <p style="font-size:12.5px;color:var(--body);margin:0;font-style:italic">“Worked on CAD models for gearbox and helped team with testing.”</p>
+          </div>
+
+          <div style="background:var(--card);border:1px solid var(--line);border-left:3px solid #d97706;border-radius:6px;padding:11px 13px;margin-bottom:9px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+              <span style="font-size:10px;font-weight:800;color:#d97706;letter-spacing:.08em;text-transform:uppercase">⚡ Better · Tool &amp; Scope Added</span>
+              <span style="font-size:10.5px;color:var(--muted)">Names SolidWorks &amp; interface count</span>
             </div>
-            <div style="display:flex;gap:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm)">
-              <span style="font-weight:700;color:var(--scarlet);font-size:11px;min-width:70px;text-transform:uppercase">Relevance</span>
-              <span style="font-size:12.5px;color:var(--body)">Are the named skills and tools aligned directly with the target job posting?</span>
+            <p style="font-size:12.5px;color:var(--body);margin:0">“Modeled gearbox housing in SolidWorks for 6 machined interfaces.”</p>
+          </div>
+
+          <div style="background:var(--card);border:1px solid var(--line);border-left:3px solid #16a34a;border-radius:6px;padding:11px 13px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+              <span style="font-size:10px;font-weight:800;color:#16a34a;letter-spacing:.08em;text-transform:uppercase">✓ Strong · Complete Proof</span>
+              <span style="font-size:10.5px;color:var(--muted)">Constraint + Tool + Verification</span>
             </div>
-            <div style="display:flex;gap:10px;padding:8px 12px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm)">
-              <span style="font-weight:700;color:var(--scarlet);font-size:11px;min-width:70px;text-transform:uppercase">Specificity</span>
-              <span style="font-size:12.5px;color:var(--body)">Are exact software, tolerances, quantities, and physical constraints named?</span>
+            <p style="font-size:12.5px;color:var(--navy);font-weight:600;margin:0">“Modeled gearbox housing in SolidWorks using tolerance constraints for 6 machined interfaces; validated fit with a physical check fixture.”</p>
+          </div>
+        </div>
+
+        <div style="padding-top:14px;border-top:1px solid var(--line)">
+          <span style="display:block;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--scarlet);margin-bottom:8px">Three Ways to Quantify Impact</span>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+            <div style="background:var(--card);border:1px solid var(--line);border-radius:6px;padding:8px 6px;text-align:center">
+              <svg class="guide-icon" viewBox="0 0 64 64" aria-hidden="true" style="width:22px;height:22px;margin:0 auto 3px"><use href="#icon-target"/></svg>
+              <strong style="display:block;font-size:10.5px;color:var(--navy)">Constraints</strong>
+              <span style="font-size:10px;color:var(--muted)">±0.005", 450°C</span>
+            </div>
+            <div style="background:var(--card);border:1px solid var(--line);border-radius:6px;padding:8px 6px;text-align:center">
+              <svg class="guide-icon" viewBox="0 0 64 64" aria-hidden="true" style="width:22px;height:22px;margin:0 auto 3px"><use href="#icon-layers"/></svg>
+              <strong style="display:block;font-size:10.5px;color:var(--navy)">Throughput</strong>
+              <span style="font-size:10px;color:var(--muted)">40 trials, 6 parts</span>
+            </div>
+            <div style="background:var(--card);border:1px solid var(--line);border-radius:6px;padding:8px 6px;text-align:center">
+              <svg class="guide-icon" viewBox="0 0 64 64" aria-hidden="true" style="width:22px;height:22px;margin:0 auto 3px"><use href="#icon-check"/></svg>
+              <strong style="display:block;font-size:10.5px;color:var(--navy)">Outcomes</strong>
+              <span style="font-size:10px;color:var(--muted)">30% faster, 0/10 tips</span>
             </div>
           </div>
         </div>
-        <div style="border-top:1px solid var(--line);padding-top:14px">
-          <p style="font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);margin-bottom:8px">High-Impact Action Verbs</p>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
-            <div style="background:var(--bg2);padding:8px 10px;border-radius:6px">
-              <strong style="display:block;color:var(--navy);font-size:10.5px;text-transform:uppercase;margin-bottom:3px">Design &amp; CAD</strong>
-              <span style="color:var(--muted)">Modeled, Dimensioned, Iterated, Drafted, Integrated, Prototyped</span>
-            </div>
-            <div style="background:var(--bg2);padding:8px 10px;border-radius:6px">
-              <strong style="display:block;color:var(--navy);font-size:10.5px;text-transform:uppercase;margin-bottom:3px">Analysis &amp; Testing</strong>
-              <span style="color:var(--muted)">Simulated, Validated, Measured, Characterized, Calibrated, Benchmarked</span>
-            </div>
-            <div style="background:var(--bg2);padding:8px 10px;border-radius:6px">
-              <strong style="display:block;color:var(--navy);font-size:10.5px;text-transform:uppercase;margin-bottom:3px">Fabrication &amp; Hands-On</strong>
-              <span style="color:var(--muted)">Machined, Assembled, 3D-Printed, Wired, Fixtured, Inspected</span>
-            </div>
-            <div style="background:var(--bg2);padding:8px 10px;border-radius:6px">
-              <strong style="display:block;color:var(--navy);font-size:10.5px;text-transform:uppercase;margin-bottom:3px">Execution &amp; Leadership</strong>
-              <span style="color:var(--muted)">Coordinated, Spearheaded, Standardized, Optimized, Documented</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      </figure>
     </div>
 <div class="visual-guide" id="quantify-results"><span class="visual-kicker">FIND THE NUMBERS BEHIND YOUR WORK</span><h3>Questions that turn tasks into evidence.</h3><p class="cb">Use these questions while reviewing a project, job, or organization role. A useful number can describe scope, constraints, or a measured outcome—it does not have to be a percentage improvement.</p><div class="g3 quantify-grid">
 <div><svg class="guide-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#icon-layers"/></svg><h4>How much work?</h4><p>How many parts, drawings, prototypes, tests, customers, or records did you handle? Over what period? What was your share?</p></div>
@@ -1252,12 +1261,6 @@
         <figure class="fixture-figure"><svg viewBox="0 0 560 340" role="img" aria-labelledby="stand-title stand-desc"><title id="stand-title">A phone resting in a desk stand</title><desc id="stand-desc">A recognizable phone with a screen rests against an angled back support. A front lip stops sliding, and a wider base resists tipping. Concept illustration, not to scale.</desc>
 <g stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"><path fill="var(--bg2)" d="M125 281h230l32 25H157Z"/><path fill="var(--bg2)" d="m189 277 58-197h29l-56 197Zm31 0h118L276 80h-29Z"/><path fill="var(--bg)" d="m176 259 48-205q2-10 12-10h99q12 0 9 12l-48 205q-2 10-12 10h-99q-12 0-9-12Z"/><path fill="var(--scarlet-dim)" d="m193 237 39-167h95l-39 167Z"/><path fill="var(--bg2)" d="M162 270h137v17H162v-31h14v14Z"/></g>
 <g fill="none" stroke="var(--scarlet)" stroke-width="2"><path d="M301 228l75-83 22-40h105M297 277h83l20-62h103M315 297h66l20 15h102"/><path d="m247 56 41 0M232 250h26"/></g>
-<!-- OSU Block O Logo on Screen (Replaces 9:41) -->
-<g transform="translate(235, 120) scale(0.9)">
-  <path fill="var(--scarlet)" stroke="none" d="M10 0 h16 l7 7 v22 l-7 7 H10 l-7-7 V7 Z"/>
-  <path fill="var(--card)" stroke="none" d="M13 8 h10 l3 3 v12 l-3 3 H13 l-3-3 V11 Z"/>
-  <path fill="var(--scarlet)" stroke="none" d="M15 13 h6 v8 h-6 Z"/>
-</g>
 <g fill="currentColor" font-family="sans-serif" font-size="18"><text x="402" y="96">Angled back</text><text x="402" y="206">Retaining lip</text><text x="402" y="302">Wider base</text><text x="20" y="329" font-size="14">Concept illustration · not to scale</text></g></svg><figcaption><span class="annotation-number">2</span> The angled back supports the screen, the lip prevents sliding, and the wider base resists tipping.</figcaption></figure>
         <p><span class="annotation-number">3</span> <strong>My contribution:</strong> I modeled two base widths in SolidWorks, printed both versions, and recorded 10 tap tests per version with the same phone and procedure. A teammate helped define the viewing angle and test procedure.</p>
         <div class="project-evidence"><h5><span class="annotation-number">4</span> Tips in 10 screen-tap tests</h5><div class="evidence-row"><span>Before</span><div class="evidence-track"><div style="width:20%"></div></div><strong>2 / 10</strong></div><div class="evidence-row"><span>After</span><div class="evidence-track"><div style="width:0%"></div></div><strong>0 / 10</strong></div><p class="example-muted">Illustrative results · common scale, 0–10 tips. Zero tips in this small test does not prove stability in every situation.</p></div>
@@ -1358,10 +1361,42 @@
 
   <!-- Row 1: STAR Framework & Story Example -->
   <div class="g2 rv" style="align-items:stretch;margin-bottom:20px">
-    <figure class="visual-guide star-visual" style="margin-bottom:0;display:flex;flex-direction:column;justify-content:space-between"><figcaption><span class="visual-kicker">A STORY WITH A POINT</span><h3>Set the scene. Own the action.</h3><p>Keep the setup brief. Spend most of your answer on what you did and why.</p></figcaption><div class="star-track"><div><b>S</b><strong>Situation</strong><p>What was happening?</p></div><div><b>T</b><strong>Task</strong><p>What was yours to solve?</p></div><div class="star-action"><b>A</b><strong>Action</strong><p>Your decision → your method → your reasoning</p></div><div><b>R</b><strong>Result</strong><p>What changed or what did you learn?</p></div></div>
-      <div style="margin-top:16px;padding:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm)">
-        <strong style="display:block;color:var(--scarlet);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px">The 80/20 Rule of STAR</strong>
-        <p style="font-size:12.5px;color:var(--body);line-height:1.5;margin:0">Spend only 20% of your time on Situation &amp; Task. Allocate 80% to your specific technical actions, reasoning, and verified results.</p>
+    <figure class="visual-guide star-visual" style="margin-bottom:0;display:flex;flex-direction:column;justify-content:space-between;gap:14px"><figcaption><span class="visual-kicker">A STORY WITH A POINT</span><h3 style="font-family:var(--display);font-size:24px;color:var(--navy);margin:4px 0 6px">Set the scene. Own the action.</h3><p style="font-size:13px;color:var(--muted);line-height:1.5">Keep the setup brief. Spend 80% of your answer on what you personally decided, built, and verified.</p></figcaption>
+      
+      <div class="star-track" style="margin-top:10px">
+        <div><b>S</b><strong>Situation</strong><p>What was happening?</p></div>
+        <div><b>T</b><strong>Task</strong><p>What was yours to solve?</p></div>
+        <div class="star-action"><b>A</b><strong>Action</strong><p>Your decision → method → reasoning</p></div>
+        <div><b>R</b><strong>Result</strong><p>What changed or what did you learn?</p></div>
+      </div>
+
+      <!-- Timing Bar -->
+      <div style="margin-top:14px;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <span style="font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--scarlet)">Target 90-Second Response Flow</span>
+          <span style="font-size:11px;color:var(--muted);font-weight:600">&lt; 2 min total</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1.2fr 1.2fr 5fr 1.6fr;gap:4px;margin-bottom:8px">
+          <div style="background:var(--bg2);padding:5px;border-radius:4px;text-align:center;font-size:10px;font-weight:700;color:var(--muted)">S · 15s</div>
+          <div style="background:var(--bg2);padding:5px;border-radius:4px;text-align:center;font-size:10px;font-weight:700;color:var(--muted)">T · 15s</div>
+          <div style="background:var(--scarlet-dim);padding:5px;border-radius:4px;text-align:center;font-size:10px;font-weight:800;color:var(--scarlet)">A (Core Actions) · 45–60s</div>
+          <div style="background:var(--bg2);padding:5px;border-radius:4px;text-align:center;font-size:10px;font-weight:700;color:var(--muted)">R · 15s</div>
+        </div>
+        <p style="font-size:12px;color:var(--body);line-height:1.45;margin:0"><strong>80/20 Rule:</strong> Interviewers tune out long background stories. Get to your specific technical actions and reasoning within the first 30 seconds.</p>
+      </div>
+
+      <!-- 7 Core Stories List -->
+      <div style="margin-top:10px;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm)">
+        <strong style="display:block;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);margin-bottom:6px">7 Core Stories to Prepare in Advance</strong>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:11.5px;color:var(--body)">
+          <div>✓ Technical failure &amp; fix</div>
+          <div>✓ Conflict or disagreement</div>
+          <div>✓ Ambiguous project scope</div>
+          <div>✓ Fast learning curve</div>
+          <div>✓ Cross-functional teamwork</div>
+          <div>✓ Initiative / self-direction</div>
+          <div style="grid-column:1/-1">✓ Tradeoff between cost, time, &amp; quality</div>
+        </div>
       </div>
     </figure>
     <figure class="teaching-example" id="star-example" style="margin-bottom:0"><figcaption><span class="example-kicker">Hear the structure in a real sentence</span><h3>“Tell me about a design that didn’t work.”</h3><p>Fictional phone-stand example. Rehearse the reasoning in your own words.</p></figcaption><div class="star-answer"><div><span class="answer-letter">S</span><h4>Situation</h4><p>“Our student team was building a desk phone stand. The first prototype held the phone, but it tipped when we tapped the screen.”</p></div><div><span class="answer-letter">T</span><h4>Task</h4><p>“I owned the base design and needed to improve stability while keeping the viewing angle.”</p></div><div class="answer-action"><span class="answer-letter">A</span><h4>Action · your decisions deserve the space</h4><p>“I suspected the base was too narrow. I modeled a wider version in SolidWorks and printed it. To compare the designs, I used the same phone, surface, and screen-tap procedure for 10 trials per version. I recorded each tip instead of relying on whether the stand felt sturdier. I kept the angle unchanged so I could isolate the effect of base width.”</p></div><div><span class="answer-letter">R</span><h4>Result &amp; reflection</h4><p>“Tips went from two in 10 trials to zero in 10. That supported choosing the wider base for our next prototype. It was still a small test; I’d check heavier phones and different cases before finalizing the design.”</p></div></div><a class="example-link" href="#star-story-builder">Build your own story below ↓</a></figure>
