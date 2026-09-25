@@ -983,59 +983,63 @@
           </ul>
         </div>
       </div>
-      <!-- Right Column: Visual Evolution Graphic Matching Left Side -->
-      <figure class="visual-guide" style="margin:0;padding:22px;display:flex;flex-direction:column;justify-content:space-between;gap:18px">
+            <!-- Right Column: Interactive Bullet Builder & Quality Scorer -->
+      <div class="card c-navy" style="display:flex;flex-direction:column;justify-content:space-between;padding:22px;box-shadow:var(--shadow-sm)">
         <div>
-          <span class="visual-kicker">BULLET EVOLUTION</span>
-          <h3 style="font-family:var(--display);font-size:22px;color:var(--navy);margin:4px 0 8px">From task list to engineering proof.</h3>
-          <p style="font-size:12.5px;color:var(--muted);line-height:1.5;margin-bottom:14px">See how adding constraints, specific software, and verified testing transforms a bullet.</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <div>
+              <span class="chip ch-b" style="margin-bottom:4px">Interactive Builder</span>
+              <h3 style="font-family:var(--display);font-size:22px;color:var(--navy);margin:0">Build &amp; Score Your Bullet</h3>
+            </div>
+          </div>
           
-          <div style="background:var(--card);border:1px solid var(--line);border-left:3px solid #dc2626;border-radius:6px;padding:11px 13px;margin-bottom:9px">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
-              <span style="font-size:10px;font-weight:800;color:#dc2626;letter-spacing:.08em;text-transform:uppercase">❌ Weak · Task Only</span>
-              <span style="font-size:10.5px;color:var(--muted)">Vague duties, no tools, no outcome</span>
-            </div>
-            <p style="font-size:12.5px;color:var(--body);margin:0;font-style:italic">“Worked on CAD models for gearbox and helped team with testing.”</p>
+          <!-- Preset Buttons -->
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+            <span style="font-size:11px;font-weight:700;color:var(--muted);align-self:center;text-transform:uppercase;letter-spacing:.05em">Presets:</span>
+            <button type="button" class="story-tab bullet-preset-btn" data-preset="cad" onclick="applyBulletPreset('cad')">CAD / Design</button>
+            <button type="button" class="story-tab bullet-preset-btn" data-preset="testing" onclick="applyBulletPreset('testing')">Testing / Data</button>
+            <button type="button" class="story-tab bullet-preset-btn" data-preset="fab" onclick="applyBulletPreset('fab')">Machining</button>
+            <button type="button" class="story-tab bullet-preset-btn" data-preset="lead" onclick="applyBulletPreset('lead')">Leadership</button>
           </div>
 
-          <div style="background:var(--card);border:1px solid var(--line);border-left:3px solid #d97706;border-radius:6px;padding:11px 13px;margin-bottom:9px">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
-              <span style="font-size:10px;font-weight:800;color:#d97706;letter-spacing:.08em;text-transform:uppercase">⚡ Better · Tool &amp; Scope Added</span>
-              <span style="font-size:10.5px;color:var(--muted)">Names SolidWorks &amp; interface count</span>
+          <!-- Input Fields -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+            <div>
+              <label for="b-action" style="display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">01 Action Verb</label>
+              <input type="text" id="b-action" placeholder="e.g. Modeled, Analyzed" oninput="updateBulletBuilder()" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 10px;font-size:13px;color:var(--ink)">
             </div>
-            <p style="font-size:12.5px;color:var(--body);margin:0">“Modeled gearbox housing in SolidWorks for 6 machined interfaces.”</p>
+            <div>
+              <label for="b-scope" style="display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">02 Object &amp; Scope</label>
+              <input type="text" id="b-scope" placeholder="e.g. gearbox housing" oninput="updateBulletBuilder()" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 10px;font-size:13px;color:var(--ink)">
+            </div>
+            <div style="grid-column:1/-1">
+              <label for="b-method" style="display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">03 Tool / Method / Technique</label>
+              <input type="text" id="b-method" placeholder="e.g. in SolidWorks using tolerance constraints" oninput="updateBulletBuilder()" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 10px;font-size:13px;color:var(--ink)">
+            </div>
+            <div style="grid-column:1/-1">
+              <label for="b-outcome" style="display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">04 Constraint or Verified Outcome</label>
+              <input type="text" id="b-outcome" placeholder="e.g. validated fit for 6 machined interfaces with check fixture" oninput="updateBulletBuilder()" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 10px;font-size:13px;color:var(--ink)">
+            </div>
           </div>
 
-          <div style="background:var(--card);border:1px solid var(--line);border-left:3px solid #16a34a;border-radius:6px;padding:11px 13px">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
-              <span style="font-size:10px;font-weight:800;color:#16a34a;letter-spacing:.08em;text-transform:uppercase">✓ Strong · Complete Proof</span>
-              <span style="font-size:10.5px;color:var(--muted)">Constraint + Tool + Verification</span>
-            </div>
-            <p style="font-size:12.5px;color:var(--navy);font-weight:600;margin:0">“Modeled gearbox housing in SolidWorks using tolerance constraints for 6 machined interfaces; validated fit with a physical check fixture.”</p>
+          <!-- Live Output Box -->
+          <div style="background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--scarlet);border-radius:var(--r-sm);padding:12px 14px;font-size:13px;line-height:1.6;color:var(--body);min-height:58px;margin-bottom:12px" id="bullet-out" aria-live="polite">
+            <span class="example-muted">Fill in the fields above or click a preset to build your resume bullet.</span>
           </div>
         </div>
 
-        <div style="padding-top:14px;border-top:1px solid var(--line)">
-          <span style="display:block;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--scarlet);margin-bottom:8px">Three Ways to Quantify Impact</span>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
-            <div style="background:var(--card);border:1px solid var(--line);border-radius:6px;padding:8px 6px;text-align:center">
-              <svg class="guide-icon" viewBox="0 0 64 64" aria-hidden="true" style="width:22px;height:22px;margin:0 auto 3px"><use href="#icon-target"/></svg>
-              <strong style="display:block;font-size:10.5px;color:var(--navy)">Constraints</strong>
-              <span style="font-size:10px;color:var(--muted)">±0.005", 450°C</span>
+        <div>
+          <!-- Scorecard Quality Badges -->
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:10px;border-top:1px solid var(--line);flex-wrap:wrap">
+            <div style="display:flex;gap:8px;font-size:11px;font-weight:700">
+              <span id="bq-action" style="opacity:0.35;transition:opacity .2s;color:var(--scarlet)">● Action Verb</span>
+              <span id="bq-tool" style="opacity:0.35;transition:opacity .2s;color:var(--navy)">● Tool Named</span>
+              <span id="bq-proof" style="opacity:0.35;transition:opacity .2s;color:#166534">● Proof / Metric</span>
             </div>
-            <div style="background:var(--card);border:1px solid var(--line);border-radius:6px;padding:8px 6px;text-align:center">
-              <svg class="guide-icon" viewBox="0 0 64 64" aria-hidden="true" style="width:22px;height:22px;margin:0 auto 3px"><use href="#icon-layers"/></svg>
-              <strong style="display:block;font-size:10.5px;color:var(--navy)">Throughput</strong>
-              <span style="font-size:10px;color:var(--muted)">40 trials, 6 parts</span>
-            </div>
-            <div style="background:var(--card);border:1px solid var(--line);border-radius:6px;padding:8px 6px;text-align:center">
-              <svg class="guide-icon" viewBox="0 0 64 64" aria-hidden="true" style="width:22px;height:22px;margin:0 auto 3px"><use href="#icon-check"/></svg>
-              <strong style="display:block;font-size:10.5px;color:var(--navy)">Outcomes</strong>
-              <span style="font-size:10px;color:var(--muted)">30% faster, 0/10 tips</span>
-            </div>
+            <button type="button" id="copy-bullet-btn" class="btn-primary" onclick="copyBuiltBullet()" style="padding:6px 14px;font-size:12px">Copy Bullet</button>
           </div>
         </div>
-      </figure>
+      </div>
     </div>
 <div class="visual-guide" id="quantify-results"><span class="visual-kicker">FIND THE NUMBERS BEHIND YOUR WORK</span><h3>Questions that turn tasks into evidence.</h3><p class="cb">Use these questions while reviewing a project, job, or organization role. A useful number can describe scope, constraints, or a measured outcome—it does not have to be a percentage improvement.</p><div class="g3 quantify-grid">
 <div><svg class="guide-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><use href="#icon-layers"/></svg><h4>How much work?</h4><p>How many parts, drawings, prototypes, tests, customers, or records did you handle? Over what period? What was your share?</p></div>
@@ -3421,6 +3425,119 @@ Start now with a brief introduction and only your first setup or interview quest
   loadPrepPlan();
   addSectionShareButtons();
   setupPwa();
+
+  /* ── Resume Bullet Builder ── */
+  const bulletPresets = {
+    cad: {
+      action: 'Modeled',
+      scope: 'gearbox housing assembly',
+      method: 'in SolidWorks using geometric tolerances',
+      outcome: 'validated clearance for 6 machined interfaces with a physical check fixture'
+    },
+    testing: {
+      action: 'Analyzed',
+      scope: 'transient thermal data across 40 trials',
+      method: 'using MATLAB scripts',
+      outcome: 'identified insulation changes that increased thermal retention by 18%'
+    },
+    fab: {
+      action: 'Machined',
+      scope: '6 custom mounting brackets',
+      method: 'on 3-axis CNC mill to ±0.003" tolerance',
+      outcome: 'reduced vehicle subassembly weight by 1.4 lbs'
+    },
+    lead: {
+      action: 'Led',
+      scope: '5-person subteam through prototype testing',
+      method: 'establishing standardized test procedures',
+      outcome: 'documented failure modes and delivered recommendations to faculty leads'
+    }
+  };
+
+  function applyBulletPreset(key) {
+    const p = bulletPresets[key];
+    if (!p) return;
+    document.getElementById('b-action').value = p.action;
+    document.getElementById('b-scope').value = p.scope;
+    document.getElementById('b-method').value = p.method;
+    document.getElementById('b-outcome').value = p.outcome;
+    document.querySelectorAll('.bullet-preset-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.preset === key);
+    });
+    updateBulletBuilder();
+  }
+
+  function updateBulletBuilder() {
+    const action  = (document.getElementById('b-action')?.value || '').trim();
+    const scope   = (document.getElementById('b-scope')?.value || '').trim();
+    const method  = (document.getElementById('b-method')?.value || '').trim();
+    const outcome = (document.getElementById('b-outcome')?.value || '').trim();
+    const out = document.getElementById('bullet-out');
+    if (!out) return;
+
+    out.replaceChildren();
+    if (!action && !scope && !method && !outcome) {
+      const placeholder = document.createElement('span');
+      placeholder.className = 'example-muted';
+      placeholder.textContent = 'Fill in the fields above or click a preset to build your resume bullet.';
+      out.append(placeholder);
+      return;
+    }
+
+    const addPart = (text, styleColor, isStrong, placeholderText) => {
+      if (text) {
+        const el = document.createElement(isStrong ? 'strong' : 'span');
+        if (styleColor) el.style.color = styleColor;
+        el.textContent = text;
+        out.append(el);
+      } else if (placeholderText) {
+        const ph = document.createElement('span');
+        ph.style.color = 'var(--subtle)';
+        ph.style.fontStyle = 'italic';
+        ph.textContent = placeholderText;
+        out.append(ph);
+      }
+      out.append(document.createTextNode(' '));
+    };
+
+    addPart(action, 'var(--scarlet)', true, '[Action verb]');
+    addPart(scope, '', false, '[scope / object]');
+    addPart(method, 'var(--navy)', true, '[method / tool]');
+    
+    let formattedOutcome = outcome;
+    if (outcome && !outcome.startsWith(';') && !outcome.startsWith(',')) {
+      formattedOutcome = '; ' + outcome;
+    }
+    addPart(formattedOutcome, '#166534', true, '[verified outcome / constraint]');
+
+    if (outcome && !outcome.endsWith('.')) {
+      out.append(document.createTextNode('.'));
+    }
+
+    const qAction = document.getElementById('bq-action');
+    const qTool = document.getElementById('bq-tool');
+    const qProof = document.getElementById('bq-proof');
+    if (qAction) qAction.style.opacity = action ? '1' : '0.35';
+    if (qTool) qTool.style.opacity = method ? '1' : '0.35';
+    if (qProof) qProof.style.opacity = outcome ? '1' : '0.35';
+  }
+
+  async function copyBuiltBullet() {
+    const out = document.getElementById('bullet-out');
+    if (!out) return;
+    const text = out.innerText.trim();
+    if (!text || text.includes('Fill in the fields')) {
+      alert('Please fill in bullet fields before copying.');
+      return;
+    }
+    if (await copyText(text)) {
+      const btn = document.getElementById('copy-bullet-btn');
+      if (btn) {
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = 'Copy Bullet'; }, 2000);
+      }
+    }
+  }
 </script>
 </body>
 </html>
