@@ -1,11 +1,11 @@
-const CACHE_NAME = 'asme-career-packet-v35-gearly-3';
+const CACHE_NAME = 'asme-career-packet-v36-gearly-3';
 const APP_SHELL = [
   './',
   './index.html',
   './config.js',
-  './assets/gearly/career-engine.js?v=3',
-  './assets/gearly/career-gearly.js?v=3',
-  './assets/gearly/career-gearly.css?v=3',
+  './assets/gearly/career-engine.js?v=6',
+  './assets/gearly/career-gearly.js?v=6',
+  './assets/gearly/career-gearly.css?v=6',
   './assets/gearly/sprites/gearly-centered-idle.webp',
   './assets/gearly/sprites/gearly-centered-wave.webp',
   './assets/gearly/sprites/gearly-neutral-head.webp',

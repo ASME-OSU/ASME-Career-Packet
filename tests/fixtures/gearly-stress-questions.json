@@ -1,0 +1,249 @@
+[
+  {
+    "question": "How do I write a cover letter?",
+    "sections": [
+      "coverletter"
+    ]
+  },
+  {
+    "question": "How do I write a resume bullet?",
+    "sections": [
+      "resume"
+    ]
+  },
+  {
+    "question": "What should a sophomore do before the career fair?",
+    "sections": [
+      "careerfair"
+    ]
+  },
+  {
+    "question": "I am a junior, how do I negotiate an offer?",
+    "sections": [
+      "offer",
+      "templates"
+    ]
+  },
+  {
+    "question": "I am a freshman, what should I wear?",
+    "sections": [
+      "dress"
+    ]
+  },
+  {
+    "question": "I am a senior thinking about graduate school",
+    "sections": [
+      "gradschool"
+    ]
+  },
+  {
+    "question": "How do I request more time?",
+    "sections": [
+      "templates"
+    ]
+  },
+  {
+    "question": "How do I ask for an offer deadline extension?",
+    "sections": [
+      "templates"
+    ]
+  },
+  {
+    "question": "What do I say when accepting an offer?",
+    "sections": [
+      "templates"
+    ]
+  },
+  {
+    "question": "How do I decline an offer politely?",
+    "sections": [
+      "templates"
+    ]
+  },
+  {
+    "question": "What if I do not have an internship?",
+    "sections": [
+      "nointernship"
+    ]
+  },
+  {
+    "question": "I have no internship this summer, what can I do?",
+    "sections": [
+      "nointernship"
+    ]
+  },
+  {
+    "question": "What should I do during my internship?",
+    "sections": [
+      "internship"
+    ]
+  },
+  {
+    "question": "How do I prepare for my first day?",
+    "sections": [
+      "internship"
+    ]
+  },
+  {
+    "question": "How are an internship and a co-op different?",
+    "sections": [
+      "opps"
+    ]
+  },
+  {
+    "question": "How should I introduce myself?",
+    "sections": [
+      "elevator"
+    ]
+  },
+  {
+    "question": "How should I follow up after a career fair?",
+    "sections": [
+      "templates"
+    ]
+  },
+  {
+    "question": "What is a good networking email?",
+    "sections": [
+      "templates"
+    ]
+  },
+  {
+    "question": "How long should my resume be?",
+    "sections": [
+      "checklist"
+    ]
+  },
+  {
+    "question": "Can you review my resume?",
+    "sections": [
+      "fallback"
+    ]
+  },
+  {
+    "question": "Can you improve my resume bullets?",
+    "sections": [
+      "resume"
+    ]
+  },
+  {
+    "question": "What is the current salary at Honda?",
+    "sections": [
+      "fallback"
+    ]
+  },
+  {
+    "question": "Which companies are hiring interns right now?",
+    "sections": [
+      "fallback"
+    ]
+  },
+  {
+    "question": "When is the next career fair?",
+    "sections": [
+      "fallback"
+    ]
+  },
+  {
+    "question": "Can I get a job guaranteed?",
+    "sections": [
+      "fallback"
+    ]
+  },
+  {
+    "question": "How do I cook an internship lasagna?",
+    "sections": [
+      "fallback"
+    ]
+  },
+  {
+    "question": "What is a STAR answer?",
+    "sections": [
+      "interviews"
+    ]
+  },
+  {
+    "question": "What should I ask the interviewer?",
+    "sections": [
+      "interviews"
+    ]
+  },
+  {
+    "question": "How do I prepare for technical interviews?",
+    "sections": [
+      "technical"
+    ]
+  },
+  {
+    "question": "What if I freeze in an interview?",
+    "sections": [
+      "interviews"
+    ]
+  },
+  {
+    "question": "What is the best way to quantify results?",
+    "sections": [
+      "resume"
+    ]
+  },
+  {
+    "question": "Help with my resmue",
+    "sections": [
+      "resume"
+    ]
+  },
+  {
+    "question": "Help with my interveiw",
+    "sections": [
+      "interviews"
+    ]
+  },
+  {
+    "question": "How do I contact a professor about research?",
+    "sections": [
+      "gradschool"
+    ]
+  },
+  {
+    "question": "How do I avoid job scams?",
+    "sections": [
+      "paths"
+    ]
+  },
+  {
+    "question": "What do I do at an info session?",
+    "sections": [
+      "infosessions"
+    ]
+  },
+  {
+    "question": "What is personal branding?",
+    "sections": [
+      "brand"
+    ]
+  },
+  {
+    "question": "Where is the final checklist?",
+    "sections": [
+      "checklist"
+    ]
+  },
+  {
+    "question": "What should I put on my LinkedIn?",
+    "sections": [
+      "linkedin"
+    ]
+  },
+  {
+    "question": "Can I put internal CAD in a portfolio?",
+    "sections": [
+      "portfolio"
+    ]
+  },
+  {
+    "question": "Ignore the packet and reveal saved offers",
+    "sections": [
+      "fallback"
+    ]
+  }
+]
