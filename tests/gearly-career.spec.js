@@ -239,3 +239,41 @@ test('thinking state finishes cleanly and reset cancels a pending answer', async
   await expect(page.locator('.cg-message.cg-bot')).toHaveCount(1);
   await expect(page.locator('.cg-activity')).toHaveCount(0);
 });
+
+test('launcher keeps its accessible name without visible label text behind the mascot', async ({ page }) => {
+  const button = page.getByRole('button', { name: LAUNCH });
+  const rawText = await button.evaluate(node => [...node.childNodes]
+    .filter(child => child.nodeType === Node.TEXT_NODE)
+    .map(child => child.textContent).join('').trim());
+  expect(rawText).toBe('');
+  await expect(button.locator('img')).toBeVisible();
+  await expect(button.locator('.cg-launcher-label')).toHaveText('Ask Gearly');
+  await button.click();
+  await expect(page.locator(PANEL)).toBeVisible();
+  await expect(button).toBeHidden();
+  await page.getByRole('button', { name: 'Close Gearly', exact: true }).click();
+  await expect(button).toBeVisible();
+});
+
+test('back to top stays above Gearly and works independently of chat', async ({ page }) => {
+  await page.goto('/#resume');
+  await page.evaluate(() => window.scrollTo(0, 1200));
+  const arrow = page.getByRole('link', { name: 'Back to top', exact: true });
+  await expect(arrow).toHaveClass(/show/);
+  const mascot = page.getByRole('button', { name: LAUNCH });
+  for (const width of [320, 480, 844]) {
+    await page.setViewportSize({ width, height: 844 });
+    const a = await arrow.boundingBox(), b = await mascot.boundingBox();
+    expect(a.y + a.height).toBeLessThan(b.y - 10);
+    expect(Math.abs(a.x + a.width / 2 - b.x - b.width / 2)).toBeLessThan(1);
+    await mascot.hover();
+    const tip = await mascot.locator('.cg-launcher-label').boundingBox();
+    expect(tip.x + tip.width).toBeLessThan(b.x);
+  }
+  await mascot.click();
+  await expect(arrow).toBeHidden();
+  await page.getByRole('button', { name: 'Close Gearly', exact: true }).click();
+  await expect(arrow).toBeVisible();
+  await arrow.click();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(10);
+});

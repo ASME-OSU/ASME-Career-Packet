@@ -27,7 +27,7 @@
     node.addEventListener('click', action); return node;
   }
   var host = el('div', 'cg-root');
-  var launcher = button('Open Gearly career guide', 'cg-launcher', open);
+  var launcher = button('Open Gearly career guide', 'cg-launcher', open, '');
   launcher.setAttribute('aria-expanded', 'false'); launcher.setAttribute('aria-controls', 'career-gearly-panel');
   var face = picture('gearly-centered-idle.webp', 'cg-launcher-image'); launcher.append(face);
   launcher.append(el('span', 'cg-launcher-label', 'Ask Gearly'));
@@ -194,12 +194,12 @@
   }
   function open() {
     if (!panel.hidden) { input.focus(); return; }
-    lastFocus = doc.activeElement; panel.hidden = false; launcher.hidden = true;
+    lastFocus = doc.activeElement; doc.body.classList.add('career-gearly-open'); panel.hidden = false; launcher.hidden = true;
     launcher.setAttribute('aria-expanded', 'true'); stopWave(); input.focus(); scrollFeed(feed.querySelector('.cg-bot:last-child'));
   }
   function close(returnFocus) {
     if (panel.hidden) return;
-    panel.hidden = true; launcher.hidden = false; launcher.setAttribute('aria-expanded', 'false'); scheduleWave(false);
+    panel.hidden = true; doc.body.classList.remove('career-gearly-open'); launcher.hidden = false; launcher.setAttribute('aria-expanded', 'false'); scheduleWave(false);
     if (returnFocus !== false) { if (lastFocus && lastFocus !== doc.body && lastFocus.isConnected && !panel.contains(lastFocus)) lastFocus.focus(); else launcher.focus(); }
   }
   form.addEventListener('submit', function (event) { event.preventDefault(); ask(input.value); });

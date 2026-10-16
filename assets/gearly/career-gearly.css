@@ -4,7 +4,7 @@ html[data-theme=dark] .cg-root{--cg-soft:#33262d;--cg-blush:#774552;--cg-link:#f
 .cg-root *{box-sizing:border-box}.cg-root [hidden]{display:none!important}.cg-root button,.cg-root input{font:inherit}.cg-root button{cursor:pointer}.cg-root :focus-visible{outline:3px solid var(--cg-link);outline-offset:3px}
 .cg-launcher{position:relative;display:grid;place-items:center;width:64px;height:64px;border:1px solid var(--cg-blush);border-radius:50%;padding:0;background:var(--cg-bg);box-shadow:0 6px 24px #0002;color:var(--cg-fg)}
 .cg-root .cg-launcher-image{display:block;width:72px;height:72px;max-width:none;position:absolute;left:50%;top:50%;margin:-36px 0 0 -36px;object-fit:contain}
-.cg-launcher-label{position:absolute;right:0;bottom:calc(100% + 10px);background:var(--cg-bg);border:1px solid var(--cg-line);border-radius:12px;padding:7px 10px;white-space:nowrap;font-size:12px;font-weight:700;opacity:0;visibility:hidden;pointer-events:none}
+.cg-launcher-label{position:absolute;right:calc(100% + 12px);bottom:50%;transform:translateY(50%);background:var(--cg-bg);border:1px solid var(--cg-line);border-radius:12px;padding:7px 10px;white-space:nowrap;font-size:12px;font-weight:700;opacity:0;visibility:hidden;pointer-events:none}
 .cg-launcher:is(:hover,:focus-visible) .cg-launcher-label{opacity:1;visibility:visible}
 .cg-panel{position:fixed;right:20px;bottom:20px;display:flex;flex-direction:column;width:min(390px,calc(100vw - 24px));height:min(560px,calc(100vh - 24px));height:min(560px,calc(100dvh - 24px));max-height:min(620px,calc(100dvh - 24px));overflow:hidden;border:1px solid var(--cg-line);border-radius:24px;background:var(--cg-bg);box-shadow:0 14px 45px #19141e29}
 .cg-header{display:flex;align-items:center;gap:8px;flex:none;min-height:70px;padding:10px 12px;border-bottom:1px solid var(--cg-line)}
@@ -30,3 +30,8 @@ html[data-theme=dark] .cg-root{--cg-soft:#33262d;--cg-blush:#774552;--cg-link:#f
 @media(max-height:420px){.cg-header{min-height:56px;padding-top:5px;padding-bottom:5px}.cg-form{padding-top:7px}.cg-panel .cg-notice{padding-bottom:6px}.cg-messages{padding-top:10px}}
 @media(prefers-reduced-motion:reduce){.cg-root *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media print{.cg-root{display:none!important}}
+
+/* Keep the packet scroll control clear of the mascot and its tooltip. */
+#btt{right:31px;bottom:104px}
+body.career-gearly-open #btt{visibility:hidden;pointer-events:none}
+@media(max-width:480px){#btt{right:21px;bottom:92px;bottom:calc(max(12px,env(safe-area-inset-bottom)) + 80px)}}
