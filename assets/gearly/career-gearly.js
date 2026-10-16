@@ -27,7 +27,7 @@
     node.addEventListener('click', action); return node;
   }
   var host = el('div', 'cg-root');
-  var launcher = button('Open Gearly career guide', 'cg-launcher', open);
+  var launcher = button('Open Gearly career guide', 'cg-launcher', open, '');
   launcher.setAttribute('aria-expanded', 'false'); launcher.setAttribute('aria-controls', 'career-gearly-panel');
   var face = picture('gearly-centered-idle.webp', 'cg-launcher-image'); launcher.append(face);
   launcher.append(el('span', 'cg-launcher-label', 'Ask Gearly'));

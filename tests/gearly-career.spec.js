@@ -239,3 +239,18 @@ test('thinking state finishes cleanly and reset cancels a pending answer', async
   await expect(page.locator('.cg-message.cg-bot')).toHaveCount(1);
   await expect(page.locator('.cg-activity')).toHaveCount(0);
 });
+
+test('launcher keeps its accessible name without visible label text behind the mascot', async ({ page }) => {
+  const button = page.getByRole('button', { name: LAUNCH });
+  const rawText = await button.evaluate(node => [...node.childNodes]
+    .filter(child => child.nodeType === Node.TEXT_NODE)
+    .map(child => child.textContent).join('').trim());
+  expect(rawText).toBe('');
+  await expect(button.locator('img')).toBeVisible();
+  await expect(button.locator('.cg-launcher-label')).toHaveText('Ask Gearly');
+  await button.click();
+  await expect(page.locator(PANEL)).toBeVisible();
+  await expect(button).toBeHidden();
+  await page.getByRole('button', { name: 'Close Gearly', exact: true }).click();
+  await expect(button).toBeVisible();
+});
