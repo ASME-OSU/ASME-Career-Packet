@@ -21,6 +21,16 @@ for (const [name, source] of [['config.js', config], ['sw.js', serviceWorker]]) 
   catch (error) { fail(`${name} has invalid JavaScript: ${error.message}`); }
 }
 
+// Gearly remains a local, offline-capable addition to the packet.
+for (const file of ['assets/gearly/career-engine.js', 'assets/gearly/career-gearly.js']) {
+  try { new Function(fs.readFileSync(new URL(`../${file}`, import.meta.url), 'utf8')); }
+  catch (error) { fail(`${file} is missing or has invalid JavaScript: ${error.message}`); }
+}
+for (const file of ['assets/gearly/career-engine.js?v=3', 'assets/gearly/career-gearly.js?v=3', 'assets/gearly/career-gearly.css?v=3']) {
+  if (!html.includes(file)) fail(`Missing Gearly integration: ${file}`);
+  if (!serviceWorker.includes(`'./${file}'`)) fail(`Missing offline Gearly asset: ${file}`);
+}
+
 const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 const duplicateIds = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
 if (duplicateIds.length) fail(`Duplicate IDs: ${duplicateIds.join(', ')}`);

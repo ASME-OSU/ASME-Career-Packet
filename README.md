@@ -24,6 +24,7 @@ An interactive professional-development guide for Ohio State engineering student
 - Resume template with section rules and education → skills → experience → projects → organizations order
 - Expandable freshman, sophomore, junior, and senior resume examples
 - Complete JSON backup and restore for all saved tools
+- Compact Gearly chat with packet-grounded answers, local chapter citations, follow-up questions, and offline support
 - Installable offline web app support
 
 ## Content additions
@@ -33,6 +34,10 @@ Application strategy, student support and scam awareness, a worked beam intervie
 ## Privacy
 
 The site has no backend and does not upload form entries. Prep plans, pitch-builder entries, STAR stories, checklists, offer comparisons, and recent searches are stored in the current browser using `localStorage`. Resume summaries and job descriptions entered into the prompt generator remain on the page until the user copies the generated prompt into another service.
+
+Gearly searches only the packet’s static teaching content. It does not read saved stories, offers, pitches, or form entries, and does not send questions to a remote AI service. Its last 24 messages and bounded topic context are kept in this tab’s `sessionStorage`; Reset clears them. Browser session restoration may retain session storage. Existing site analytics are separate from the assistant.
+
+Gearly uses local passage retrieval, not a generative model: it quotes matching guidance and links to its source. It cannot review an uploaded resume, edit personal answers, or provide live job listings. When updating the packet, rerun the grounding tests so answers and anchors remain accurate. See [the implementation plan](docs/gearly-career-plan.md) and [QA report](docs/gearly-career-qa.md).
 
 Clearing browser storage removes saved tool data. Use **Data & Backup → Export All Data** to move or preserve everything in one JSON file. The separate STAR-story text and JSON exports remain available for interview preparation.
 
@@ -86,6 +91,7 @@ GitHub Pages publishes the repository root from the `main` branch. Changes merge
 - `config.js` — annual edition, compensation references, prep plans, and offer-fit weights
 - `manifest.webmanifest` and `sw.js` — installation and offline app shell
 - `assets/` — local brand and app assets
+- `assets/gearly/` — local packet answer engine, compact chat UI, and approved Gearly sprites
 - `tests/` and `playwright.config.js` — desktop and mobile browser tests
 - `scripts/validate.mjs` — dependency-free repository checks
 - `.github/workflows/validate.yml` — automated validation
