@@ -47,7 +47,11 @@
   form.append(input, send);
   var notice = el('p', 'cg-notice', 'Answers use this packet. Chat is saved in this tab’s session. Reset clears it.');
   panel.append(header, feed, form, notice); host.append(launcher, panel);
-  function scrollFeed() { feed.scrollTop = feed.scrollHeight; }
+  function scrollFeed(item) {
+    if (item && item.getBoundingClientRect().height > feed.clientHeight) {
+      feed.scrollTop += item.getBoundingClientRect().top - feed.getBoundingClientRect().top - 14;
+    } else feed.scrollTop = feed.scrollHeight;
+  }
   function sourcesFor(value) {
     var seen = new Set();
     return Array.isArray(value) ? value.filter(function (s) {
@@ -96,8 +100,9 @@
       a.addEventListener('click', function (event) { openSource(event, source); }); item.append(a);
     });
     addSuggestions(item, record.suggestions); feed.append(item);
+    while (feed.querySelectorAll('.cg-message').length > 24) feed.querySelector('.cg-message').remove();
     if (save) { records.push(record); records = records.slice(-24); persist(); }
-    scrollFeed(); return item;
+    scrollFeed(save && record.who === 'bot' ? item : null); return item;
   }
   function boundedContext(value) {
     if (!value || !Array.isArray(engine.sections) || engine.sections.indexOf(value.section) === -1) return {};
@@ -140,7 +145,7 @@
   }
   function reset() {
     generation++; if (pending) root.clearTimeout(pending); pending = 0;
-    context = {}; records = []; feed.replaceChildren(); feed.removeAttribute('aria-busy'); send.disabled = false;
+    context = {}; records = []; input.value = ''; feed.replaceChildren(); feed.removeAttribute('aria-busy'); send.disabled = false;
     try { root.sessionStorage.removeItem(key); } catch (_) {}
     welcome(); if (!panel.hidden) input.focus();
   }
@@ -190,7 +195,7 @@
   function open() {
     if (!panel.hidden) { input.focus(); return; }
     lastFocus = doc.activeElement; panel.hidden = false; launcher.hidden = true;
-    launcher.setAttribute('aria-expanded', 'true'); stopWave(); input.focus(); scrollFeed();
+    launcher.setAttribute('aria-expanded', 'true'); stopWave(); input.focus(); scrollFeed(feed.querySelector('.cg-bot:last-child'));
   }
   function close(returnFocus) {
     if (panel.hidden) return;

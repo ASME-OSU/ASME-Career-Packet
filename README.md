@@ -37,7 +37,7 @@ The site has no backend and does not upload form entries. Prep plans, pitch-buil
 
 Gearly searches only the packet’s static teaching content. It does not read saved stories, offers, pitches, or form entries, and does not send questions to a remote AI service. Its last 24 messages and bounded topic context are kept in this tab’s `sessionStorage`; Reset clears them. Browser session restoration may retain session storage. Existing site analytics are separate from the assistant.
 
-Gearly uses local passage retrieval, not a generative model: it quotes matching guidance and links to its source. It cannot review an uploaded resume, edit personal answers, or provide live job listings. When updating the packet, rerun the grounding tests so answers and anchors remain accurate. See [the implementation plan](docs/gearly-career-plan.md) and [QA report](docs/gearly-career-qa.md).
+Gearly uses local passage retrieval, not a generative model: it quotes matching guidance and links to its source. It cannot review an uploaded resume, edit personal answers, or provide live job listings. When updating the packet, rerun the grounding tests so answers and anchors remain accurate. See [the implementation plan](docs/gearly-career-plan.md) and [QA report](docs/gearly-career-qa.md). The [stress review](docs/gearly-career-stress-qa.md) records routing fixes, long-session checks, and the broader question matrix.
 
 Clearing browser storage removes saved tool data. Use **Data & Backup → Export All Data** to move or preserve everything in one JSON file. The separate STAR-story text and JSON exports remain available for interview preparation.
 
